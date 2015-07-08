@@ -52,6 +52,7 @@
         [self.view setNeedsDisplay];
     }
     else if (self.transition) {
+        [self.timer invalidate];
         [self performSegueWithIdentifier:@"headlines" sender:self];
     }
 }

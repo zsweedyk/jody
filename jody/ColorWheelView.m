@@ -28,9 +28,12 @@ NSArray* colors;
         [UIColor greenColor],
         [UIColor cyanColor],
         [UIColor blueColor],
-        [UIColor colorWithRed:148.0/255.0 green:33.0/255.0 blue:0 alpha:1],
-        [UIColor purpleColor],
-        [UIColor colorWithRed:90.0/255.0 green:23.0/255.0 blue:158.0/255.0 alpha:1], nil];
+            [UIColor colorWithRed:148.0/255.0 green:33.0/255.0 blue:0 alpha:1],nil]
+            ;
+//            /
+//            ,
+//        [UIColor purpleColor],
+//        [UIColor colorWithRed:90.0/255.0 green:23.0/255.0 blue:158.0/255.0 alpha:1], nil];
 
         
     center= CGPointMake(rect.size.width/2,rect.size.height/2);

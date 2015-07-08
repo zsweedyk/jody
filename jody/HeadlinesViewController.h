@@ -9,7 +9,20 @@
 #import <UIKit/UIKit.h>
 #import "RSSEntry.h"
 
-@interface HeadlinesViewController : UIViewController
-@property (retain,nonatomic) NSDictionary* weather;
+@interface HeadlinesViewController : UIViewController <NSXMLParserDelegate>
+{
+    NSXMLParser *parser;
+    NSMutableArray *feeds;
+    NSMutableDictionary *item;
+    NSMutableString *title;
+    NSMutableString *link;
+    NSString *element;
+}
+
+@property IBOutlet UILabel* label;
+@property(nonatomic, strong) NSMutableDictionary *currentDictionary;   // current section being parsed
+@property(nonatomic, strong) NSMutableDictionary *xmlHeadlines;          // completed parsed xml response
+
+
 
 @end
