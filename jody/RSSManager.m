@@ -1,31 +1,40 @@
 //
-//  HeadlinesViewController.m
-//  hereAndNow
+//  RSSManager.m
+//  jody
 //
-//  Created by Z Sweedyk on 7/6/15.
+//  Created by Z Sweedyk on 7/17/15.
 //  Copyright (c) 2015 Z Sweedyk. All rights reserved.
 //
 
-#import "HeadlinesViewController.h"
+#import "RSSManager.h"
 #import "AFNetworking.h"
 
-@implementation HeadlinesViewController
+
+
+@implementation RSSManager
+
++ (id)sharedManager {
+    static RSSManager *sharedMyManager = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        sharedMyManager = [[self alloc] init];
+    });
+    return sharedMyManager;
+}
+
+- (id)init {
+    if (self = [super init]) {
+        
 
 
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
+    }
+    return self;
+}
+
+- (void)getHeadlineFrom: (int) source {
     
-    [super viewDidLoad];
-    
-//    feeds = [[NSMutableArray alloc] init];
-//    NSURL *url = [NSURL URLWithString:@"http://images.apple.com/main/rss/hotnews/hotnews.rss"];
-//    parser = [[NSXMLParser alloc] initWithContentsOfURL:url];
-//    
-//    [parser setDelegate:self];
-//    [parser setShouldResolveExternalEntities:NO];
-//    [parser parse];
-    
+    self.headlines = [[NSMutableArray alloc] init];
     static NSString * const string = @"http://feeds.feedburner.com/nytimes/gTKh";
     //static NSString* const string=@"http://images.apple.com/main/rss/hotnews/hotnews.rss";
     NSURL *url = [NSURL URLWithString:string];
@@ -57,14 +66,8 @@
     }];
     
     [operation start];
+    
 }
-
-- (void)parserDidStartDocument:(NSXMLParser *)parser
-{
-    self.xmlHeadlines = [NSMutableDictionary dictionary];
-}
-
-
 
 - (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict {
     
@@ -75,7 +78,7 @@
         item    = [[NSMutableDictionary alloc] init];
         title   = [[NSMutableString alloc] init];
         link    = [[NSMutableString alloc] init];
-
+        
         
     }
     
@@ -99,12 +102,17 @@
         
         [feeds addObject:[item copy]];
         
+        [self.headlines addObject: title];
+        
     }
     
 }
 - (void)parserDidEndDocument:(NSXMLParser *)parser {
     
-    self.label.text = title;
+    //[self.mainVC newHeadline:title];
+    int numHeadlines = [self.headlines count];
+    int choice = arc4random()%numHeadlines;
+    [self.mainVC newHeadline:[self.headlines objectAtIndex:choice]];
     
 }
 

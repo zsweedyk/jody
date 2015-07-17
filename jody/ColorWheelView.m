@@ -13,34 +13,50 @@
 
 CGPoint center;
 int radius;
-NSArray* colors;
+NSMutableArray* fadedColors;
+float fadeFactor=.5;
+
+float basicColors[10][3]={
+    {1,0,0},
+    {1,.5,0},
+    {1,1,0},
+    {.50,1,0},
+    {0,1,0},
+    {0,.5,1},
+    {0,0,1},
+    {.50,0,1},
+    {.75,0,1},
+    {1,0,1}
+};
 
 @implementation ColorWheelView
 
+- (id)initWithFrame:(CGRect)frame
+{
+    self=[super initWithFrame:frame];
+    if (self) {
+        self.fade=NO;
+        _colors=[[NSMutableArray alloc] initWithCapacity:10];
+        fadedColors=[[NSMutableArray alloc] initWithCapacity:10];
+        for (int i=0; i<10; i++) {
+            UIColor* color = [UIColor colorWithRed:basicColors[i][0] green:basicColors[i][1] blue:basicColors[i][2] alpha:1];
+            [_colors insertObject:color atIndex:i];
+            
+            UIColor* fadedColor = [UIColor colorWithRed:basicColors[i][0]*fadeFactor green:basicColors[i][1]*fadeFactor blue:basicColors[i][2]*fadeFactor alpha:1];
+            [fadedColors insertObject:fadedColor atIndex:i];
+
+        }
+    }
+    return self;
+}
+
 - (void)drawRect:(CGRect)rect
 {
-    colors=[NSArray arrayWithObjects:[UIColor redColor],
-        [UIColor colorWithRed:1.0 green:68.0/255.0 blue:0 alpha:1],
-        [UIColor orangeColor],
-        [UIColor colorWithRed:253.0/255.0 green:178.0/255.0 blue:0 alpha:1],
-        [UIColor yellowColor],
-        [UIColor colorWithRed:70.0/255.0 green:182.0/255 blue:0 alpha:1],
-        [UIColor greenColor],
-        [UIColor cyanColor],
-        [UIColor blueColor],
-            [UIColor colorWithRed:148.0/255.0 green:33.0/255.0 blue:0 alpha:1],nil]
-            ;
-//            /
-//            ,
-//        [UIColor purpleColor],
-//        [UIColor colorWithRed:90.0/255.0 green:23.0/255.0 blue:158.0/255.0 alpha:1], nil];
 
-        
     center= CGPointMake(rect.size.width/2,rect.size.height/2);
-    radius = MIN(rect.size.width,rect.size.height)*.75/2.0;
-    [self drawColorWheel:colors center:center radius:radius rotation:self.angle];
+    radius = MIN(rect.size.width,rect.size.height)/2.0;
 
-
+    [self drawColorWheel:_colors center:center radius:radius rotation:self.angle];
 }
 
 - (void) drawColorWheel:(NSArray*)colors center:(CGPoint)center radius:(int)radius rotation:(double)rotation
@@ -70,8 +86,14 @@ NSArray* colors;
                      YES);
         CGPathAddLineToPoint(segment, NULL,0,0);
         
+        UIColor* segmentColor;
         CGContextAddPath(context, segment);
-        UIColor* segmentColor = [colors objectAtIndex:i];
+        if (!self.fade) {
+            segmentColor = [colors objectAtIndex:i];
+        }
+        else {
+            segmentColor = [fadedColors objectAtIndex:i];
+        }
         CGContextSetFillColorWithColor(context, segmentColor.CGColor);
         CGContextSetStrokeColorWithColor(context, segmentColor.CGColor);
         CGContextDrawPath(context, kCGPathFillStroke);

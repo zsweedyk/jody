@@ -7,21 +7,20 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		115597D51B59832A00D1A42C /* colorWheelSmall@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 115597D41B59832A00D1A42C /* colorWheelSmall@2x.png */; };
+		115597D91B59918B00D1A42C /* RSSManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 115597D81B59918B00D1A42C /* RSSManager.m */; };
 		11A33C0A1B4C75A000DA0108 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 11A33C091B4C75A000DA0108 /* main.m */; };
 		11A33C0D1B4C75A000DA0108 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 11A33C0C1B4C75A000DA0108 /* AppDelegate.m */; };
-		11A33C101B4C75A000DA0108 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 11A33C0F1B4C75A000DA0108 /* ViewController.m */; };
 		11A33C131B4C75A000DA0108 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 11A33C111B4C75A000DA0108 /* Main.storyboard */; };
 		11A33C151B4C75A000DA0108 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 11A33C141B4C75A000DA0108 /* Images.xcassets */; };
 		11A33C181B4C75A000DA0108 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 11A33C161B4C75A000DA0108 /* LaunchScreen.xib */; };
 		11A33C241B4C75A100DA0108 /* jodyTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 11A33C231B4C75A100DA0108 /* jodyTests.m */; };
 		11A33C321B4C75DE00DA0108 /* ColorWheelView.m in Sources */ = {isa = PBXBuildFile; fileRef = 11A33C2F1B4C75DE00DA0108 /* ColorWheelView.m */; };
-		11A33C331B4C75DE00DA0108 /* ColorWheelViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 11A33C311B4C75DE00DA0108 /* ColorWheelViewController.m */; };
+		11A33C331B4C75DE00DA0108 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 11A33C311B4C75DE00DA0108 /* MainViewController.m */; };
 		11A33C391B4C761500DA0108 /* HeadlinesView.m in Sources */ = {isa = PBXBuildFile; fileRef = 11A33C361B4C761500DA0108 /* HeadlinesView.m */; };
-		11A33C3A1B4C761500DA0108 /* HeadlinesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 11A33C381B4C761500DA0108 /* HeadlinesViewController.m */; };
 		11A33C811B4C7A5600DA0108 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 11A33C801B4C7A5600DA0108 /* CFNetwork.framework */; };
 		11A33C831B4C7A6900DA0108 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 11A33C821B4C7A6900DA0108 /* SystemConfiguration.framework */; };
 		11A33C851B4C7A7F00DA0108 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 11A33C841B4C7A7F00DA0108 /* MobileCoreServices.framework */; };
-		11A33C8A1B4C7AC300DA0108 /* RSSEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = 11A33C891B4C7AC300DA0108 /* RSSEntry.m */; };
 		11A33CA21B4C856F00DA0108 /* AFHTTPRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 11A33C901B4C856F00DA0108 /* AFHTTPRequestOperation.m */; };
 		11A33CA31B4C856F00DA0108 /* AFHTTPRequestOperationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 11A33C921B4C856F00DA0108 /* AFHTTPRequestOperationManager.m */; };
 		11A33CA41B4C856F00DA0108 /* AFHTTPSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 11A33C941B4C856F00DA0108 /* AFHTTPSessionManager.m */; };
@@ -55,13 +54,14 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		115597D41B59832A00D1A42C /* colorWheelSmall@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "colorWheelSmall@2x.png"; sourceTree = "<group>"; };
+		115597D71B59918B00D1A42C /* RSSManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RSSManager.h; sourceTree = "<group>"; };
+		115597D81B59918B00D1A42C /* RSSManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RSSManager.m; sourceTree = "<group>"; };
 		11A33C041B4C75A000DA0108 /* jody.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = jody.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		11A33C081B4C75A000DA0108 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		11A33C091B4C75A000DA0108 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		11A33C0B1B4C75A000DA0108 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		11A33C0C1B4C75A000DA0108 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		11A33C0E1B4C75A000DA0108 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		11A33C0F1B4C75A000DA0108 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		11A33C121B4C75A000DA0108 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		11A33C141B4C75A000DA0108 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		11A33C171B4C75A000DA0108 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
@@ -70,17 +70,13 @@
 		11A33C231B4C75A100DA0108 /* jodyTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = jodyTests.m; sourceTree = "<group>"; };
 		11A33C2E1B4C75DE00DA0108 /* ColorWheelView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ColorWheelView.h; sourceTree = "<group>"; };
 		11A33C2F1B4C75DE00DA0108 /* ColorWheelView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ColorWheelView.m; sourceTree = "<group>"; };
-		11A33C301B4C75DE00DA0108 /* ColorWheelViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ColorWheelViewController.h; sourceTree = "<group>"; };
-		11A33C311B4C75DE00DA0108 /* ColorWheelViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ColorWheelViewController.m; sourceTree = "<group>"; };
+		11A33C301B4C75DE00DA0108 /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
+		11A33C311B4C75DE00DA0108 /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
 		11A33C351B4C761500DA0108 /* HeadlinesView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HeadlinesView.h; sourceTree = "<group>"; };
 		11A33C361B4C761500DA0108 /* HeadlinesView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HeadlinesView.m; sourceTree = "<group>"; };
-		11A33C371B4C761500DA0108 /* HeadlinesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HeadlinesViewController.h; sourceTree = "<group>"; };
-		11A33C381B4C761500DA0108 /* HeadlinesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HeadlinesViewController.m; sourceTree = "<group>"; };
 		11A33C801B4C7A5600DA0108 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		11A33C821B4C7A6900DA0108 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		11A33C841B4C7A7F00DA0108 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
-		11A33C881B4C7AC300DA0108 /* RSSEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RSSEntry.h; path = ../../hereAndNow/hereAndNow/RSSEntry.h; sourceTree = "<group>"; };
-		11A33C891B4C7AC300DA0108 /* RSSEntry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RSSEntry.m; path = ../../hereAndNow/hereAndNow/RSSEntry.m; sourceTree = "<group>"; };
 		11A33C8F1B4C856F00DA0108 /* AFHTTPRequestOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPRequestOperation.h; sourceTree = "<group>"; };
 		11A33C901B4C856F00DA0108 /* AFHTTPRequestOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFHTTPRequestOperation.m; sourceTree = "<group>"; };
 		11A33C911B4C856F00DA0108 /* AFHTTPRequestOperationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPRequestOperationManager.h; sourceTree = "<group>"; };
@@ -149,6 +145,7 @@
 		11A33BFB1B4C75A000DA0108 = {
 			isa = PBXGroup;
 			children = (
+				115597D41B59832A00D1A42C /* colorWheelSmall@2x.png */,
 				11F1A8441B4D7D3300BDD73B /* libz.dylib */,
 				11F1A83C1B4D7C9D00BDD73B /* GTMNSString+HTML */,
 				11F1A83A1B4D6DD600BDD73B /* libxml2.dylib */,
@@ -173,13 +170,13 @@
 		11A33C061B4C75A000DA0108 /* jody */ = {
 			isa = PBXGroup;
 			children = (
+				11A33C301B4C75DE00DA0108 /* MainViewController.h */,
+				11A33C311B4C75DE00DA0108 /* MainViewController.m */,
 				11A33CC41B4C85EE00DA0108 /* AFNetworking */,
 				11A33C341B4C75F300DA0108 /* Headlines */,
 				11A33C2D1B4C75B200DA0108 /* ColorWheel */,
 				11A33C0B1B4C75A000DA0108 /* AppDelegate.h */,
 				11A33C0C1B4C75A000DA0108 /* AppDelegate.m */,
-				11A33C0E1B4C75A000DA0108 /* ViewController.h */,
-				11A33C0F1B4C75A000DA0108 /* ViewController.m */,
 				11A33C111B4C75A000DA0108 /* Main.storyboard */,
 				11A33C141B4C75A000DA0108 /* Images.xcassets */,
 				11A33C161B4C75A000DA0108 /* LaunchScreen.xib */,
@@ -219,8 +216,6 @@
 			children = (
 				11A33C2E1B4C75DE00DA0108 /* ColorWheelView.h */,
 				11A33C2F1B4C75DE00DA0108 /* ColorWheelView.m */,
-				11A33C301B4C75DE00DA0108 /* ColorWheelViewController.h */,
-				11A33C311B4C75DE00DA0108 /* ColorWheelViewController.m */,
 			);
 			name = ColorWheel;
 			sourceTree = "<group>";
@@ -228,12 +223,10 @@
 		11A33C341B4C75F300DA0108 /* Headlines */ = {
 			isa = PBXGroup;
 			children = (
-				11A33C881B4C7AC300DA0108 /* RSSEntry.h */,
-				11A33C891B4C7AC300DA0108 /* RSSEntry.m */,
 				11A33C351B4C761500DA0108 /* HeadlinesView.h */,
 				11A33C361B4C761500DA0108 /* HeadlinesView.m */,
-				11A33C371B4C761500DA0108 /* HeadlinesViewController.h */,
-				11A33C381B4C761500DA0108 /* HeadlinesViewController.m */,
+				115597D71B59918B00D1A42C /* RSSManager.h */,
+				115597D81B59918B00D1A42C /* RSSManager.m */,
 			);
 			name = Headlines;
 			sourceTree = "<group>";
@@ -370,6 +363,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				115597D51B59832A00D1A42C /* colorWheelSmall@2x.png in Resources */,
 				11A33C131B4C75A000DA0108 /* Main.storyboard in Resources */,
 				11A33C181B4C75A000DA0108 /* LaunchScreen.xib in Resources */,
 				11A33C151B4C75A000DA0108 /* Images.xcassets in Resources */,
@@ -396,7 +390,6 @@
 				11A33CBF1B4C858D00DA0108 /* UIButton+AFNetworking.m in Sources */,
 				11A33CC11B4C858D00DA0108 /* UIProgressView+AFNetworking.m in Sources */,
 				11A33CA21B4C856F00DA0108 /* AFHTTPRequestOperation.m in Sources */,
-				11A33C101B4C75A000DA0108 /* ViewController.m in Sources */,
 				11A33CBE1B4C858D00DA0108 /* UIAlertView+AFNetworking.m in Sources */,
 				11A33CA31B4C856F00DA0108 /* AFHTTPRequestOperationManager.m in Sources */,
 				11A33C0D1B4C75A000DA0108 /* AppDelegate.m in Sources */,
@@ -405,16 +398,15 @@
 				11A33CA41B4C856F00DA0108 /* AFHTTPSessionManager.m in Sources */,
 				11A33CBD1B4C858D00DA0108 /* UIActivityIndicatorView+AFNetworking.m in Sources */,
 				11A33CBC1B4C858D00DA0108 /* AFNetworkActivityIndicatorManager.m in Sources */,
-				11A33C3A1B4C761500DA0108 /* HeadlinesViewController.m in Sources */,
 				11A33C321B4C75DE00DA0108 /* ColorWheelView.m in Sources */,
 				11A33C0A1B4C75A000DA0108 /* main.m in Sources */,
 				11A33CA61B4C856F00DA0108 /* AFSecurityPolicy.m in Sources */,
-				11A33C8A1B4C7AC300DA0108 /* RSSEntry.m in Sources */,
 				11A33CA81B4C856F00DA0108 /* AFURLRequestSerialization.m in Sources */,
 				11A33CA51B4C856F00DA0108 /* AFNetworkReachabilityManager.m in Sources */,
 				11A33CC31B4C858D00DA0108 /* UIWebView+AFNetworking.m in Sources */,
+				115597D91B59918B00D1A42C /* RSSManager.m in Sources */,
 				11A33CA91B4C856F00DA0108 /* AFURLResponseSerialization.m in Sources */,
-				11A33C331B4C75DE00DA0108 /* ColorWheelViewController.m in Sources */,
+				11A33C331B4C75DE00DA0108 /* MainViewController.m in Sources */,
 				11F1A83F1B4D7C9D00BDD73B /* GTMNSString+HTML.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

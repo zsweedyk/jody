@@ -8,10 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
+
 @interface ColorWheelView : UIView
 
 @property double angle;
-
-- (void)update;
+@property BOOL fade;
+@property NSMutableArray* colors;
 
 @end

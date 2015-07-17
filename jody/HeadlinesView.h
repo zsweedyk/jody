@@ -10,6 +10,9 @@
 
 @interface HeadlinesView : UIView
 
-@property IBOutlet UILabel* label;
+@property (strong,nonatomic) NSMutableArray* headlines;
+@property int chosenHeadline;
+
+- (void) addHeadline: (NSString*) headline withColor: (UIColor*) color;
 
 @end

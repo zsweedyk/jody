@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="d9l-Ja-qYm">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
     </dependencies>
     <scenes>
-        <!--Color Wheel View Controller-->
+        <!--Main View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ColorWheelViewController" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="MainViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
@@ -15,46 +15,66 @@
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC" customClass="ColorWheelView">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Rdi-Sr-XJU">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" tag="10" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gcf-wf-rkr">
+                                        <rect key="frame" x="140" y="267" width="42" height="21"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="Rdi-Sr-XJU" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="5Ti-cz-EFw"/>
+                            <constraint firstAttribute="trailing" secondItem="Rdi-Sr-XJU" secondAttribute="trailing" id="7pf-vZ-HYa"/>
+                            <constraint firstAttribute="bottom" secondItem="Rdi-Sr-XJU" secondAttribute="bottom" id="FUx-eu-9Y2"/>
+                            <constraint firstItem="Rdi-Sr-XJU" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="XZ6-eX-ZqQ"/>
+                        </constraints>
                     </view>
+                    <toolbarItems>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="Ve0-oU-URE"/>
+                        <barButtonItem image="colorWheelSmall.png" id="u9f-eo-7j5">
+                            <connections>
+                                <action selector="bringColorWheelIntoFocus:" destination="BYZ-38-t0r" id="Qu9-eV-skb"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="HtE-mV-xPX"/>
+                    </toolbarItems>
+                    <navigationItem key="navigationItem" id="VJi-vt-fqa"/>
                     <connections>
-                        <segue destination="cIc-q6-Uve" kind="show" identifier="headlines" id="Bot-bD-r54"/>
+                        <outlet property="headlineLabel" destination="gcf-wf-rkr" id="YWg-6X-PpF"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="856" y="174"/>
         </scene>
-        <!--Headlines View Controller-->
-        <scene sceneID="RMo-NT-yv8">
+        <!--Navigation Controller-->
+        <scene sceneID="sIE-e7-85q">
             <objects>
-                <viewController id="cIc-q6-Uve" customClass="HeadlinesViewController" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="tjE-3i-i7P"/>
-                        <viewControllerLayoutGuide type="bottom" id="AHV-Ga-N7a"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="fGf-0K-kvY" customClass="HeadlinesView">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" lineBreakMode="characterWrap" numberOfLines="3" baselineAdjustment="alignBaselines" minimumFontSize="9" translatesAutoresizingMaskIntoConstraints="NO" id="URd-qW-PAw">
-                                <rect key="frame" x="48" y="282" width="504" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="10"/>
-                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <connections>
-                            <outlet property="label" destination="URd-qW-PAw" id="rbi-kE-kAk"/>
-                        </connections>
-                    </view>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="d9l-Ja-qYm" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Uod-ON-LdM">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
                     <connections>
-                        <outlet property="label" destination="URd-qW-PAw" id="l7h-n7-one"/>
+                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="nEB-tk-x5E"/>
                     </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="CXT-AU-lDl" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="QJo-ww-mjk" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="968" y="338"/>
+            <point key="canvasLocation" x="44" y="174"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="colorWheelSmall.png" width="22" height="22"/>
+    </resources>
 </document>
