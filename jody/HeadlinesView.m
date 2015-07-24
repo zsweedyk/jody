@@ -26,27 +26,62 @@
     
     // for now we just put it somewhere
     
-    CGFloat x = (CGFloat) (arc4random() % (int) self.frame.size.width)/2;
-    CGFloat y = (CGFloat) (arc4random() % (int) self.frame.size.height)-50;
-    CGRect labelFrame = CGRectMake(x, y, self.frame.size.width-x, self.frame.size.height-y);
-    UILabel* newLabel = [[UILabel alloc] initWithFrame:labelFrame];
-    newLabel.text=headline;
-    newLabel.textColor=color;
-    newLabel.numberOfLines = 0;
-    newLabel.lineBreakMode = UILineBreakModeWordWrap;
-    [newLabel sizeToFit];
-    newLabel.tag = [self.headlines count];
-    newLabel.userInteractionEnabled = YES;
-    UITapGestureRecognizer* tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(removeHeadline:)];
-    [newLabel addGestureRecognizer:tapGestureRecognizer];
 
+    NSMutableArray* words = [NSMutableArray arrayWithArray:[headline componentsSeparatedByCharactersInSet:[NSCharacterSet  whitespaceCharacterSet]]];
+    //[parts removeObjectIdenticalTo:@""];
     
-    UIPanGestureRecognizer* panGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(moveHeadline:)];
-    [newLabel addGestureRecognizer:panGestureRecognizer];
+
+
+    CGFloat x=0;
+    CGFloat y=0;
+    CGFloat topOfCurrentLine = 0;
+    CGFloat bottomOfCurrentLine=0;
+    CGFloat lastWidth=0;
+    bool newLine = true;
     
-    [self addSubview:newLabel];
-    [self.headlines addObject: headline];
-    
+    NSDictionary *attributes = @{NSFontAttributeName: [UIFont fontWithName:@"TimesNewRomanPSMT" size:96]};
+    for (id word in words) {
+
+        // create frame
+        CGSize frameSize = [word sizeWithAttributes:attributes];
+        if (y==0){
+            y += arc4random() % (int) self.frame.size.height/4.0;
+        }
+        x += lastWidth + (CGFloat) (arc4random() % (int) self.frame.size.width)/4;
+        if (x + frameSize.width > self.frame.size.width && !newLine) {
+                // start new line
+                y = (bottomOfCurrentLine-topOfCurrentLine)/2.0; // or something
+                topOfCurrentLine=y;
+                bottomOfCurrentLine=y+frameSize.height;
+            newLine=true;
+        }
+        else {
+            if (x + frameSize.width > self.frame.size.width) {
+                // we need to start the string sooner
+                x -= (frameSize.width - x);
+            }
+            // y stays the same but need to check whether bottom of line is ok
+            if (bottomOfCurrentLine-topOfCurrentLine < frameSize.height) {
+                bottomOfCurrentLine=topOfCurrentLine+frameSize.height;
+            }
+            newLine=false;
+        }
+        CGRect labelFrame = CGRectMake(x, y, frameSize.width, frameSize.height);
+        UILabel* newLabel = [[UILabel alloc] initWithFrame:labelFrame];
+        newLabel.text=word;
+        newLabel.textColor=color;
+        [newLabel setFont:[UIFont fontWithName:@"TimesNewRomanPSMT" size:96.0]];
+        newLabel.numberOfLines = 1;
+        newLabel.tag = [self.headlines count];
+        newLabel.userInteractionEnabled = YES;
+        UITapGestureRecognizer* tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(removeHeadline:)];
+        [newLabel addGestureRecognizer:tapGestureRecognizer];
+        UIPanGestureRecognizer* panGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(moveHeadline:)];
+        [newLabel addGestureRecognizer:panGestureRecognizer];
+        [self addSubview:newLabel];
+        [self.headlines addObject: headline];
+        
+    }
 }
 
 - (void) removeHeadline: (UITapGestureRecognizer*)sender

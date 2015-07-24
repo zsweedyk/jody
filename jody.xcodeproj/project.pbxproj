@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		115597D51B59832A00D1A42C /* colorWheelSmall@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 115597D41B59832A00D1A42C /* colorWheelSmall@2x.png */; };
 		115597D91B59918B00D1A42C /* RSSManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 115597D81B59918B00D1A42C /* RSSManager.m */; };
+		116EAACC1B62D37900C7511E /* newspaperCircle.png in Resources */ = {isa = PBXBuildFile; fileRef = 116EAACB1B62D37900C7511E /* newspaperCircle.png */; };
 		11A33C0A1B4C75A000DA0108 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 11A33C091B4C75A000DA0108 /* main.m */; };
 		11A33C0D1B4C75A000DA0108 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 11A33C0C1B4C75A000DA0108 /* AppDelegate.m */; };
 		11A33C131B4C75A000DA0108 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 11A33C111B4C75A000DA0108 /* Main.storyboard */; };
@@ -57,6 +58,7 @@
 		115597D41B59832A00D1A42C /* colorWheelSmall@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "colorWheelSmall@2x.png"; sourceTree = "<group>"; };
 		115597D71B59918B00D1A42C /* RSSManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RSSManager.h; sourceTree = "<group>"; };
 		115597D81B59918B00D1A42C /* RSSManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RSSManager.m; sourceTree = "<group>"; };
+		116EAACB1B62D37900C7511E /* newspaperCircle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = newspaperCircle.png; sourceTree = "<group>"; };
 		11A33C041B4C75A000DA0108 /* jody.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = jody.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		11A33C081B4C75A000DA0108 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		11A33C091B4C75A000DA0108 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -145,6 +147,7 @@
 		11A33BFB1B4C75A000DA0108 = {
 			isa = PBXGroup;
 			children = (
+				116EAACB1B62D37900C7511E /* newspaperCircle.png */,
 				115597D41B59832A00D1A42C /* colorWheelSmall@2x.png */,
 				11F1A8441B4D7D3300BDD73B /* libz.dylib */,
 				11F1A83C1B4D7C9D00BDD73B /* GTMNSString+HTML */,
@@ -367,6 +370,7 @@
 				11A33C131B4C75A000DA0108 /* Main.storyboard in Resources */,
 				11A33C181B4C75A000DA0108 /* LaunchScreen.xib in Resources */,
 				11A33C151B4C75A000DA0108 /* Images.xcassets in Resources */,
+				116EAACC1B62D37900C7511E /* newspaperCircle.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

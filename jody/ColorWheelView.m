@@ -16,6 +16,8 @@ int radius;
 NSMutableArray* fadedColors;
 float fadeFactor=.5;
 
+int numSegments =9;
+
 float basicColors[10][3]={
     {1,0,0},
     {1,.5,0},
@@ -36,16 +38,19 @@ float basicColors[10][3]={
     self=[super initWithFrame:frame];
     if (self) {
         self.fade=NO;
-        _colors=[[NSMutableArray alloc] initWithCapacity:10];
-        fadedColors=[[NSMutableArray alloc] initWithCapacity:10];
-        for (int i=0; i<10; i++) {
-            UIColor* color = [UIColor colorWithRed:basicColors[i][0] green:basicColors[i][1] blue:basicColors[i][2] alpha:1];
+        _colors=[[NSMutableArray alloc] initWithCapacity:numSegments];
+        fadedColors=[[NSMutableArray alloc] initWithCapacity:numSegments];
+        for (int i=0; i<numSegments; i++) {
+            UIColor* color = [UIColor colorWithRed:basicColors[i][0] green:basicColors[i][1] blue:basicColors[i][2] alpha:.5];
             [_colors insertObject:color atIndex:i];
             
-            UIColor* fadedColor = [UIColor colorWithRed:basicColors[i][0]*fadeFactor green:basicColors[i][1]*fadeFactor blue:basicColors[i][2]*fadeFactor alpha:1];
+            UIColor* fadedColor = [UIColor colorWithRed:basicColors[i][0]*fadeFactor green:basicColors[i][1]*fadeFactor blue:basicColors[i][2]*fadeFactor alpha:.5];
             [fadedColors insertObject:fadedColor atIndex:i];
 
         }
+        
+
+    
     }
     return self;
 }

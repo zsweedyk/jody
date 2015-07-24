@@ -18,6 +18,7 @@
 @property (strong,nonatomic) NSTimer* timer;
 @property (strong,nonatomic) UIGestureRecognizer* tapRecognizer;
 @property (weak,nonatomic) RSSManager* rssManager;
+@property (strong,nonatomic) UIImageView* background;
 @property int sourceChosen;
 @property BOOL spinning;
 @property BOOL transition;
@@ -40,16 +41,28 @@
     self.headlinesView = [[HeadlinesView alloc] initWithFrame:self.view.frame];
     [self.view addSubview:self.headlinesView];
     
-    
-    // create color wheel view
+    // create frame for color wheel
     CGFloat size = MIN(self.view.frame.size.width, self.view.frame.size.height);
     CGFloat colorWheelFrameSize = size*.75;
     CGFloat leftX= (self.view.frame.size.width - colorWheelFrameSize)/2.0;
     CGFloat topY = (self.view.frame.size.height-colorWheelFrameSize)/2.0;
     CGRect colorWheelFrame = CGRectMake(leftX, topY, colorWheelFrameSize, colorWheelFrameSize);
+    
+    // create background of color wheel
+    self.background = [[UIImageView alloc] initWithFrame:colorWheelFrame];
+    self.background.image = [UIImage imageNamed:@"newspaperCircle.png"];
+    self.background.contentMode=UIViewContentModeScaleAspectFit;
+    [self.view addSubview:self.background];
+
+    
+    // create foreground of color wheel
+
     self.colorWheelView = [[ColorWheelView alloc] initWithFrame: colorWheelFrame];
     self.colorWheelView.backgroundColor=[UIColor colorWithRed:0 green:0 blue:0 alpha:0];
     [self.view addSubview:self.colorWheelView];
+    
+  
+
     
     // add gesture recognizer
     self.tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(spinColorWheel)];
@@ -86,12 +99,14 @@
 - (void) update
 {
     if (self.spinning && !self.transition) {
+        double oldAngle=self.colorWheelView.angle;
         self.colorWheelView.angle += 3.14159/60.0;
         if (self.colorWheelView.angle > 2*3.14159) {
             self.colorWheelView.angle -= 2*3.14159;
         }
         self.colorWheelView.fade=NO;
         [self.colorWheelView setNeedsDisplay];
+        self.background.transform = CGAffineTransformMakeRotation(self.colorWheelView.angle-oldAngle);
     }
     else if (self.transition) {
         [self.timer invalidate];
