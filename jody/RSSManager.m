@@ -112,6 +112,9 @@
     //[self.mainVC newHeadline:title];
     int numHeadlines = [self.headlines count];
     int choice = arc4random()%numHeadlines;
+    if (choice >= [self.headlines count]) {
+        NSLog(@"Bad choice of headline.");
+    }
     [self.mainVC newHeadline:[self.headlines objectAtIndex:choice]];
     
 }

@@ -41,18 +41,22 @@
     
     NSDictionary *attributes = @{NSFontAttributeName: [UIFont fontWithName:@"TimesNewRomanPSMT" size:96]};
     for (id word in words) {
-
+        
         // create frame
         CGSize frameSize = [word sizeWithAttributes:attributes];
         if (y==0){
             y += arc4random() % (int) self.frame.size.height/4.0;
+            bottomOfCurrentLine = y + frameSize.height;
+            topOfCurrentLine = y;
         }
         x += lastWidth + (CGFloat) (arc4random() % (int) self.frame.size.width)/4;
         if (x + frameSize.width > self.frame.size.width && !newLine) {
                 // start new line
-                y = (bottomOfCurrentLine-topOfCurrentLine)/2.0; // or something
+            x = (CGFloat) (arc4random() % (int) self.frame.size.width)/4;
+            y += frameSize.height*1.5; // or something
                 topOfCurrentLine=y;
                 bottomOfCurrentLine=y+frameSize.height;
+
             newLine=true;
         }
         else {
@@ -60,12 +64,9 @@
                 // we need to start the string sooner
                 x -= (frameSize.width - x);
             }
-            // y stays the same but need to check whether bottom of line is ok
-            if (bottomOfCurrentLine-topOfCurrentLine < frameSize.height) {
-                bottomOfCurrentLine=topOfCurrentLine+frameSize.height;
-            }
             newLine=false;
         }
+        lastWidth=frameSize.width;
         CGRect labelFrame = CGRectMake(x, y, frameSize.width, frameSize.height);
         UILabel* newLabel = [[UILabel alloc] initWithFrame:labelFrame];
         newLabel.text=word;

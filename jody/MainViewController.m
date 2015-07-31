@@ -10,6 +10,7 @@
 #import "HeadlinesView.h"
 #import "ColorWheelView.h"
 #import "RSSManager.h"
+#import "BackgroundGenerator.h"
 
 @interface MainViewController ()
 
@@ -18,6 +19,7 @@
 @property (strong,nonatomic) NSTimer* timer;
 @property (strong,nonatomic) UIGestureRecognizer* tapRecognizer;
 @property (weak,nonatomic) RSSManager* rssManager;
+@property (weak,nonatomic) BackgroundGenerator* bgManager;
 @property (strong,nonatomic) UIImageView* background;
 @property int sourceChosen;
 @property BOOL spinning;
@@ -37,21 +39,26 @@
     self.rssManager = [RSSManager sharedManager];
     self.rssManager.mainVC = self;
     
+    self.bgManager = [BackgroundGenerator sharedManager];
+ 
+    
     // create headlines view
     self.headlinesView = [[HeadlinesView alloc] initWithFrame:self.view.frame];
     [self.view addSubview:self.headlinesView];
     
     // create frame for color wheel
-    CGFloat size = MIN(self.view.frame.size.width, self.view.frame.size.height);
-    CGFloat colorWheelFrameSize = size*.75;
+    CGFloat diameter = MIN(self.view.frame.size.width, self.view.frame.size.height);
+    CGFloat colorWheelFrameSize = diameter*.75;
     CGFloat leftX= (self.view.frame.size.width - colorWheelFrameSize)/2.0;
     CGFloat topY = (self.view.frame.size.height-colorWheelFrameSize)/2.0;
     CGRect colorWheelFrame = CGRectMake(leftX, topY, colorWheelFrameSize, colorWheelFrameSize);
     
     // create background of color wheel
+    self.bgManager.radius = diameter/2.0;
     self.background = [[UIImageView alloc] initWithFrame:colorWheelFrame];
-    self.background.image = [UIImage imageNamed:@"newspaperCircle.png"];
-    self.background.contentMode=UIViewContentModeScaleAspectFit;
+    self.background.image = [self.bgManager createBackgroundWithRadius:colorWheelFrameSize/2.0];
+//    self.background.image = [UIImage imageNamed:@"newspaperCircle.png"];
+//    self.background.contentMode=UIViewContentModeScaleAspectFit;
     [self.view addSubview:self.background];
 
     

@@ -10,6 +10,7 @@
 		115597D51B59832A00D1A42C /* colorWheelSmall@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 115597D41B59832A00D1A42C /* colorWheelSmall@2x.png */; };
 		115597D91B59918B00D1A42C /* RSSManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 115597D81B59918B00D1A42C /* RSSManager.m */; };
 		116EAACC1B62D37900C7511E /* newspaperCircle.png in Resources */ = {isa = PBXBuildFile; fileRef = 116EAACB1B62D37900C7511E /* newspaperCircle.png */; };
+		116EAAD11B630DE700C7511E /* BackgroundGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 116EAAD01B630DE700C7511E /* BackgroundGenerator.m */; };
 		11A33C0A1B4C75A000DA0108 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 11A33C091B4C75A000DA0108 /* main.m */; };
 		11A33C0D1B4C75A000DA0108 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 11A33C0C1B4C75A000DA0108 /* AppDelegate.m */; };
 		11A33C131B4C75A000DA0108 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 11A33C111B4C75A000DA0108 /* Main.storyboard */; };
@@ -59,6 +60,8 @@
 		115597D71B59918B00D1A42C /* RSSManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RSSManager.h; sourceTree = "<group>"; };
 		115597D81B59918B00D1A42C /* RSSManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RSSManager.m; sourceTree = "<group>"; };
 		116EAACB1B62D37900C7511E /* newspaperCircle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = newspaperCircle.png; sourceTree = "<group>"; };
+		116EAACF1B630DE700C7511E /* BackgroundGenerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BackgroundGenerator.h; sourceTree = "<group>"; };
+		116EAAD01B630DE700C7511E /* BackgroundGenerator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BackgroundGenerator.m; sourceTree = "<group>"; };
 		11A33C041B4C75A000DA0108 /* jody.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = jody.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		11A33C081B4C75A000DA0108 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		11A33C091B4C75A000DA0108 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -144,6 +147,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		116EAACE1B630DC200C7511E /* Background */ = {
+			isa = PBXGroup;
+			children = (
+				116EAACF1B630DE700C7511E /* BackgroundGenerator.h */,
+				116EAAD01B630DE700C7511E /* BackgroundGenerator.m */,
+			);
+			name = Background;
+			sourceTree = "<group>";
+		};
 		11A33BFB1B4C75A000DA0108 = {
 			isa = PBXGroup;
 			children = (
@@ -176,6 +188,7 @@
 				11A33C301B4C75DE00DA0108 /* MainViewController.h */,
 				11A33C311B4C75DE00DA0108 /* MainViewController.m */,
 				11A33CC41B4C85EE00DA0108 /* AFNetworking */,
+				116EAACE1B630DC200C7511E /* Background */,
 				11A33C341B4C75F300DA0108 /* Headlines */,
 				11A33C2D1B4C75B200DA0108 /* ColorWheel */,
 				11A33C0B1B4C75A000DA0108 /* AppDelegate.h */,
@@ -404,6 +417,7 @@
 				11A33CBC1B4C858D00DA0108 /* AFNetworkActivityIndicatorManager.m in Sources */,
 				11A33C321B4C75DE00DA0108 /* ColorWheelView.m in Sources */,
 				11A33C0A1B4C75A000DA0108 /* main.m in Sources */,
+				116EAAD11B630DE700C7511E /* BackgroundGenerator.m in Sources */,
 				11A33CA61B4C856F00DA0108 /* AFSecurityPolicy.m in Sources */,
 				11A33CA81B4C856F00DA0108 /* AFURLRequestSerialization.m in Sources */,
 				11A33CA51B4C856F00DA0108 /* AFNetworkReachabilityManager.m in Sources */,

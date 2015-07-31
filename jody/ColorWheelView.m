@@ -16,32 +16,33 @@ int radius;
 NSMutableArray* fadedColors;
 float fadeFactor=.5;
 
-int numSegments =9;
 
-float basicColors[10][3]={
-    {1,0,0},
-    {1,.5,0},
-    {1,1,0},
-    {.50,1,0},
-    {0,1,0},
-    {0,.5,1},
-    {0,0,1},
-    {.50,0,1},
-    {.75,0,1},
-    {1,0,1}
-};
 
 @implementation ColorWheelView
 
 - (id)initWithFrame:(CGRect)frame
 {
+    int numSegments=9;
+    float basicColors[10][3]={
+        {1,0,0},
+        {1,.5,0},
+        {1,1,0},
+        {.50,1,0},
+        {0,1,0},
+        {0,.5,1},
+        {0,0,1},
+        {.50,0,1},
+        {.75,0,1},
+        {1,0,1}
+    };
     self=[super initWithFrame:frame];
     if (self) {
         self.fade=NO;
         _colors=[[NSMutableArray alloc] initWithCapacity:numSegments];
         fadedColors=[[NSMutableArray alloc] initWithCapacity:numSegments];
         for (int i=0; i<numSegments; i++) {
-            UIColor* color = [UIColor colorWithRed:basicColors[i][0] green:basicColors[i][1] blue:basicColors[i][2] alpha:.5];
+            UIColor* color = [UIColor blackColor];
+            //UIColor* color = [UIColor colorWithRed:basicColors[i][0] green:basicColors[i][1] blue:basicColors[i][2] alpha:.5];
             [_colors insertObject:color atIndex:i];
             
             UIColor* fadedColor = [UIColor colorWithRed:basicColors[i][0]*fadeFactor green:basicColors[i][1]*fadeFactor blue:basicColors[i][2]*fadeFactor alpha:.5];
@@ -57,7 +58,7 @@ float basicColors[10][3]={
 
 - (void)drawRect:(CGRect)rect
 {
-
+    
     center= CGPointMake(rect.size.width/2,rect.size.height/2);
     radius = MIN(rect.size.width,rect.size.height)/2.0;
 
@@ -66,6 +67,7 @@ float basicColors[10][3]={
 
 - (void) drawColorWheel:(NSArray*)colors center:(CGPoint)center radius:(int)radius rotation:(double)rotation
 {
+    return;
     CGContextRef context = UIGraphicsGetCurrentContext();
     CGContextSaveGState(context);
     CGContextTranslateCTM( context, center.x, center.y ) ;

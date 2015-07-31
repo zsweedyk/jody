@@ -39,6 +39,7 @@
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="HtE-mV-xPX"/>
                     </toolbarItems>
                     <navigationItem key="navigationItem" id="VJi-vt-fqa"/>
+                    <nil key="simulatedTopBarMetrics"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>

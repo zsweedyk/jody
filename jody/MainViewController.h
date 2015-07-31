@@ -10,7 +10,7 @@
 
 @interface MainViewController : UIViewController
 
-@property (weak,nonatomic) IBOutlet UILabel* headlineLabel;
+
 - (void)spinColorWheel;
 - (IBAction)bringColorWheelIntoFocus:(id)sender;
 - (void)newHeadline:(NSString*)headline;
