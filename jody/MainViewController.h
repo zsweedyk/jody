@@ -10,6 +10,7 @@
 
 @interface MainViewController : UIViewController
 
+@property IBOutlet UIBarButtonItem* colorWheelToolBarButton;
 
 - (void)spinColorWheel;
 - (IBAction)bringColorWheelIntoFocus:(id)sender;

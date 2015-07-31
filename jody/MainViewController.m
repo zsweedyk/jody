@@ -56,9 +56,7 @@
     // create background of color wheel
     self.bgManager.radius = diameter/2.0;
     self.background = [[UIImageView alloc] initWithFrame:colorWheelFrame];
-    self.background.image = [self.bgManager createBackgroundWithRadius:colorWheelFrameSize/2.0];
-//    self.background.image = [UIImage imageNamed:@"newspaperCircle.png"];
-//    self.background.contentMode=UIViewContentModeScaleAspectFit;
+    self.background.image = [self.bgManager createBackground];
     [self.view addSubview:self.background];
 
     
@@ -67,8 +65,6 @@
     self.colorWheelView = [[ColorWheelView alloc] initWithFrame: colorWheelFrame];
     self.colorWheelView.backgroundColor=[UIColor colorWithRed:0 green:0 blue:0 alpha:0];
     [self.view addSubview:self.colorWheelView];
-    
-  
 
     
     // add gesture recognizer
@@ -79,8 +75,11 @@
     self.spinning=false;
     self.transition=false;
     
-    // set up RSS Manager
+   // set up color wheel button on navigation bar
+    [self.colorWheelToolBarButton setImage:[[UIImage imageNamed:@"colorWheelSmall.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]];
 
+    // turn off nav bar
+    [self.navigationController setNavigationBarHidden:YES];
 }
 
 - (void)spinColorWheel
@@ -105,15 +104,18 @@
 
 - (void) update
 {
+    static double angle =0;
     if (self.spinning && !self.transition) {
-        double oldAngle=self.colorWheelView.angle;
-        self.colorWheelView.angle += 3.14159/60.0;
-        if (self.colorWheelView.angle > 2*3.14159) {
-            self.colorWheelView.angle -= 2*3.14159;
+        angle += 3.14159/60.0;
+        if (angle > 2*3.14159) {
+            angle -= 2*3.14159;
         }
         self.colorWheelView.fade=NO;
+        self.background.transform = CGAffineTransformMakeRotation(angle);
+        self.colorWheelView.transform = CGAffineTransformMakeRotation(angle);
         [self.colorWheelView setNeedsDisplay];
-        self.background.transform = CGAffineTransformMakeRotation(self.colorWheelView.angle-oldAngle);
+        [self.background setNeedsDisplay];
+
     }
     else if (self.transition) {
         [self.timer invalidate];
@@ -125,8 +127,9 @@
         [self.view bringSubviewToFront:self.headlinesView];
 
         
-        self.sourceChosen = (int) (self.colorWheelView.angle/(2*3.14159)*9 +.5);
-        self.sourceChosen = self.sourceChosen % 10;
+        self.sourceChosen = (int) (angle/(2*3.14159)*9 +.5);
+        self.sourceChosen = self.sourceChosen % 9;
+        NSLog(@"source chosen: %d", self.sourceChosen);
         
         
         [self.rssManager getHeadlineFrom: self.sourceChosen];
@@ -136,7 +139,7 @@
 - (void)newHeadline:(NSString *)headline
 {
     
-    [self.headlinesView addHeadline: headline withColor: [self.colorWheelView.colors objectAtIndex:_sourceChosen]];
+    [self.headlinesView addHeadline: headline withColor: [self.colorWheelView.colors objectAtIndex:self.sourceChosen]];
     
 }
 

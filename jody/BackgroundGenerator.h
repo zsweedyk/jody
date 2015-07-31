@@ -15,6 +15,6 @@
 @property CGFloat radius;
 
 + (id)sharedManager;
-- (UIImage*)createBackgroundWithRadius: (CGFloat) radius;
+- (UIImage*)createBackground;
 
 @end

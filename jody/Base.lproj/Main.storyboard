@@ -31,7 +31,8 @@
                     </view>
                     <toolbarItems>
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="Ve0-oU-URE"/>
-                        <barButtonItem image="colorWheelSmall.png" id="u9f-eo-7j5">
+                        <barButtonItem image="colorWheelSmall.png" style="plain" id="u9f-eo-7j5">
+                            <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                             <connections>
                                 <action selector="bringColorWheelIntoFocus:" destination="BYZ-38-t0r" id="Qu9-eV-skb"/>
                             </connections>
@@ -40,6 +41,9 @@
                     </toolbarItems>
                     <navigationItem key="navigationItem" id="VJi-vt-fqa"/>
                     <nil key="simulatedTopBarMetrics"/>
+                    <connections>
+                        <outlet property="colorWheelToolBarButton" destination="u9f-eo-7j5" id="FpB-rj-cDX"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>

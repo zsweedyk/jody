@@ -41,8 +41,8 @@ float fadeFactor=.5;
         _colors=[[NSMutableArray alloc] initWithCapacity:numSegments];
         fadedColors=[[NSMutableArray alloc] initWithCapacity:numSegments];
         for (int i=0; i<numSegments; i++) {
-            UIColor* color = [UIColor blackColor];
-            //UIColor* color = [UIColor colorWithRed:basicColors[i][0] green:basicColors[i][1] blue:basicColors[i][2] alpha:.5];
+
+            UIColor* color = [UIColor colorWithRed:basicColors[i][0] green:basicColors[i][1] blue:basicColors[i][2] alpha:.5];
             [_colors insertObject:color atIndex:i];
             
             UIColor* fadedColor = [UIColor colorWithRed:basicColors[i][0]*fadeFactor green:basicColors[i][1]*fadeFactor blue:basicColors[i][2]*fadeFactor alpha:.5];
@@ -62,12 +62,12 @@ float fadeFactor=.5;
     center= CGPointMake(rect.size.width/2,rect.size.height/2);
     radius = MIN(rect.size.width,rect.size.height)/2.0;
 
-    [self drawColorWheel:_colors center:center radius:radius rotation:self.angle];
+    [self drawColorWheel:_colors center:center radius:radius rotation:0];
 }
 
 - (void) drawColorWheel:(NSArray*)colors center:(CGPoint)center radius:(int)radius rotation:(double)rotation
 {
-    return;
+  
     CGContextRef context = UIGraphicsGetCurrentContext();
     CGContextSaveGState(context);
     CGContextTranslateCTM( context, center.x, center.y ) ;

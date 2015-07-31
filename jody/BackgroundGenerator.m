@@ -11,18 +11,18 @@
 
 int numSegments =9;
 
-float basicColors[10][3]={
-    {1,0,0},
-    {1,.5,0},
-    {1,1,0},
-    {.50,1,0},
-    {0,1,0},
-    {0,.5,1},
-    {0,0,1},
-    {.50,0,1},
-    {.75,0,1},
-    {1,0,1}
-};
+//float basicColors[10][3]={
+//    {1,0,0},
+//    {1,.5,0},
+//    {1,1,0},
+//    {.50,1,0},
+//    {0,1,0},
+//    {0,.5,1},
+//    {0,0,1},
+//    {.50,0,1},
+//    {.75,0,1},
+//    {1,0,1}
+//};
 
 
 @implementation BackgroundGenerator
@@ -39,76 +39,97 @@ float basicColors[10][3]={
 - (id)init {
     self = [super init];
     if (self) {
-        self.sources = @[@"http://www.nytimes.com/images/2015/07/24/nytfrontpage/scan.pdf"];
+        self.sources = @[@"http://webmedia.newseum.org/newseum-multimedia/dfp/pdf31/NY_NYT.pdf",
+            @"http://webmedia.newseum.org/newseum-multimedia/dfp/pdf31/DC_WP.pdf",
+            @"http://webmedia.newseum.org/newseum-multimedia/dfp/pdf31/UK_TG.pdf" ];
     }
     return self;
 }
 
+
+- (UIImage*) createBackground
+{
+    const float alpha = .5;
+    //UIImage* background=[self blackImage];
+    UIImage* background;
+    int sourceNum=0;
+    for (id source in self.sources) {
+        UIImage* frontPage = [self imageFromURL:source];
+        //UIImage* coloredFrontPage = [self blendImage:frontPage withColor:[UIColor colorWithRed:basicColors[sourceNum][0] green:basicColors[sourceNum][1] blue:basicColors[sourceNum][2] alpha: alpha]];
+        UIImage* mask =[self createMaskForSegment:sourceNum];
+        UIImage* maskedImage=[self maskImage:frontPage withMask:mask];
+        if (background) {
+            background = [self blendImage: background withImage: maskedImage];
+        }
+        else {
+            background=maskedImage;
+        }
+        sourceNum++;
+    }
+    return background;
+}
+
+//- (UIImage*) blackImage {
+//    CGSize imageSize = CGSizeMake(self.radius*2, self.radius*2);
+//    UIColor *fillColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0];
+//    UIGraphicsBeginImageContextWithOptions(imageSize, YES, 0);
+//    CGContextRef context = UIGraphicsGetCurrentContext();
+//    [fillColor setFill];
+//    CGContextFillRect(context, CGRectMake(0, 0, imageSize.width, imageSize.height));
+//    UIImage *blackImage = UIGraphicsGetImageFromCurrentImageContext();
+//    UIGraphicsEndImageContext();
+//    return blackImage;
+//}
+
 - (UIImage*) imageFromURL: (NSString*) urlString
 {
-    
     NSURL *pathUrl = [NSURL URLWithString:urlString];
     CGPDFDocumentRef pdf = CGPDFDocumentCreateWithURL((CFURLRef)pathUrl);
+    CGPDFPageRef pdfPage = CGPDFDocumentGetPage(pdf, 1);
     
-
-    UIGraphicsBeginImageContext(CGSizeMake(self.radius,self.radius));
+    // since the aspect ratio is different, shrinking to fit may mean that part of a segment is blank! so for now, just crop to our size
+    //CGAffineTransform shrinkingTransform = CGPDFPageGetDrawingTransform(pdfPage, kCGPDFCropBox, CGRectMake(0, 0, self.radius*2, self.radius*2), 0, YES);
+    
+    //UIGraphicsBeginImageContext(CGSizeMake(612,792)); // A4 size for pdf
+    
+    UIGraphicsBeginImageContext(CGSizeMake(self.radius*2,self.radius*2)); // A4 size for pdf
     CGContextRef currentContext = UIGraphicsGetCurrentContext();
     
-    CGContextTranslateCTM(currentContext, 0, 2*self.radius); //596,842 //640x960,
-    CGContextScaleCTM(currentContext, 1.0, -1.0); // make sure the page is the right way up
     
-    CGPDFPageRef page = CGPDFDocumentGetPage (pdf, 1); // first page of PDF is page 1 (not zero)
-    CGContextDrawPDFPage (currentContext, page);  // draws the page in the graphics context
+    CGContextTranslateCTM(currentContext, 0, 2*self.radius); //
+    CGContextScaleCTM(currentContext, 1.0, -1.0); // make sure the page is the right way up
+    //CGContextConcatCTM(currentContext, shrinkingTransform);
+    CGContextDrawPDFPage (currentContext, pdfPage);  // draws the page in the graphics context
     
     UIImage* image = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
-
+    
     return image;
-    
-    return nil;
 }
 
-- (UIImage*) createBackgroundWithRadius:(CGFloat)radius
-{
-    NSMutableArray* images = [[NSMutableArray alloc] initWithCapacity:[self.sources count]];
-    for (id source in self.sources) {
-        int sourceNum=[images count];
-        UIImage* frontPage = [self imageFromURL:source];
-        UIImage* coloredFrontPage = [self blendImage:frontPage withColor:[UIColor colorWithRed:basicColors[sourceNum][0] green:basicColors[sourceNum][1] blue:basicColors[sourceNum][2] alpha:.5]];
-        UIImage* mask =[self createMaskForSegment:[images count]];
-        [images addObject: [self maskImage:coloredFrontPage withMask:mask]];
-    }
-    if ([images count]==1)
-        return [images objectAtIndex:0];
-    else
-        return nil;
-}
-
--(UIImage*) blendImage:(UIImage*)image withColor:(UIColor*) color {
-    
-
-    CGSize newSize = CGSizeMake(image.size.width, image.size.height);
-    UIGraphicsBeginImageContext( newSize );
-    
-    [color setFill];
-    [[UIBezierPath bezierPathWithRect:CGRectMake(0, 0, self.radius*2, self.radius*2)] fill];
-    
-    // Use existing opacity as is
-    [image drawInRect:CGRectMake(0,0,newSize.width,newSize.height)];
-    
-    
-    // Apply supplied opacity
-    [image drawInRect:CGRectMake(0,0,newSize.width,newSize.height) blendMode:kCGBlendModeNormal alpha:0.5];
-    
-    UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
-    
-    UIGraphicsEndImageContext();
-    
-    return newImage;
-    
-    
-}
-
+//-(UIImage*) blendImage:(UIImage*)image withColor:(UIColor*) color {
+//    
+//    
+//    CGSize size = CGSizeMake(image.size.width, image.size.height);
+//    UIGraphicsBeginImageContext( size );
+//    
+//    [color setFill];
+//    [[UIBezierPath bezierPathWithRect:CGRectMake(0, 0, self.radius*2, self.radius*2)] fill];
+//    
+//    // Use existing opacity as is
+//    [image drawInRect:CGRectMake(0,0,size.width,size.height)];
+//    
+//    
+//    // Apply supplied opacity
+//    [image drawInRect:CGRectMake(0,0,size.width,size.height) blendMode:kCGBlendModeNormal alpha:0.5];
+//    
+//    UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
+//    
+//    UIGraphicsEndImageContext();
+//    
+//    return newImage;
+//    
+//}
 - (UIImage*) maskImage:(UIImage *)image withMask:(UIImage *)maskImage {
     
     CGImageRef maskRef = maskImage.CGImage;
@@ -140,7 +161,7 @@ float basicColors[10][3]={
     [[UIBezierPath bezierPathWithRect:CGRectMake(0, 0, self.radius*2, self.radius*2)] fill];
     
     // draw segment in black
-
+    
     CGContextTranslateCTM( context, center.x, center.y ) ;
     double radiansInSegment = 2.0*3.14159/(double)numSegments;
     
@@ -161,7 +182,7 @@ float basicColors[10][3]={
     UIColor* segmentColor;
     segmentColor = [UIColor blackColor];
     CGContextAddPath(context, segment);
-
+    
     CGContextSetFillColorWithColor(context, segmentColor.CGColor);
     CGContextSetStrokeColorWithColor(context, segmentColor.CGColor);
     CGContextDrawPath(context, kCGPathFillStroke);
@@ -172,5 +193,38 @@ float basicColors[10][3]={
     
     return mask;
 }
+
+- (UIImage*) blendImage: (UIImage*)image0 withImage: (UIImage*)image1 {
+    CGSize size = CGSizeMake(self.radius*2, self.radius*2);
+    UIGraphicsBeginImageContext(size);
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    
+    // create rect that fills screen
+    CGRect bounds = CGRectMake( 0,0, self.radius*2, self.radius*2);
+    
+    // This is my bkgnd image
+    [image0 drawInRect:bounds];
+    //CGContextDrawImage(context, bounds, [image0 CGImage] );
+    
+    //CGContextSetBlendMode(context, kCGBlendModeSourceIn);
+    
+    // This is my image to blend in
+    //CGContextDrawImage(context, bounds, [image1 CGImage]);
+   // blendMode:kCGBlendModeNormal alpha:1.0
+    [image1 drawInRect:bounds blendMode:kCGBlendModeNormal alpha:1];
+    
+    UIImage *outputImage = UIGraphicsGetImageFromCurrentImageContext();
+    
+    UIGraphicsEndImageContext();
+    return outputImage;
+}
+
+
+                           
+
+
+
+
+
 
 @end

@@ -11,6 +11,7 @@
 
 
 
+
 @implementation RSSManager
 
 + (id)sharedManager {
@@ -24,19 +25,23 @@
 
 - (id)init {
     if (self = [super init]) {
-        
-
-
+    self.rssSources = @[@"http://feeds.feedburner.com/nytimes/gTKh",
+                        @"http://feeds.feedburner.com/washingtonpost/HBJr",
+                        @"http://feeds.feedburner.com/theguardian/bKzI"];
 
     }
     return self;
 }
 
-- (void)getHeadlineFrom: (int) source {
+- (void)getHeadlineFrom: (int) sourceNum {
     
+
+    sourceNum = sourceNum % [self.rssSources count];
+    NSLog(@"%d",sourceNum);
+
+    NSAssert(sourceNum <= [self.rssSources count],@"invalid rss source number");
     self.headlines = [[NSMutableArray alloc] init];
-    static NSString * const string = @"http://feeds.feedburner.com/nytimes/gTKh";
-    //static NSString* const string=@"http://images.apple.com/main/rss/hotnews/hotnews.rss";
+    NSString* string = [self.rssSources objectAtIndex:sourceNum];
     NSURL *url = [NSURL URLWithString:string];
     NSURLRequest *request = [NSURLRequest requestWithURL:url];
     

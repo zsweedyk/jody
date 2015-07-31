@@ -18,7 +18,7 @@
     NSMutableString *link;
     NSString *element;
 }
-
+@property (strong,nonatomic) NSArray* rssSources;
 @property (strong, nonatomic) NSString* headline;
 @property (weak,nonatomic) MainViewController* mainVC;
 @property (strong,nonatomic) NSMutableArray* headlines;
