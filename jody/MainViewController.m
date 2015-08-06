@@ -33,18 +33,25 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
     
+    
+    self.sourceChosen=-1;
+    
     self.navigationController.toolbarHidden=NO;
     self.navigationController.toolbar.backgroundColor = [UIColor blackColor];
-  
+    
+    // create rss manager
     self.rssManager = [RSSManager sharedManager];
     self.rssManager.mainVC = self;
     
+    // create background manager
     self.bgManager = [BackgroundGenerator sharedManager];
- 
     
     // create headlines view
     self.headlinesView = [[HeadlinesView alloc] initWithFrame:self.view.frame];
     [self.view addSubview:self.headlinesView];
+    
+    // determine font size
+    [self determineFontSize];
     
     // create frame for color wheel
     CGFloat diameter = MIN(self.view.frame.size.width, self.view.frame.size.height);
@@ -58,26 +65,24 @@
     self.background = [[UIImageView alloc] initWithFrame:colorWheelFrame];
     self.background.image = [self.bgManager createBackground];
     [self.view addSubview:self.background];
-
+    
     
     // create foreground of color wheel
-
     self.colorWheelView = [[ColorWheelView alloc] initWithFrame: colorWheelFrame];
     self.colorWheelView.backgroundColor=[UIColor colorWithRed:0 green:0 blue:0 alpha:0];
     [self.view addSubview:self.colorWheelView];
-
     
-    // add gesture recognizer
+    // add gesture recognizer for color wheel
     self.tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(spinColorWheel)];
     [self.colorWheelView addGestureRecognizer:self.tapRecognizer];
-
+    
     // set up animation parameters
     self.spinning=false;
     self.transition=false;
     
-   // set up color wheel button on navigation bar
+    // set up color wheel button on tool bar
     [self.colorWheelToolBarButton setImage:[[UIImage imageNamed:@"colorWheelSmall.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]];
-
+    
     // turn off nav bar
     [self.navigationController setNavigationBarHidden:YES];
 }
@@ -92,15 +97,9 @@
         self.timer = [NSTimer timerWithTimeInterval:1.0/60.0 target:self selector:@selector(update) userInfo:nil repeats:YES];
         [[NSRunLoop mainRunLoop] addTimer:self.timer forMode:NSDefaultRunLoopMode];
     }
+    
+}
 
-}
-- (IBAction)bringColorWheelIntoFocus:(id)sender
-{
-    [self.colorWheelView addGestureRecognizer:self.tapRecognizer];
-    self.colorWheelView.fade=NO;
-    [self.view bringSubviewToFront:self.colorWheelView];
-    [self.colorWheelView setNeedsDisplay];
-}
 
 - (void) update
 {
@@ -115,7 +114,7 @@
         self.colorWheelView.transform = CGAffineTransformMakeRotation(angle);
         [self.colorWheelView setNeedsDisplay];
         [self.background setNeedsDisplay];
-
+        
     }
     else if (self.transition) {
         [self.timer invalidate];
@@ -125,11 +124,10 @@
         [self.colorWheelView removeGestureRecognizer:self.tapRecognizer];
         [self.colorWheelView setNeedsDisplay];
         [self.view bringSubviewToFront:self.headlinesView];
-
+        
         
         self.sourceChosen = (int) (angle/(2*3.14159)*9 +.5);
         self.sourceChosen = self.sourceChosen % 9;
-        NSLog(@"source chosen: %d", self.sourceChosen);
         
         
         [self.rssManager getHeadlineFrom: self.sourceChosen];
@@ -139,8 +137,49 @@
 - (void)newHeadline:(NSString *)headline
 {
     
-    [self.headlinesView addHeadline: headline withColor: [self.colorWheelView.colors objectAtIndex:self.sourceChosen]];
+    int numHeadlinesAdded=[self.headlinesView addHeadline: headline withColor: [self.colorWheelView.colors objectAtIndex:self.sourceChosen] andFontSize:self.fontSize];
+    if (numHeadlinesAdded==0) {
+        [self.rssManager getHeadlineFrom: self.sourceChosen];
+        NSLog(@"Bad headline from source: %d",self.sourceChosen);
+        
+    }
     
+}
+
+- (void)determineFontSize {
+    // 72 pt font is about 1" max in height non-retina
+    // 96 pt font is good for full ipad, which is 1024x768 points
+    //
+    int mySize = MIN(self.view.frame.size.height,self.view.frame.size.width);
+    if (mySize>=700) {
+        self.fontSize = 96;
+    }
+    else if (mySize>=400){
+        self.fontSize = 72;
+    }
+    else {
+        self.fontSize=56;
+    }
+    
+}
+
+- (IBAction)reset:(id)sender {
+    [self.headlinesView reset];
+    [self bringColorWheelIntoFocus:self];
+    
+}
+
+- (IBAction)info:(id)sender {
+    [self performSegueWithIdentifier:@"info" sender:self];
+}
+
+
+- (IBAction)bringColorWheelIntoFocus:(id)sender
+{
+    [self.colorWheelView addGestureRecognizer:self.tapRecognizer];
+    self.colorWheelView.fade=NO;
+    [self.view bringSubviewToFront:self.colorWheelView];
+    [self.colorWheelView setNeedsDisplay];
 }
 
 - (void)didReceiveMemoryWarning {

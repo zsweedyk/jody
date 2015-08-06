@@ -39,9 +39,16 @@ int numSegments =9;
 - (id)init {
     self = [super init];
     if (self) {
-        self.sources = @[@"http://webmedia.newseum.org/newseum-multimedia/dfp/pdf31/NY_NYT.pdf",
-            @"http://webmedia.newseum.org/newseum-multimedia/dfp/pdf31/DC_WP.pdf",
-            @"http://webmedia.newseum.org/newseum-multimedia/dfp/pdf31/UK_TG.pdf" ];
+        self.sources =
+        @[@"http://webmedia.newseum.org/newseum-multimedia/dfp/pdf3/NY_NYT.pdf",
+            @"http://webmedia.newseum.org/newseum-multimedia/dfp/pdf3/DC_WP.pdf",
+            @"http://webmedia.newseum.org/newseum-multimedia/dfp/pdf3/UK_TG.pdf",
+            @"http://webmedia.newseum.org/newseum-multimedia/dfp/pdf3/CA_LAT.pdf",
+            @"http://webmedia.newseum.org/newseum-multimedia/dfp/pdf3/WSJ.pdf",
+            @"http://webmedia.newseum.org/newseum-multimedia/dfp/pdf3/NY_NYP.pdf",
+            @"http://webmedia.newseum.org/newseum-multimedia/dfp/pdf3/NY_DN.pdf",
+            @"http://webmedia.newseum.org/newseum-multimedia/dfp/pdf3/IND_AGE.pdf",
+            @"http://webmedia.newseum.org/newseum-multimedia/dfp/pdf3/UAE_TN.pdf"];
     }
     return self;
 }

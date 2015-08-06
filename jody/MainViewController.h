@@ -10,10 +10,15 @@
 
 @interface MainViewController : UIViewController
 
-@property IBOutlet UIBarButtonItem* colorWheelToolBarButton;
+@property (weak,nonatomic) IBOutlet UIBarButtonItem* resetButton;
+@property (weak,nonatomic) IBOutlet UIBarButtonItem* colorWheelToolBarButton;
+@property (weak,nonatomic) IBOutlet UIBarButtonItem* infoButton;
+@property int fontSize;
 
 - (void)spinColorWheel;
+- (IBAction)reset:(id)sender;
 - (IBAction)bringColorWheelIntoFocus:(id)sender;
+- (IBAction)info:(id)sender;
 - (void)newHeadline:(NSString*)headline;
 
 @end

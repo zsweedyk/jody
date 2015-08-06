@@ -13,6 +13,7 @@
 @property (strong,nonatomic) NSMutableArray* headlines;
 @property int chosenHeadline;
 
-- (void) addHeadline: (NSString*) headline withColor: (UIColor*) color;
+- (int) addHeadline: (NSString*) headline withColor: (UIColor*) color andFontSize: (int) fontSize;
+- (void) reset;
 
 @end

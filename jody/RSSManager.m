@@ -27,7 +27,13 @@
     if (self = [super init]) {
     self.rssSources = @[@"http://feeds.feedburner.com/nytimes/gTKh",
                         @"http://feeds.feedburner.com/washingtonpost/HBJr",
-                        @"http://feeds.feedburner.com/theguardian/bKzI"];
+                        @"http://feeds.feedburner.com/theguardian/bKzI",
+                        @"http://feeds.feedburner.com/latimes/Wxwm",
+                        @"http://feeds.feedburner.com/wsj/tGpR",
+                        @"http://feeds.feedburner.com/nypost/PnmM",
+                        @"http://feeds.feedburner.com/nydailynews/Fhuw",
+                        @"http://feeds.feedburner.com/asianage/Knmy",
+                        @"http://feeds.feedburner.com/thenational/uNww"];
 
     }
     return self;
@@ -114,7 +120,7 @@
 }
 - (void)parserDidEndDocument:(NSXMLParser *)parser {
     
-    //[self.mainVC newHeadline:title];
+
     int numHeadlines = [self.headlines count];
     int choice = arc4random()%numHeadlines;
     if (choice >= [self.headlines count]) {
