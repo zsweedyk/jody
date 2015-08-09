@@ -40,15 +40,15 @@ int numSegments =9;
     self = [super init];
     if (self) {
         self.sources =
-        @[@"http://webmedia.newseum.org/newseum-multimedia/dfp/pdf3/NY_NYT.pdf",
-            @"http://webmedia.newseum.org/newseum-multimedia/dfp/pdf3/DC_WP.pdf",
-            @"http://webmedia.newseum.org/newseum-multimedia/dfp/pdf3/UK_TG.pdf",
-            @"http://webmedia.newseum.org/newseum-multimedia/dfp/pdf3/CA_LAT.pdf",
-            @"http://webmedia.newseum.org/newseum-multimedia/dfp/pdf3/WSJ.pdf",
-            @"http://webmedia.newseum.org/newseum-multimedia/dfp/pdf3/NY_NYP.pdf",
-            @"http://webmedia.newseum.org/newseum-multimedia/dfp/pdf3/NY_DN.pdf",
-            @"http://webmedia.newseum.org/newseum-multimedia/dfp/pdf3/IND_AGE.pdf",
-            @"http://webmedia.newseum.org/newseum-multimedia/dfp/pdf3/UAE_TN.pdf"];
+        @[@"http://webmedia.newseum.org/newseum-multimedia/dfp/pdf9/NY_NYT.pdf",
+            @"http://webmedia.newseum.org/newseum-multimedia/dfp/pdf9/DC_WP.pdf",
+            @"http://webmedia.newseum.org/newseum-multimedia/dfp/pdf9/UK_TG.pdf",
+            @"http://webmedia.newseum.org/newseum-multimedia/dfp/pdf9/CA_LAT.pdf",
+            @"http://webmedia.newseum.org/newseum-multimedia/dfp/pdf9/WSJ.pdf",
+            @"http://webmedia.newseum.org/newseum-multimedia/dfp/pdf9/NY_NYP.pdf",
+            @"http://webmedia.newseum.org/newseum-multimedia/dfp/pdf9/NY_DN.pdf",
+            @"http://webmedia.newseum.org/newseum-multimedia/dfp/pdf9/IND_AGE.pdf",
+            @"http://webmedia.newseum.org/newseum-multimedia/dfp/pdf9/UAE_TN.pdf"];
     }
     return self;
 }
