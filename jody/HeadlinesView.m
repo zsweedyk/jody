@@ -23,6 +23,7 @@
 
 - (int)addHeadline:(NSString*) headline withColor:(UIColor*)color andFontSize: (int) fontSize
 {
+    NSLog(@"Adding headline: %@",headline);
     
     // check for bad characters -- if so, we assume it is not a headline
     NSCharacterSet *badCharacters=[NSCharacterSet characterSetWithCharactersInString:@"@#%&"];
