@@ -239,6 +239,11 @@
     }
     PositionManager* pManager = [PositionManager sharedManager];
     NSArray* positions = [pManager positionForWordsWithSizes: self.wordSizes inFrame: self.frame maxWordHeight: self.maxWordHeight andMinSpaceBetweenWords: self.minSpaceBetweenWords withRandomness:NO];
+   
+    [UIView beginAnimations:nil context:nil];
+    [UIView setAnimationDuration:1.0];
+    [UIView setAnimationDelay:0];
+    [UIView setAnimationCurve:UIViewAnimationCurveEaseOut];
     
     for (int i=0; i<[self.chain count]; i++) {
         UILabel* theWord = (UILabel*) self.chain[i];
@@ -246,6 +251,7 @@
         CGRect newFrame = CGRectMake(position.x, position.y, theWord.frame.size.width, theWord.frame.size.height);
         theWord.frame = newFrame;
     }
+    [UIView commitAnimations];
     
 }
 

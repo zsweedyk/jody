@@ -196,6 +196,7 @@
 
 - (IBAction)bringColorWheelIntoFocus:(id)sender
 {
+    [self.headlinesView endChain];
     [self.colorWheelView addGestureRecognizer:self.tapRecognizer];
     [self.colorWheelView fade:NO];
     [self.view bringSubviewToFront:self.colorWheelView];

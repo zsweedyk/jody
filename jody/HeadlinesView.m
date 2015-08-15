@@ -18,6 +18,7 @@
 @property CGFloat minSpaceBetweenWords;
 @property (strong,nonatomic) NSMutableArray* deleted;
 @property (weak,nonatomic) PositionManager* positionManager;
+@property (strong,nonatomic) UITapGestureRecognizer* myTapRecognizer;
 
 @end
 
@@ -162,6 +163,7 @@
     UILabel* label = (UILabel*)[sender view];
     [label removeFromSuperview];
     self.deleted[label.tag]=[NSNumber numberWithInt:1];
+
 }
 
 - (void) moveHeadline: (UIPanGestureRecognizer*)sender
@@ -211,16 +213,23 @@
     else if(sender.state == UIGestureRecognizerStateEnded)
     {
         [self.chainView animateEnd];
-        [NSTimer scheduledTimerWithTimeInterval:2 target:self selector:@selector(chainAnimationEnded) userInfo:nil repeats:NO];
+        if (!self.myTapRecognizer) {
+            self.myTapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(endChain)];
+        }
+
+        [self addGestureRecognizer:self.myTapRecognizer];
     }
 
 }
 
-- (void) chainAnimationEnded
+- (void) endChain
 {
-    [self.chainView removeFromSuperview];
-    self.chainView = nil;
-    [self.fade removeFromSuperview];
+    if (self.chainView) {
+        [self.chainView removeFromSuperview];
+        self.chainView = nil;
+        [self.fade removeFromSuperview];
+        [self removeGestureRecognizer:self.myTapRecognizer];
+    }
     
 }
 
