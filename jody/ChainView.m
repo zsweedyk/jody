@@ -21,6 +21,7 @@
 @property int newWordStartingPoint;
 @property CGPoint fingerPosition;
 @property (strong,nonatomic) PathView* pathView;
+@property bool initialized;
 
 @property (strong,nonatomic) UILabel* lastWordNotYetAdded;
 @property CGFloat distanceToLastWord;
@@ -44,6 +45,7 @@
         self.pathView = [[PathView alloc] initWithFrame:self.frame];
         self.pathView.backgroundColor = [UIColor clearColor];
         [self addSubview:self.pathView];
+        self.wordWaitingToAddToChain=nil;
                                         
     }
     return self;
@@ -60,6 +62,7 @@
     self.path[0]=[self NSArrayFromCGPoint:position];
     self.wordsToIgnore[i]=[NSNumber numberWithInt:1];
     [self addSubview:newWord];
+    self.initialized=NO;
 }
 
 - (UILabel*) createLabelForWord: (int) i centeredAt: (CGPoint) point
@@ -81,16 +84,29 @@
 - (void) moveFingerTo:(CGPoint)newPosition
 {
     static CGPoint lastPoint;
-    static bool initialized=NO;
-    if (!initialized) {
+    if (!self.initialized) {
         lastPoint = [(UILabel*)self.chain[0] center];
-        initialized=YES;
+        self.initialized=YES;
+
     }
+
     
     self.path[self.path.count] = [self NSArrayFromCGPoint:newPosition];
+    UILabel* lastWordInChain = (UILabel*)self.chain[[self.chain count]-1];
+    int lastWordStartingIndex = (int)[(NSNumber*) self.chainPtrToPath[[self.chain count]-1] integerValue];
     [self moveChain];
     
-    UILabel* lastWordInChain = (UILabel*)self.chain[[self.chain count]-1];
+    // erase path as needed
+    if (!self.wordWaitingToAddToChain) {
+        int lastWordCurrentIndex = (int)[(NSNumber*) self.chainPtrToPath[[self.chain count]-1] integerValue];
+        for (int i=lastWordStartingIndex; i<lastWordCurrentIndex; i++){
+            CGPoint startPoint = [self CGPointFromArray:(NSArray*)self.path[i]];
+            CGPoint endPoint = [self CGPointFromArray:(NSArray*)self.path[i+1]];
+            [self.pathView eraseLineFrom:startPoint To:endPoint];
+        }
+    }
+    
+
     if (self.wordWaitingToAddToChain) {
         CGPoint lastWordCenter = lastWordInChain.center;
         CGPoint newWordCenter = self.wordWaitingToAddToChain.center;
@@ -117,6 +133,9 @@
     }
 
     if ([self.chain count]>1 || self.wordWaitingToAddToChain) {
+        
+        CGFloat distance = sqrt(pow(lastPoint.x-newPosition.x,2)+pow(lastPoint.y-newPosition.y,2));
+
         [self.pathView drawLineFrom: lastPoint To: newPosition];
     }
     
@@ -133,15 +152,50 @@
 
 - (void) moveChain
 {
+    // move the first word
+    UILabel* theWord = (UILabel*)self.chain[0];
+    int pathIndex = (int)[self.chainPtrToPath[0] integerValue] + 1;
+    CGPoint nextPoint = [self CGPointFromArray:(NSArray*) self.path[pathIndex]];
+    [theWord setCenter: nextPoint];
+    self.chainPtrToPath[0]=[NSNumber numberWithInt:pathIndex];
+    UILabel* nextWord=theWord;
+    
 
-    for (int i=0; i<[self.chain count]; i++)
+    for (int i=1; i<[self.chain count]; i++)
     {
         UILabel* theWord = (UILabel*)self.chain[i];
-        int pointInPath = (int)[self.chainPtrToPath[i] integerValue] + 1;
-        CGPoint nextPoint = [self CGPointFromArray:(NSArray*) self.path[pointInPath]];
-        [theWord setCenter: nextPoint];
-        self.chainPtrToPath[i]=[NSNumber numberWithInt:pointInPath];
+        pathIndex = (int)[self.chainPtrToPath[i] integerValue]+1;
+        int startingIndex=pathIndex-1;
+        CGPoint moveToPoint = [self CGPointFromArray:(NSArray*) self.path[pathIndex]];
+        CGRect movedFrame = CGRectMake(moveToPoint.x, moveToPoint.y, theWord.frame.size.width, theWord.frame.size.height);
+        while ([self goodDistanceFrom: movedFrame To: nextWord.frame]){
+            pathIndex++;
+            moveToPoint = [self CGPointFromArray:(NSArray*) self.path[pathIndex]];
+            movedFrame.origin.x = moveToPoint.x;
+            movedFrame.origin.y = moveToPoint.y;
+        }
+        pathIndex--;
+        if (pathIndex == startingIndex) {
+            // we're stall stop movement
+            break;
+        }
+        else {
+            moveToPoint = [self CGPointFromArray:(NSArray*) self.path[pathIndex]];
+            [theWord setCenter: moveToPoint];
+            self.chainPtrToPath[i]=[NSNumber numberWithInt:pathIndex];
+            nextWord=theWord;
+        }
     }
+}
+
+- (bool) goodDistanceFrom: (CGRect) frame1 To:  (CGRect) frame2
+{
+    if (fabs(frame1.origin.y - frame2.origin.y) > MAX(frame1.size.height,frame2.size.height)*2)
+        return YES;
+    else if (fabs(frame1.origin.x - frame2.origin.x) > 1.5*(frame1.size.width + frame2.size.width)/2.0)
+            return YES;
+    return NO;
+    
 }
 
 - (UILabel*) checkCollisions

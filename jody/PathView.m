@@ -12,13 +12,14 @@
 
 - (void)drawLineFrom:(CGPoint)startPoint To:(CGPoint)endPoint
 {
+    
     UIGraphicsBeginImageContext(self.frame.size);
     [self.image drawInRect:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height)];
     CGContextMoveToPoint(UIGraphicsGetCurrentContext(), startPoint.x, startPoint.y);
     CGContextAddLineToPoint(UIGraphicsGetCurrentContext(), endPoint.x, endPoint.y);
     CGContextSetLineCap(UIGraphicsGetCurrentContext(), kCGLineCapRound);
-    CGContextSetLineWidth(UIGraphicsGetCurrentContext(), 2 );
-    CGContextSetRGBStrokeColor(UIGraphicsGetCurrentContext(), 0, 0, 1, 1.0);
+    CGContextSetLineWidth(UIGraphicsGetCurrentContext(), 1 );
+    CGContextSetRGBStrokeColor(UIGraphicsGetCurrentContext(), 0, 0, 0, 1.0);
     CGContextSetBlendMode(UIGraphicsGetCurrentContext(),kCGBlendModeNormal);
     
     CGContextStrokePath(UIGraphicsGetCurrentContext());

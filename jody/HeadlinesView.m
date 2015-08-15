@@ -297,12 +297,20 @@
 
 - (void) startChain: (UILongPressGestureRecognizer*)sender
 {
-    
+    static UIView* fade;
     if(sender.state == UIGestureRecognizerStateBegan)
     {
         if (self.chainView) {
             NSLog(@"Problem --- starting new chain when one exists");
         }
+        
+        // create "fade"
+        if (!fade) {
+            fade = [[UIView alloc] initWithFrame:self.frame];
+            fade.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:.4];
+        }
+        [self addSubview:fade];
+        [self bringSubviewToFront:fade];
   
         // create subview
         self.chainView = [[ChainView alloc] initWithFrame: self.frame andWords: self.words andDeletedFlags:self.deleted];
@@ -329,6 +337,7 @@
         NSMutableArray* chain = self.chainView.chain;
         [self.chainView removeFromSuperview];
         self.chainView = nil;
+        [fade removeFromSuperview];
     }
 }
 
