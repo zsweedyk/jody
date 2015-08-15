@@ -255,6 +255,18 @@
     
 }
 
+- (void) reset
+{
+    self.chainPtrToPath=nil;
+    self.path = nil;
+    self.wordsToIgnore=nil;
+    self.wordWaitingToAddToChain=nil;
+    self.pathView = nil;
+    self.wordSizes=nil;
+    self.chain=nil;
+    
+}
+
 - (CGPoint) CGPointFromArray: (NSArray*) array
 {
     return CGPointMake([(NSNumber*)array[0] floatValue], [(NSNumber*)array[1] floatValue]);

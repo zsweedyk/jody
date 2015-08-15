@@ -42,6 +42,11 @@
 
 - (int)addHeadline:(NSString*) headline withColor:(UIColor*)color
 {
+    // it doesn't disappear sometimes -- not sure why but this should take care of it
+    // until we can find the problem
+    if (self.chainView) {
+        [self endChain];
+    }
     
     NSLog(@"Adding headline: %@",headline);
     // find words
@@ -233,14 +238,17 @@
     
 }
 
-
-
 - (void)reset {
+    if (self.chainView) {
+        [self.chainView reset];
+    }
+    [self endChain];
     for (UIView *subview in self.subviews)
     {
         [subview removeFromSuperview];
     }
     self.headlines = [[NSMutableArray alloc] init];
+    self.words = [[NSMutableArray alloc] init];
 }
 
 @end

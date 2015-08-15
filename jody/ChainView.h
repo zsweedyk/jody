@@ -18,5 +18,6 @@
 - (void) addFirstWord: (int) i atLocation: (CGPoint) position;
 - (void) moveFingerTo: (CGPoint) location;
 - (void) animateEnd;
+- (void) reset;
 
 @end
