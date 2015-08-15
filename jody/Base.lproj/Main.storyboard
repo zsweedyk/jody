@@ -31,7 +31,7 @@
                         </constraints>
                     </view>
                     <toolbarItems>
-                        <barButtonItem title="Reset" id="biE-5q-OUH">
+                        <barButtonItem title="R" id="biE-5q-OUH">
                             <connections>
                                 <action selector="reset:" destination="BYZ-38-t0r" id="hu0-ST-dN0"/>
                             </connections>
@@ -44,7 +44,7 @@
                             </connections>
                         </barButtonItem>
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="HtE-mV-xPX"/>
-                        <barButtonItem title="Info" id="Cl2-eK-oNu">
+                        <barButtonItem title="I" id="Cl2-eK-oNu">
                             <connections>
                                 <action selector="info:" destination="BYZ-38-t0r" id="PSW-go-AEg"/>
                             </connections>
@@ -146,27 +146,21 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DuY-iL-z1d">
-                                <rect key="frame" x="99" y="219" width="314" height="63"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DuY-iL-z1d">
+                                <rect key="frame" x="300" y="300" width="0.0" height="0.0"/>
                                 <attributedString key="attributedText"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" ambiguous="YES" misplaced="YES" hidesWhenStopped="YES" animating="YES" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="fLR-3s-2Fu">
-                                <rect key="frame" x="216" y="372" width="20" height="20"/>
-                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
-                                <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <color key="color" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstAttribute="centerX" secondItem="fLR-3s-2Fu" secondAttribute="centerX" id="GIA-Ng-kW9"/>
+                            <constraint firstAttribute="centerY" secondItem="DuY-iL-z1d" secondAttribute="centerY" id="K4g-Rz-o5o"/>
+                            <constraint firstAttribute="centerX" secondItem="DuY-iL-z1d" secondAttribute="centerX" id="Zym-oe-bHQ"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="3mD-ut-oHS"/>
                     <nil key="simulatedTopBarMetrics"/>
                     <connections>
-                        <outlet property="activityIndicator" destination="fLR-3s-2Fu" id="7O8-xh-mKR"/>
                         <outlet property="titleLabel" destination="DuY-iL-z1d" id="Jle-KP-24d"/>
                         <segue destination="BYZ-38-t0r" kind="show" identifier="colorWheel" id="hol-aO-FJb"/>
                     </connections>

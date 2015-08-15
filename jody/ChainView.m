@@ -7,7 +7,7 @@
 //
 
 
-
+#import "PositionManager.h"
 #import "PathView.h"
 #import "ChainView.h"
 @interface ChainView()
@@ -22,8 +22,9 @@
 @property CGPoint fingerPosition;
 @property (strong,nonatomic) PathView* pathView;
 @property bool initialized;
-
-@property (strong,nonatomic) UILabel* lastWordNotYetAdded;
+@property (strong,nonatomic) NSMutableArray* wordSizes;
+@property CGFloat maxWordHeight;
+@property CGFloat minSpaceBetweenWords;
 @property CGFloat distanceToLastWord;
 
 @end
@@ -35,6 +36,7 @@
     self = [super initWithFrame:frame];
     if (self) {
         self.words = words;
+        self.wordSizes = [[NSMutableArray alloc] init];
         self.chain = [[NSMutableArray alloc] init];
         self.path = [[NSMutableArray alloc] init];
         self.wordsToIgnore = [[NSMutableArray alloc] initWithCapacity:[self.words count]];
@@ -46,7 +48,8 @@
         self.pathView.backgroundColor = [UIColor clearColor];
         [self addSubview:self.pathView];
         self.wordWaitingToAddToChain=nil;
-                                        
+        self.maxWordHeight = -1;
+        self.minSpaceBetweenWords=-1; 
     }
     return self;
 }
@@ -58,11 +61,17 @@
     self.fingerPosition = position;
     UILabel* newWord = [self createLabelForWord:(int)firstWord.tag centeredAt: position];
     self.chain[0] = newWord;
+    self.wordSizes[0]=[self NSArrayFromCGSize:newWord.frame.size];
     self.chainPtrToPath[0]=[NSNumber numberWithInt:0];
     self.path[0]=[self NSArrayFromCGPoint:position];
     self.wordsToIgnore[i]=[NSNumber numberWithInt:1];
     [self addSubview:newWord];
     self.initialized=NO;
+    
+    NSDictionary *attributes = @{NSFontAttributeName: [UIFont fontWithName:@"TimesNewRomanPSMT" size:self.fontSize]};
+    NSString* space = @"  ";
+    CGSize frameSize = [space sizeWithAttributes:attributes];
+    self.minSpaceBetweenWords=frameSize.width;
 }
 
 - (UILabel*) createLabelForWord: (int) i centeredAt: (CGPoint) point
@@ -73,11 +82,14 @@
     CGRect frame = CGRectMake(point.x-frameSize.width/2.0, point.y-frameSize.height/2.0, frameSize.width, frameSize.height);
     UILabel* chainWord = [[UILabel alloc] initWithFrame:frame];
     chainWord.font = [UIFont fontWithName:@"TimesNewRomanPSMT" size:self.fontSize];
-    chainWord.textAlignment = UITextAlignmentCenter;
+    chainWord.textAlignment = NSTextAlignmentCenter;
     chainWord.textColor = [UIColor blackColor];
     chainWord.backgroundColor = word.textColor;
     chainWord.text = word.text;
     chainWord.tag = word.tag;
+    if (frame.size.height>self.maxWordHeight) {
+        self.maxWordHeight=frame.size.height;
+    }
     return chainWord;
 }
 
@@ -90,7 +102,6 @@
 
     }
 
-    
     self.path[self.path.count] = [self NSArrayFromCGPoint:newPosition];
     UILabel* lastWordInChain = (UILabel*)self.chain[[self.chain count]-1];
     int lastWordStartingIndex = (int)[(NSNumber*) self.chainPtrToPath[[self.chain count]-1] integerValue];
@@ -106,7 +117,7 @@
         }
     }
     
-
+    // check if waiting word can be added
     if (self.wordWaitingToAddToChain) {
         CGPoint lastWordCenter = lastWordInChain.center;
         CGPoint newWordCenter = self.wordWaitingToAddToChain.center;
@@ -115,11 +126,14 @@
         if (distance>requiredDistance) {
             self.chainPtrToPath[[self.chain count]] = [NSNumber numberWithInt:self.newWordStartingPoint];
             self.chain[[self.chain count]]= self.wordWaitingToAddToChain;
+            self.wordSizes[[self.wordSizes count]] = [self NSArrayFromCGSize:self.wordWaitingToAddToChain.frame.size];
             self.wordsToIgnore[self.wordWaitingToAddToChain.tag]=[NSNumber numberWithInt:1];
             self.wordWaitingToAddToChain=nil;
         }
         
     }
+    
+    // check for collision of last word in chain with word not in chain
     else {
         UILabel* collideWithWord = [self checkCollisions];
         if (collideWithWord) {
@@ -134,8 +148,6 @@
 
     if ([self.chain count]>1 || self.wordWaitingToAddToChain) {
         
-        CGFloat distance = sqrt(pow(lastPoint.x-newPosition.x,2)+pow(lastPoint.y-newPosition.y,2));
-
         [self.pathView drawLineFrom: lastPoint To: newPosition];
     }
     
@@ -212,26 +224,28 @@
 }
 
 
-
-- (void) addNewWordFor: (UILabel*)addWord withFontSize: (int) fontSize
-{
+- (void)animateEnd {
     
-    UILabel* lastWord = (UILabel*) self.chain[[self.chain count]-1];
-    CGRect intersection = CGRectIntersection(addWord.frame, lastWord.frame);
-    CGPoint center = CGPointMake(intersection.origin.x + intersection.size.width/2.0, intersection.origin.y+intersection.size.height/2.0);
+    if (self.pathView) {
+        [self.pathView removeFromSuperview];
+        self.pathView=nil;
+    }
+    if (self.wordWaitingToAddToChain) {
+        self.chainPtrToPath[[self.chain count]] = [NSNumber numberWithInt:self.newWordStartingPoint];
+        self.chain[[self.chain count]]= self.wordWaitingToAddToChain;
+        self.wordSizes[[self.wordSizes count]] = [self NSArrayFromCGSize:self.wordWaitingToAddToChain.frame.size];
+        self.wordsToIgnore[self.wordWaitingToAddToChain.tag]=[NSNumber numberWithInt:1];
+        self.wordWaitingToAddToChain=nil;
+    }
+    PositionManager* pManager = [PositionManager sharedManager];
+    NSArray* positions = [pManager positionForWordsWithSizes: self.wordSizes inFrame: self.frame maxWordHeight: self.maxWordHeight andMinSpaceBetweenWords: self.minSpaceBetweenWords withRandomness:NO];
     
-    NSDictionary *attributes = @{NSFontAttributeName: [UIFont fontWithName:@"TimesNewRomanPSMT" size:fontSize]};
-    CGSize size = [addWord.text sizeWithAttributes:attributes];
-    CGRect frame = CGRectMake(center.x-size.width/2.0, center.y-size.height/2.0, size.width, size.height);
-    UILabel* newWord = [[UILabel alloc] initWithFrame:frame];
-    newWord.font = [UIFont fontWithName:@"TimesNewRomanPSMT" size:fontSize];
-    newWord.textAlignment = UITextAlignmentCenter;
-    newWord.textColor = [UIColor blackColor];
-    newWord.backgroundColor = addWord.textColor;
-    newWord.text = addWord.text;
-    [self addSubview:newWord];
-    self.lastWordNotYetAdded=newWord;
-
+    for (int i=0; i<[self.chain count]; i++) {
+        UILabel* theWord = (UILabel*) self.chain[i];
+        CGPoint position = [self CGPointFromArray:(NSArray*)positions[i]];
+        CGRect newFrame = CGRectMake(position.x, position.y, theWord.frame.size.width, theWord.frame.size.height);
+        theWord.frame = newFrame;
+    }
     
 }
 
@@ -242,6 +256,16 @@
 - (NSArray*) NSArrayFromCGPoint: (CGPoint) point
 {
     return @[[NSNumber numberWithFloat:point.x],[NSNumber numberWithFloat:point.y]];
+}
+
+- (CGSize) CGSizeFromArray: (NSArray*) array
+{
+    return CGSizeMake([(NSNumber*)array[0] floatValue], [(NSNumber*)array[1] floatValue]);
+}
+
+- (NSArray*) NSArrayFromCGSize: (CGSize) size
+{
+    return @[[NSNumber numberWithFloat:size.width],[NSNumber numberWithFloat:size.height]];
 }
 
 /*

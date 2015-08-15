@@ -26,21 +26,41 @@
         NSLog(@"Problem.");
     }
     
+    //TODO: change font size depending on device
+    
     [[UIApplication sharedApplication] setStatusBarHidden:YES
                                             withAnimation:UIStatusBarAnimationFade];
     
      self.navigationController.navigationBarHidden=YES;
     
-    NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc]  initWithString:@"News Wheel"];
-    [attributedString addAttribute:NSBackgroundColorAttributeName value:[UIColor blackColor] range:NSMakeRange(0,10)];
-    [attributedString addAttribute:NSForegroundColorAttributeName value:[UIColor redColor] range:NSMakeRange(0,1)];
-    [attributedString addAttribute:NSForegroundColorAttributeName value:[UIColor blueColor] range:NSMakeRange(1,1)];
-    [attributedString addAttribute:NSForegroundColorAttributeName value:[UIColor greenColor] range:NSMakeRange(2,3)];
-    [attributedString addAttribute:NSForegroundColorAttributeName value:[UIColor orangeColor] range:NSMakeRange(3,4)];
-    [attributedString addAttribute:NSForegroundColorAttributeName value:[UIColor yellowColor] range:NSMakeRange(4,5)];
-    //[attributedString addAttribute:NSForegroundColorAttributeName value:[UIColor purpleColor] range:NSMakeRange(6,7)];
+    NSMutableAttributedString *attributedString1 = [[NSMutableAttributedString alloc]  initWithString:@"News "];
+    [attributedString1 addAttribute:NSBackgroundColorAttributeName value:[UIColor blackColor] range:NSMakeRange(0,5)];
+    [attributedString1 addAttribute:NSFontAttributeName value:[UIFont fontWithName:@"TimesNewRomanPSMT" size:48] range:NSMakeRange(0,5)];
+    [attributedString1 addAttribute:NSForegroundColorAttributeName value:[UIColor redColor] range:NSMakeRange(0,1)];
+    [attributedString1 addAttribute:NSForegroundColorAttributeName value:[UIColor blueColor] range:NSMakeRange(1,2)];
+    [attributedString1 addAttribute:NSForegroundColorAttributeName value:[UIColor greenColor] range:NSMakeRange(2,3)];
+    
+    NSMutableAttributedString *attributedString2 = [[NSMutableAttributedString alloc] initWithString:@"Wheel  " ];
+    [attributedString2 addAttribute:NSBackgroundColorAttributeName value:[UIColor blackColor] range:NSMakeRange(0,6)];
+    [attributedString2 addAttribute:NSFontAttributeName value:[UIFont fontWithName:@"TimesNewRomanPSMT" size:48] range:NSMakeRange(0,6)];
+    [attributedString2 addAttribute:NSForegroundColorAttributeName value:[UIColor orangeColor] range:NSMakeRange(0,1)];
+    [attributedString2 addAttribute:NSForegroundColorAttributeName value:[UIColor yellowColor] range:NSMakeRange(1,2)];
+    [attributedString2 addAttribute:NSForegroundColorAttributeName value:[UIColor purpleColor] range:NSMakeRange(2,3)];
+    [attributedString2 addAttribute:NSForegroundColorAttributeName value:[UIColor redColor] range:NSMakeRange(3,4)];
+  
 
-    self.titleLabel.attributedText = attributedString;
+
+    [attributedString1 appendAttributedString:attributedString2];
+    self.titleLabel.attributedText = attributedString1;
+    
+    NSDictionary *attributes = @{NSFontAttributeName: [UIFont fontWithName:@"TimesNewRomanPSMT" size:48]};
+    CGSize labelSize = [@"News Wheel  " sizeWithAttributes:attributes];
+    CGFloat x = (self.view.frame.size.width - labelSize.width)/2.0;
+    CGFloat y = (self.view.frame.size.height - labelSize.height)/2.0;
+    CGRect frame = CGRectMake(x, y, labelSize.width, labelSize.height);
+    NSLog(@"old frame Width %f",self.titleLabel.frame.size.width);
+    self.titleLabel.frame = frame;
+    
     
     self.sourceManager = [SourceManager sharedManager];
     self.sourceManager.delegate = self;
@@ -50,12 +70,12 @@
 
 - (void)viewDidAppear:(BOOL)animated
 {
-    [self.activityIndicator startAnimating];
+
     if (!self.sourceManager.sourcesUpToDate) {
         [self.sourceManager getSources];
     }
     else {
-        [self performSegueWithIdentifier:@"colorWheel" sender:self];
+        [NSTimer scheduledTimerWithTimeInterval:2 target:self selector:@selector(frontPagesCreated) userInfo:nil repeats:NO];
     }
 
 }

@@ -17,5 +17,6 @@
 - (id) initWithFrame: (CGRect) frame andWords: (NSMutableArray*) words andDeletedFlags:(NSMutableArray*) deleted;
 - (void) addFirstWord: (int) i atLocation: (CGPoint) position;
 - (void) moveFingerTo: (CGPoint) location;
+- (void) animateEnd;
 
 @end
