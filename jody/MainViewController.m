@@ -6,6 +6,8 @@
 //  Copyright (c) 2015 Z Sweedyk. All rights reserved.
 //
 
+
+#import "SourceManager.h"
 #import "MainViewController.h"
 #import "HeadlinesView.h"
 #import "ColorWheelView.h"
@@ -14,6 +16,7 @@
 
 @interface MainViewController ()
 
+@property (strong,nonatomic) SourceManager* sourceManager;
 @property (strong,nonatomic) HeadlinesView* headlinesView;
 @property (strong,nonatomic) ColorWheelView* colorWheelView;
 @property (strong,nonatomic) NSTimer* timer;
@@ -21,6 +24,8 @@
 @property (weak,nonatomic) RSSManager* rssManager;
 @property (weak,nonatomic) BackgroundGenerator* bgManager;
 @property (strong,nonatomic) UIImageView* background;
+@property (strong,nonatomic) UIImage* backgroundImage;
+@property (strong,nonatomic) UIImage* fadedBackgroundImage;
 @property int sourceChosen;
 @property BOOL spinning;
 @property BOOL transition;
@@ -33,43 +38,52 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
     
-    
     self.sourceChosen=-1;
     
     self.navigationController.toolbarHidden=NO;
     self.navigationController.toolbar.backgroundColor = [UIColor blackColor];
     
+    // create source manager
+    self.sourceManager = [SourceManager sharedManager];
+
+    // create headlines view
+    self.headlinesView = [[HeadlinesView alloc] initWithFrame:self.view.frame];
+    [self.view addSubview:self.headlinesView];
+    self.headlinesView.fontSize = [self determineFontSize];
+    self.headlinesView.smallFontSize = [self determineSmallFontSize];
+
+    
+    // set up color wheel button on tool bar
+    [self.colorWheelToolBarButton setImage:[[UIImage imageNamed:@"colorWheelSmall.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]];
+    
+    // turn off nav bar
+    [self.navigationController setNavigationBarHidden:YES];
+    
     // create rss manager
     self.rssManager = [RSSManager sharedManager];
     self.rssManager.mainVC = self;
     
-    // create background manager
-    self.bgManager = [BackgroundGenerator sharedManager];
-    
-    // create headlines view
-    self.headlinesView = [[HeadlinesView alloc] initWithFrame:self.view.frame];
-    [self.view addSubview:self.headlinesView];
-    
-    // determine font size
-    [self determineFontSize];
     
     // create frame for color wheel
-    CGFloat diameter = MIN(self.view.frame.size.width, self.view.frame.size.height);
-    CGFloat colorWheelFrameSize = diameter*.75;
+    CGFloat myDiameter = MIN(self.view.frame.size.width, self.view.frame.size.height);
+    CGFloat colorWheelFrameSize = floor(myDiameter*.75);
+    // we get artifacts if the frame isn't an even integers
+    if ((colorWheelFrameSize/2)*2 != colorWheelFrameSize) {
+        colorWheelFrameSize +=-1;
+    }
+    
     CGFloat leftX= (self.view.frame.size.width - colorWheelFrameSize)/2.0;
     CGFloat topY = (self.view.frame.size.height-colorWheelFrameSize)/2.0;
     CGRect colorWheelFrame = CGRectMake(leftX, topY, colorWheelFrameSize, colorWheelFrameSize);
+
     
-    // create background of color wheel
-    self.bgManager.radius = diameter/2.0;
-    self.background = [[UIImageView alloc] initWithFrame:colorWheelFrame];
-    self.background.image = [self.bgManager createBackground];
-    [self.view addSubview:self.background];
-    
-    
-    // create foreground of color wheel
-    self.colorWheelView = [[ColorWheelView alloc] initWithFrame: colorWheelFrame];
-    self.colorWheelView.backgroundColor=[UIColor colorWithRed:0 green:0 blue:0 alpha:0];
+    // create background
+    self.bgManager = [BackgroundGenerator sharedManager];
+    self.bgManager.diameter = colorWheelFrameSize;
+    self.backgroundImage = [self.bgManager createBackground];
+    self.fadedBackgroundImage = [self.bgManager createFadedBackgroundFromBackground:self.backgroundImage];
+
+    self.colorWheelView = [[ColorWheelView alloc] initWithFrame: colorWheelFrame withBackgroundImage: self.backgroundImage andFadedBackgroundImage:self.fadedBackgroundImage];
     [self.view addSubview:self.colorWheelView];
     
     // add gesture recognizer for color wheel
@@ -80,11 +94,6 @@
     self.spinning=false;
     self.transition=false;
     
-    // set up color wheel button on tool bar
-    [self.colorWheelToolBarButton setImage:[[UIImage imageNamed:@"colorWheelSmall.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]];
-    
-    // turn off nav bar
-    [self.navigationController setNavigationBarHidden:YES];
 }
 
 - (void)spinColorWheel
@@ -97,9 +106,7 @@
         self.timer = [NSTimer timerWithTimeInterval:1.0/60.0 target:self selector:@selector(update) userInfo:nil repeats:YES];
         [[NSRunLoop mainRunLoop] addTimer:self.timer forMode:NSDefaultRunLoopMode];
     }
-    
 }
-
 
 - (void) update
 {
@@ -109,25 +116,23 @@
         if (angle > 2*3.14159) {
             angle -= 2*3.14159;
         }
-        self.colorWheelView.fade=NO;
-        self.background.transform = CGAffineTransformMakeRotation(angle);
         self.colorWheelView.transform = CGAffineTransformMakeRotation(angle);
         [self.colorWheelView setNeedsDisplay];
-        [self.background setNeedsDisplay];
-        
     }
     else if (self.transition) {
         [self.timer invalidate];
         self.spinning = false;
         self.transition = false;
-        self.colorWheelView.fade=YES;
+        [self.colorWheelView fade:YES];
         [self.colorWheelView removeGestureRecognizer:self.tapRecognizer];
         [self.colorWheelView setNeedsDisplay];
         [self.view bringSubviewToFront:self.headlinesView];
         
-        
-        self.sourceChosen = (int) (angle/(2*3.14159)*9 +.5);
-        self.sourceChosen = self.sourceChosen % 9;
+        // we want the source that is at the top of the wheel so we add pi/2 to angle
+  
+        int newAngle = (int) ((angle+3.14159/2.0)/(2*3.14159)*9  );
+        //NSLog(@"Original angle: %f and fixed: %d",angle*180/3.14159,newAngle);
+        self.sourceChosen = newAngle % 9;
         
         
         [self.rssManager getHeadlineFrom: self.sourceChosen];
@@ -137,30 +142,45 @@
 - (void)newHeadline:(NSString *)headline
 {
     
-    int numHeadlinesAdded=[self.headlinesView addHeadline: headline withColor: [self.colorWheelView.colors objectAtIndex:self.sourceChosen] andFontSize:self.fontSize];
+    int numHeadlinesAdded=[self.headlinesView addHeadline: headline withColor: [self.sourceManager colorForSource: self.sourceChosen]];
     if (numHeadlinesAdded==0) {
         [self.rssManager getHeadlineFrom: self.sourceChosen];
         NSLog(@"Bad headline from source: %d",self.sourceChosen);
         
     }
-    
 }
 
-- (void)determineFontSize {
+- (int)determineFontSize {
     // 72 pt font is about 1" max in height non-retina
     // 96 pt font is good for full ipad, which is 1024x768 points
     //
+    int fontSize;
     int mySize = MIN(self.view.frame.size.height,self.view.frame.size.width);
     if (mySize>=700) {
-        self.fontSize = 96;
+        fontSize = 96;
     }
     else if (mySize>=400){
-        self.fontSize = 72;
+        fontSize = 72;
     }
     else {
-        self.fontSize=56;
+        fontSize=56;
     }
-    
+    return fontSize;
+}
+
+- (int)determineSmallFontSize {
+    int fontSize = [self determineFontSize];
+    int smallFontSize;
+    if (fontSize==96) {
+        smallFontSize = 36;
+    }
+    else if (fontSize==72) {
+        smallFontSize = 28;
+    }
+    else {
+        smallFontSize = 20;
+    }
+    return smallFontSize;
 }
 
 - (IBAction)reset:(id)sender {
@@ -177,14 +197,16 @@
 - (IBAction)bringColorWheelIntoFocus:(id)sender
 {
     [self.colorWheelView addGestureRecognizer:self.tapRecognizer];
-    self.colorWheelView.fade=NO;
+    [self.colorWheelView fade:NO];
     [self.view bringSubviewToFront:self.colorWheelView];
     [self.colorWheelView setNeedsDisplay];
 }
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
 
 @end

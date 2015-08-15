@@ -6,6 +6,7 @@
 //  Copyright (c) 2015 Z Sweedyk. All rights reserved.
 //
 
+
 #import <UIKit/UIKit.h>
 
 @interface MainViewController : UIViewController
@@ -13,7 +14,7 @@
 @property (weak,nonatomic) IBOutlet UIBarButtonItem* resetButton;
 @property (weak,nonatomic) IBOutlet UIBarButtonItem* colorWheelToolBarButton;
 @property (weak,nonatomic) IBOutlet UIBarButtonItem* infoButton;
-@property int fontSize;
+
 
 - (void)spinColorWheel;
 - (IBAction)reset:(id)sender;

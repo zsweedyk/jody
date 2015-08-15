@@ -6,15 +6,17 @@
 //  Copyright (c) 2015 Z Sweedyk. All rights reserved.
 //
 
+#import "frontPage.h"
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
 @interface BackgroundGenerator : NSObject
 
-@property(strong,nonatomic) NSArray* sources;
-@property CGFloat radius;
+
+@property CGFloat diameter;
 
 + (id)sharedManager;
 - (UIImage*)createBackground;
+- (UIImage*) createFadedBackgroundFromBackground: (UIImage*)background;
 
 @end

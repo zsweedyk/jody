@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>33BB6D2B-ABD5-46BD-9C47-EF7C8BF516F4</string>
+	<key>IDESourceControlProjectName</key>
+	<string>jody</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>30AFC303CAD614EDD14F6C37CEACCE5F8EE4455A</key>
+		<string>https://github.com/zsweedyk/jody.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>jody.xcodeproj</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>30AFC303CAD614EDD14F6C37CEACCE5F8EE4455A</key>
+		<string>../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/zsweedyk/jody.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>30AFC303CAD614EDD14F6C37CEACCE5F8EE4455A</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>30AFC303CAD614EDD14F6C37CEACCE5F8EE4455A</string>
+			<key>IDESourceControlWCCName</key>
+			<string>jody</string>
+		</dict>
+	</array>
+</dict>
+</plist>

@@ -6,9 +6,10 @@
 //  Copyright (c) 2015 Z Sweedyk. All rights reserved.
 //
 
+
 #import <UIKit/UIKit.h>
 
-@interface StartViewController : UIViewController
+@interface StartViewController : UIViewController <SourceDelegate>
 
 @property (weak,nonatomic) IBOutlet UILabel* titleLabel;
 @property (weak,nonatomic) IBOutlet UIActivityIndicatorView* activityIndicator;

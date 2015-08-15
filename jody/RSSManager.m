@@ -6,10 +6,16 @@
 //  Copyright (c) 2015 Z Sweedyk. All rights reserved.
 //
 
+#import "SourceManager.h"
 #import "RSSManager.h"
 #import "AFNetworking.h"
 
 
+@interface RSSManager()
+
+@property (weak,nonatomic) SourceManager* sourceManager;
+
+@end
 
 
 @implementation RSSManager
@@ -20,34 +26,21 @@
     dispatch_once(&onceToken, ^{
         sharedMyManager = [[self alloc] init];
     });
+
     return sharedMyManager;
 }
 
-- (id)init {
-    if (self = [super init]) {
-    self.rssSources = @[@"http://feeds.feedburner.com/nytimes/gTKh",
-                        @"http://feeds.feedburner.com/washingtonpost/HBJr",
-                        @"http://feeds.feedburner.com/theguardian/bKzI",
-                        @"http://feeds.feedburner.com/latimes/Wxwm",
-                        @"http://feeds.feedburner.com/wsj/tGpR",
-                        @"http://feeds.feedburner.com/nypost/PnmM",
-                        @"http://feeds.feedburner.com/nydailynews/Fhuw",
-                        @"http://feeds.feedburner.com/asianage/Knmy",
-                        @"http://feeds.feedburner.com/thenational/uNww"];
 
-    }
-    return self;
-}
 
 - (void)getHeadlineFrom: (int) sourceNum {
     
-
-    sourceNum = sourceNum % [self.rssSources count];
-    NSLog(@"%d",sourceNum);
-
-    NSAssert(sourceNum <= [self.rssSources count],@"invalid rss source number");
+    if (!self.sourceManager) {
+        self.sourceManager = [SourceManager sharedManager];
+    }
+    
     self.headlines = [[NSMutableArray alloc] init];
-    NSString* string = [self.rssSources objectAtIndex:sourceNum];
+    NSString* string = [self.sourceManager rssFeedForSource:sourceNum];
+    NSAssert(string,@"Headline requested from bad source.");
     NSURL *url = [NSURL URLWithString:string];
     NSURLRequest *request = [NSURLRequest requestWithURL:url];
     
@@ -77,7 +70,6 @@
     }];
     
     [operation start];
-    
 }
 
 - (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict {
@@ -89,10 +81,7 @@
         item    = [[NSMutableDictionary alloc] init];
         title   = [[NSMutableString alloc] init];
         link    = [[NSMutableString alloc] init];
-        
-        
     }
-    
 }
 
 - (void)parser:(NSXMLParser *)parser foundCharacters:(NSString *)string {
@@ -121,7 +110,7 @@
 - (void)parserDidEndDocument:(NSXMLParser *)parser {
     
 
-    int numHeadlines = [self.headlines count];
+    int numHeadlines = (int)[self.headlines count];
     int choice = arc4random()%numHeadlines;
     if (choice >= [self.headlines count]) {
         NSLog(@"Bad choice of headline.");

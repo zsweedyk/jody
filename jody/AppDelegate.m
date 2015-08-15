@@ -7,6 +7,8 @@
 //
 
 #import "AppDelegate.h"
+#import <Parse/Parse.h>
+#import "NWSource.h"
 
 @interface AppDelegate ()
 
@@ -17,8 +19,13 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+
+    
+    [NWSource registerSubclass];
+    [Parse setApplicationId:@"yGmCLSLRXZqoKUWCdhNFFhDP8zl7id3pLoEhJsMq" clientKey:@"xcqd94lznxBYVj22fAMksq4rozoiopGHDQGVXyWS"];
     return YES;
 }
+
 
 - (void)applicationWillResignActive:(UIApplication *)application {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
