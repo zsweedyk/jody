@@ -32,7 +32,7 @@
 - (UIImage*) createFadedBackgroundFromBackground: (UIImage*)background
 {
 
-    UIImage* faded =[self blendImage:background withColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:0]];
+    UIImage* faded =[self blendImage:background withColor:[UIColor colorWithRed:1 green:1 blue:1 alpha:0]];
     return faded;
 }
 

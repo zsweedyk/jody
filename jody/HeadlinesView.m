@@ -30,7 +30,7 @@
     self = [super initWithFrame:frame];
     if (self) {
         self.headlines = [[NSMutableArray alloc] init];
-        self.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0];
+        self.backgroundColor = [UIColor colorWithRed:1 green:1 blue:1 alpha:0];
         self.fontSize = 52; // these will be set by mainVC -- but just in case we set defaults
         self.smallFontSize = 20;
         self.words = [[NSMutableArray alloc] init];
@@ -190,7 +190,7 @@
         // create "fade"
         if (!self.fade) {
             self.fade = [[UIView alloc] initWithFrame:self.frame];
-            self.fade.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:.4];
+            self.fade.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:.65];
         }
         [self addSubview:self.fade];
         [self bringSubviewToFront:self.fade];

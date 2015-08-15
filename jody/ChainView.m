@@ -8,7 +8,7 @@
 
 
 #import "PositionManager.h"
-#import "PathView.h"
+//#import "PathView.h"
 #import "ChainView.h"
 @interface ChainView()
 
@@ -20,7 +20,7 @@
 @property (strong,nonatomic) UILabel* wordWaitingToAddToChain;
 @property int newWordStartingPoint;
 @property CGPoint fingerPosition;
-@property (strong,nonatomic) PathView* pathView;
+//@property (strong,nonatomic) PathView* pathView;
 @property bool initialized;
 @property (strong,nonatomic) NSMutableArray* wordSizes;
 @property CGFloat maxWordHeight;
@@ -44,9 +44,9 @@
             self.wordsToIgnore[i]=deleted[i];
         }
         self.chainPtrToPath = [[NSMutableArray alloc] init];
-        self.pathView = [[PathView alloc] initWithFrame:self.frame];
-        self.pathView.backgroundColor = [UIColor clearColor];
-        [self addSubview:self.pathView];
+        //self.pathView = [[PathView alloc] initWithFrame:self.frame];
+        //self.pathView.backgroundColor = [UIColor clearColor];
+        //[self addSubview:self.pathView];
         self.wordWaitingToAddToChain=nil;
         self.maxWordHeight = -1;
         self.minSpaceBetweenWords=-1; 
@@ -83,8 +83,8 @@
     UILabel* chainWord = [[UILabel alloc] initWithFrame:frame];
     chainWord.font = [UIFont fontWithName:@"TimesNewRomanPSMT" size:self.fontSize];
     chainWord.textAlignment = NSTextAlignmentCenter;
-    chainWord.textColor = [UIColor blackColor];
-    chainWord.backgroundColor = word.textColor;
+    chainWord.textColor = word.textColor;
+    chainWord.backgroundColor = [UIColor clearColor];
     chainWord.text = word.text;
     chainWord.tag = word.tag;
     if (frame.size.height>self.maxWordHeight) {
@@ -113,7 +113,7 @@
         for (int i=lastWordStartingIndex; i<lastWordCurrentIndex; i++){
             CGPoint startPoint = [self CGPointFromArray:(NSArray*)self.path[i]];
             CGPoint endPoint = [self CGPointFromArray:(NSArray*)self.path[i+1]];
-            [self.pathView eraseLineFrom:startPoint To:endPoint];
+            //[self.pathView eraseLineFrom:startPoint To:endPoint];
         }
     }
     
@@ -148,7 +148,7 @@
 
     if ([self.chain count]>1 || self.wordWaitingToAddToChain) {
         
-        [self.pathView drawLineFrom: lastPoint To: newPosition];
+        //[self.pathView drawLineFrom: lastPoint To: newPosition];
     }
     
     if ([self.chain count]>1 && !self.wordWaitingToAddToChain) {
@@ -156,7 +156,7 @@
         CGPoint lastPoint = [self CGPointFromArray:(NSArray*)self.path[lastPointIndex]];
         CGPoint secondToLastPoint = [self CGPointFromArray:(NSArray*)self.path[lastPointIndex+1]];
         
-        [self.pathView eraseLineFrom:lastPoint To:secondToLastPoint];
+        //[self.pathView eraseLineFrom:lastPoint To:secondToLastPoint];
     }
     lastPoint=newPosition;
         
@@ -226,10 +226,10 @@
 
 - (void)animateEnd {
     
-    if (self.pathView) {
-        [self.pathView removeFromSuperview];
-        self.pathView=nil;
-    }
+//    if (self.pathView) {
+//        [self.pathView removeFromSuperview];
+//        self.pathView=nil;
+//    }
     if (self.wordWaitingToAddToChain) {
         self.chainPtrToPath[[self.chain count]] = [NSNumber numberWithInt:self.newWordStartingPoint];
         self.chain[[self.chain count]]= self.wordWaitingToAddToChain;
@@ -261,7 +261,7 @@
     self.path = nil;
     self.wordsToIgnore=nil;
     self.wordWaitingToAddToChain=nil;
-    self.pathView = nil;
+    //self.pathView = nil;
     self.wordSizes=nil;
     self.chain=nil;
     
