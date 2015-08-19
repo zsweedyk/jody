@@ -104,18 +104,8 @@
 
     self.path[self.path.count] = [self NSArrayFromCGPoint:newPosition];
     UILabel* lastWordInChain = (UILabel*)self.chain[[self.chain count]-1];
-    int lastWordStartingIndex = (int)[(NSNumber*) self.chainPtrToPath[[self.chain count]-1] integerValue];
     [self moveChain];
     
-    // erase path as needed
-    if (!self.wordWaitingToAddToChain) {
-        int lastWordCurrentIndex = (int)[(NSNumber*) self.chainPtrToPath[[self.chain count]-1] integerValue];
-        for (int i=lastWordStartingIndex; i<lastWordCurrentIndex; i++){
-            CGPoint startPoint = [self CGPointFromArray:(NSArray*)self.path[i]];
-            CGPoint endPoint = [self CGPointFromArray:(NSArray*)self.path[i+1]];
-            //[self.pathView eraseLineFrom:startPoint To:endPoint];
-        }
-    }
     
     // check if waiting word can be added
     if (self.wordWaitingToAddToChain) {
@@ -146,18 +136,6 @@
         }
     }
 
-    if ([self.chain count]>1 || self.wordWaitingToAddToChain) {
-        
-        //[self.pathView drawLineFrom: lastPoint To: newPosition];
-    }
-    
-    if ([self.chain count]>1 && !self.wordWaitingToAddToChain) {
-        int lastPointIndex = (int)[(NSNumber*)self.chainPtrToPath[[self.chain count]-1] integerValue];
-        CGPoint lastPoint = [self CGPointFromArray:(NSArray*)self.path[lastPointIndex]];
-        CGPoint secondToLastPoint = [self CGPointFromArray:(NSArray*)self.path[lastPointIndex+1]];
-        
-        //[self.pathView eraseLineFrom:lastPoint To:secondToLastPoint];
-    }
     lastPoint=newPosition;
         
 }
