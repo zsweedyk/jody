@@ -6,10 +6,11 @@
 //  Copyright (c) 2015 Z Sweedyk. All rights reserved.
 //
 
-
+#import "FontManager.h"
 #import "PositionManager.h"
-//#import "PathView.h"
 #import "ChainView.h"
+#import "constants.h"
+
 @interface ChainView()
 
 @property (weak,nonatomic) NSArray* words;
@@ -20,12 +21,12 @@
 @property (strong,nonatomic) UILabel* wordWaitingToAddToChain;
 @property int newWordStartingPoint;
 @property CGPoint fingerPosition;
-//@property (strong,nonatomic) PathView* pathView;
 @property bool initialized;
 @property (strong,nonatomic) NSMutableArray* wordSizes;
 @property CGFloat maxWordHeight;
 @property CGFloat minSpaceBetweenWords;
 @property CGFloat distanceToLastWord;
+@property int fontSize;
 
 @end
 
@@ -44,12 +45,11 @@
             self.wordsToIgnore[i]=deleted[i];
         }
         self.chainPtrToPath = [[NSMutableArray alloc] init];
-        //self.pathView = [[PathView alloc] initWithFrame:self.frame];
-        //self.pathView.backgroundColor = [UIColor clearColor];
-        //[self addSubview:self.pathView];
         self.wordWaitingToAddToChain=nil;
         self.maxWordHeight = -1;
-        self.minSpaceBetweenWords=-1; 
+        self.minSpaceBetweenWords=-1;
+        FontManager* fontManager = [FontManager sharedManager];
+        self.fontSize = fontManager.chainFontSize;
     }
     return self;
 }
@@ -68,7 +68,7 @@
     [self addSubview:newWord];
     self.initialized=NO;
     
-    NSDictionary *attributes = @{NSFontAttributeName: [UIFont fontWithName:@"TimesNewRomanPSMT" size:self.fontSize]};
+    NSDictionary *attributes = @{NSFontAttributeName: [UIFont fontWithName:kFontName size:self.fontSize]};
     NSString* space = @"  ";
     CGSize frameSize = [space sizeWithAttributes:attributes];
     self.minSpaceBetweenWords=frameSize.width;
@@ -77,11 +77,11 @@
 - (UILabel*) createLabelForWord: (int) i centeredAt: (CGPoint) point
 {
     UILabel* word = self.words[i];
-    NSDictionary *attributes = @{NSFontAttributeName: [UIFont fontWithName:@"TimesNewRomanPSMT" size:self.fontSize]};
+    NSDictionary *attributes = @{NSFontAttributeName: [UIFont fontWithName:kFontName size:self.fontSize]};
     CGSize frameSize = [word.text sizeWithAttributes:attributes];
     CGRect frame = CGRectMake(point.x-frameSize.width/2.0, point.y-frameSize.height/2.0, frameSize.width, frameSize.height);
     UILabel* chainWord = [[UILabel alloc] initWithFrame:frame];
-    chainWord.font = [UIFont fontWithName:@"TimesNewRomanPSMT" size:self.fontSize];
+    chainWord.font = [UIFont fontWithName:kFontName size:self.fontSize];
     chainWord.textAlignment = NSTextAlignmentCenter;
     chainWord.textColor = word.textColor;
     chainWord.backgroundColor = [UIColor clearColor];
@@ -204,10 +204,6 @@
 
 - (void)animateEnd {
     
-//    if (self.pathView) {
-//        [self.pathView removeFromSuperview];
-//        self.pathView=nil;
-//    }
     if (self.wordWaitingToAddToChain) {
         self.chainPtrToPath[[self.chain count]] = [NSNumber numberWithInt:self.newWordStartingPoint];
         self.chain[[self.chain count]]= self.wordWaitingToAddToChain;

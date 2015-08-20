@@ -49,10 +49,7 @@
     // create headlines view
     self.headlinesView = [[HeadlinesView alloc] initWithFrame:self.view.frame];
     [self.view addSubview:self.headlinesView];
-    self.headlinesView.fontSize = [self determineFontSize];
-    self.headlinesView.smallFontSize = [self determineSmallFontSize];
 
-    
     // set up color wheel button on tool bar
     [self.colorWheelToolBarButton setImage:[[UIImage imageNamed:@"colorWheelSmall.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]];
     
@@ -150,38 +147,38 @@
     }
 }
 
-- (int)determineFontSize {
-    // 72 pt font is about 1" max in height non-retina
-    // 96 pt font is good for full ipad, which is 1024x768 points
-    //
-    int fontSize;
-    int mySize = MIN(self.view.frame.size.height,self.view.frame.size.width);
-    if (mySize>=700) {
-        fontSize = 96;
-    }
-    else if (mySize>=400){
-        fontSize = 72;
-    }
-    else {
-        fontSize=56;
-    }
-    return fontSize;
-}
-
-- (int)determineSmallFontSize {
-    int fontSize = [self determineFontSize];
-    int smallFontSize;
-    if (fontSize==96) {
-        smallFontSize = 36;
-    }
-    else if (fontSize==72) {
-        smallFontSize = 28;
-    }
-    else {
-        smallFontSize = 20;
-    }
-    return smallFontSize;
-}
+//- (int)determineFontSize {
+//    // 72 pt font is about 1" max in height non-retina
+//    // 96 pt font is good for full ipad, which is 1024x768 points
+//    //
+//    int fontSize;
+//    int mySize = MIN(self.view.frame.size.height,self.view.frame.size.width);
+//    if (mySize>=700) {
+//        fontSize = 96;
+//    }
+//    else if (mySize>=400){
+//        fontSize = 72;
+//    }
+//    else {
+//        fontSize=56;
+//    }
+//    return fontSize;
+//}
+//
+//- (int)determineSmallFontSize {
+//    int fontSize = [self determineFontSize];
+//    int smallFontSize;
+//    if (fontSize==96) {
+//        smallFontSize = 36;
+//    }
+//    else if (fontSize==72) {
+//        smallFontSize = 28;
+//    }
+//    else {
+//        smallFontSize = 20;
+//    }
+//    return smallFontSize;
+//}
 
 - (IBAction)reset:(id)sender {
     [self.headlinesView reset];

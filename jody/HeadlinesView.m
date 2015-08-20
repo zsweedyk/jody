@@ -6,9 +6,12 @@
 //  Copyright (c) 2015 Z Sweedyk. All rights reserved.
 //
 
+#import "FontManager.h"
 #import "PositionManager.h"
 #import "ChainView.h"
 #import "HeadlinesView.h"
+#import "constants.h"
+
 
 @interface HeadlinesView()
 
@@ -19,6 +22,7 @@
 @property (strong,nonatomic) NSMutableArray* deleted;
 @property (weak,nonatomic) PositionManager* positionManager;
 @property (strong,nonatomic) UITapGestureRecognizer* myTapRecognizer;
+@property int fontSize;
 
 @end
 
@@ -31,11 +35,11 @@
     if (self) {
         self.headlines = [[NSMutableArray alloc] init];
         self.backgroundColor = [UIColor colorWithRed:1 green:1 blue:1 alpha:0];
-        self.fontSize = 52; // these will be set by mainVC -- but just in case we set defaults
-        self.smallFontSize = 20;
         self.words = [[NSMutableArray alloc] init];
         self.deleted = [[NSMutableArray alloc] init];
         self.positionManager = [PositionManager sharedManager];
+        FontManager* fontManager = [FontManager sharedManager];
+        self.fontSize = fontManager.headlineFontSize;
     }
     return self;
 }
@@ -58,7 +62,7 @@
     // get sizes -- word Rects also sets self.maxWordHeight and self.minWordWidth
     self.maxWordHeight=-1;
     self.minSpaceBetweenWords=-1;
-    NSDictionary *attributes = @{NSFontAttributeName: [UIFont fontWithName:@"TimesNewRomanPSMT" size:self.fontSize]};
+    NSDictionary *attributes = @{NSFontAttributeName: [UIFont fontWithName:kFontName size:self.fontSize]};
     NSMutableArray* wordSizes = [self wordSizes: newWords withAttributes:attributes];
     
     // set positions
@@ -139,7 +143,7 @@
         UIColor* textColor = [UIColor colorWithRed: red green:green blue:blue alpha:1];
         newLabel.textColor=textColor;
         
-        [newLabel setFont:[UIFont fontWithName:@"TimesNewRomanPSMT" size:self.fontSize]];
+        [newLabel setFont:[UIFont fontWithName:kFontName size:self.fontSize]];
         newLabel.numberOfLines = 1;
         newLabel.textAlignment = NSTextAlignmentCenter;
         newLabel.userInteractionEnabled = YES;
@@ -198,7 +202,7 @@
         // create subview
         self.chainView = [[ChainView alloc] initWithFrame: self.frame andWords: self.words andDeletedFlags:self.deleted];
         [self addSubview:self.chainView];
-        self.chainView.fontSize = self.smallFontSize;
+
         
         int num = (int)((UILabel*)[sender view]).tag;
         CGPoint position = [sender locationInView:self];

@@ -10,7 +10,6 @@
 
 @interface ChainView : UIView
 
-@property int fontSize;
 @property (strong,nonatomic) NSMutableArray* chain;
 
 

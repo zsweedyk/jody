@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1146C2831B85FCEB00B3872B /* FontManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 1146C2821B85FCEB00B3872B /* FontManager.m */; };
 		115597D51B59832A00D1A42C /* colorWheelSmall@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 115597D41B59832A00D1A42C /* colorWheelSmall@2x.png */; };
 		115597D91B59918B00D1A42C /* RSSManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 115597D81B59918B00D1A42C /* RSSManager.m */; };
 		116EAACC1B62D37900C7511E /* newspaperCircle.png in Resources */ = {isa = PBXBuildFile; fileRef = 116EAACB1B62D37900C7511E /* newspaperCircle.png */; };
@@ -74,6 +75,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1146C2811B85FCEB00B3872B /* FontManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FontManager.h; sourceTree = "<group>"; };
+		1146C2821B85FCEB00B3872B /* FontManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FontManager.m; sourceTree = "<group>"; };
 		115597D41B59832A00D1A42C /* colorWheelSmall@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "colorWheelSmall@2x.png"; sourceTree = "<group>"; };
 		115597D71B59918B00D1A42C /* RSSManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RSSManager.h; sourceTree = "<group>"; };
 		115597D81B59918B00D1A42C /* RSSManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RSSManager.m; sourceTree = "<group>"; };
@@ -201,6 +204,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1146C2801B85FCD400B3872B /* FontManager */ = {
+			isa = PBXGroup;
+			children = (
+				1146C2811B85FCEB00B3872B /* FontManager.h */,
+				1146C2821B85FCEB00B3872B /* FontManager.m */,
+			);
+			name = FontManager;
+			sourceTree = "<group>";
+		};
 		116EAACE1B630DC200C7511E /* Background */ = {
 			isa = PBXGroup;
 			children = (
@@ -241,6 +253,7 @@
 		11A33C061B4C75A000DA0108 /* jody */ = {
 			isa = PBXGroup;
 			children = (
+				1146C2801B85FCD400B3872B /* FontManager */,
 				11B4A05F1B791CB400823DB1 /* constants */,
 				11B4A0551B78EE4E00823DB1 /* Sources */,
 				11B49FF91B72E1AB00823DB1 /* Main.storyboard */,
@@ -545,6 +558,7 @@
 				11A33CC31B4C858D00DA0108 /* UIWebView+AFNetworking.m in Sources */,
 				115597D91B59918B00D1A42C /* RSSManager.m in Sources */,
 				11B4A0511B78DD5B00823DB1 /* frontPage.m in Sources */,
+				1146C2831B85FCEB00B3872B /* FontManager.m in Sources */,
 				11A33CA91B4C856F00DA0108 /* AFURLResponseSerialization.m in Sources */,
 				11A33C331B4C75DE00DA0108 /* MainViewController.m in Sources */,
 				11F1A83F1B4D7C9D00BDD73B /* GTMNSString+HTML.m in Sources */,

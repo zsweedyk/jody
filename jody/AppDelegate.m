@@ -10,6 +10,9 @@
 #import <Parse/Parse.h>
 #import "NWSource.h"
 
+
+
+
 @interface AppDelegate ()
 
 @end
@@ -23,7 +26,11 @@
     
     [NWSource registerSubclass];
     [Parse setApplicationId:@"yGmCLSLRXZqoKUWCdhNFFhDP8zl7id3pLoEhJsMq" clientKey:@"xcqd94lznxBYVj22fAMksq4rozoiopGHDQGVXyWS"];
+    
+
+
     return YES;
+
 }
 
 

@@ -34,5 +34,10 @@ float const basicColors[9][3]={
     {.85,.9,.85},
     {.75,.9,.9},
 };
+NSString* const kFontName=@"TimesNewRomanPSMT";
+int const kHeadlineFontSize[6]={56,56,56,72,72,96};
+int const kChainFontSize[6] = {20,20,20,28,28,36};
+int const kStartScreenLargeFontSize[6]={56,56,56,72,72,96};
+int const kStartScreenSmallFontSize[6]={32,32,32,48,48,56};
 
     
