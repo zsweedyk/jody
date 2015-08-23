@@ -133,8 +133,8 @@ enum {
                             @"Washington Post",
                             @"Guardian",
                             @"L.A. Times",
+                            @"Philadelphia Inquirer",
                             @"Wall Street Journal",
-                            @"N.Y. Post",
                             @"N.Y. Daily News",
                             @"Asian Age",
                             @"National"];
@@ -145,8 +145,8 @@ enum {
       @"/DC_WP.pdf",
       @"/UK_TG.pdf",
       @"/CA_LAT.pdf",
+      @"/PA_PI.pdf",
       @"/WSJ.pdf",
-      @"/NY_NYP.pdf",
       @"/NY_DN.pdf",
       @"/IND_AGE.pdf",
       @"/UAE_TN.pdf"];
@@ -156,8 +156,8 @@ enum {
                          @"http://feeds.feedburner.com/washingtonpost/HBJr",
                          @"http://feeds.feedburner.com/theguardian/bKzI",
                          @"http://feeds.feedburner.com/latimes/Wxwm",
+                         @"http://feeds.feedburner.com/philly/oyxv",
                          @"http://feeds.feedburner.com/wsj/tGpR",
-                         @"http://feeds.feedburner.com/nypost/PnmM",
                          @"http://feeds.feedburner.com/nydailynews/Fhuw",
                          @"http://feeds.feedburner.com/asianage/Knmy",
                          @"http://feeds.feedburner.com/thenational/uNww"];
