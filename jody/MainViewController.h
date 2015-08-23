@@ -11,16 +11,21 @@
 
 @interface MainViewController : UIViewController
 
-@property (weak,nonatomic) IBOutlet UIBarButtonItem* resetButton;
-@property (weak,nonatomic) IBOutlet UIBarButtonItem* colorWheelToolBarButton;
 @property (weak,nonatomic) IBOutlet UIBarButtonItem* infoButton;
+@property (weak,nonatomic) IBOutlet UIBarButtonItem* saveButton;
+@property (weak,nonatomic) IBOutlet UIBarButtonItem* shareButton;
+@property (weak,nonatomic) IBOutlet UIBarButtonItem* resetButton;
+@property (weak,nonatomic) IBOutlet UIBarButtonItem* spinButton;
 
 
-- (void)spinColorWheel;
-- (IBAction)reset:(id)sender;
-- (IBAction)bringColorWheelIntoFocus:(id)sender;
 - (IBAction)info:(id)sender;
+- (IBAction)save:(id)sender;
+- (IBAction)share:(id)sender;
+- (IBAction)reset:(id)sender;
+- (IBAction)spinButtonPressed:(id)sender;
+
 - (void)newHeadline:(NSString*)headline;
+- (void)showToolBar: (id)sender;
 
 @end
 

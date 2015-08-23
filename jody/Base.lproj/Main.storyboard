@@ -31,7 +31,29 @@
                         </constraints>
                     </view>
                     <toolbarItems>
-                        <barButtonItem title="R" id="biE-5q-OUH">
+                        <barButtonItem title="INFO" id="Cl2-eK-oNu">
+                            <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <connections>
+                                <action selector="info:" destination="BYZ-38-t0r" id="PSW-go-AEg"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem width="20" style="plain" systemItem="fixedSpace" id="faO-ch-p8R"/>
+                        <barButtonItem title="SAVE" id="ng8-Sv-snj">
+                            <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <connections>
+                                <action selector="save:" destination="BYZ-38-t0r" id="xoh-Gk-sz1"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem width="20" style="plain" systemItem="fixedSpace" id="3LX-ZJ-mfW"/>
+                        <barButtonItem title="SHARE" id="hhr-P2-qVw">
+                            <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <connections>
+                                <action selector="share:" destination="BYZ-38-t0r" id="2eV-kR-Ht3"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem width="20" style="plain" systemItem="fixedSpace" id="YGh-UF-UEf"/>
+                        <barButtonItem title="RESET" id="biE-5q-OUH">
+                            <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <connections>
                                 <action selector="reset:" destination="BYZ-38-t0r" id="hu0-ST-dN0"/>
                             </connections>
@@ -39,14 +61,11 @@
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="Ve0-oU-URE"/>
                         <barButtonItem image="colorWheelSmall.png" style="plain" id="u9f-eo-7j5">
                             <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
-                            <connections>
-                                <action selector="bringColorWheelIntoFocus:" destination="BYZ-38-t0r" id="Qu9-eV-skb"/>
-                            </connections>
                         </barButtonItem>
-                        <barButtonItem style="plain" systemItem="flexibleSpace" id="HtE-mV-xPX"/>
-                        <barButtonItem title="I" id="Cl2-eK-oNu">
+                        <barButtonItem title="SPIN" id="yEt-0F-8FT">
+                            <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <connections>
-                                <action selector="info:" destination="BYZ-38-t0r" id="PSW-go-AEg"/>
+                                <action selector="spinButtonPressed:" destination="BYZ-38-t0r" id="9xT-Dd-0ba"/>
                             </connections>
                         </barButtonItem>
                     </toolbarItems>
@@ -54,9 +73,11 @@
                     <nil key="simulatedTopBarMetrics"/>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics" barStyle="black" translucent="NO"/>
                     <connections>
-                        <outlet property="colorWheelToolBarButton" destination="u9f-eo-7j5" id="FpB-rj-cDX"/>
                         <outlet property="infoButton" destination="Cl2-eK-oNu" id="Kqn-8y-Soc"/>
                         <outlet property="resetButton" destination="biE-5q-OUH" id="bdp-Rx-OQr"/>
+                        <outlet property="saveButton" destination="ng8-Sv-snj" id="J8r-tR-UbP"/>
+                        <outlet property="shareButton" destination="hhr-P2-qVw" id="cvW-NL-m5K"/>
+                        <outlet property="spinButton" destination="yEt-0F-8FT" id="5D9-O3-h4K"/>
                         <segue destination="PTm-5Q-fll" kind="show" identifier="info" id="yuC-Zn-z1S"/>
                     </connections>
                 </viewController>

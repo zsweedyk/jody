@@ -212,12 +212,9 @@
     }
     else if(sender.state == UIGestureRecognizerStateChanged)
     {
-        
         //move your views here.
    
         [self.chainView moveFingerTo:[sender locationInView:self]];
-
-        
     }
     else if(sender.state == UIGestureRecognizerStateEnded)
     {

@@ -339,20 +339,6 @@ enum {
 }
 
 
-//- (UIImage*) flipImage: (UIImage*) image
-//{
-//    CGSize size = CGSizeMake(image.size.width,image.size.height);
-//    UIGraphicsBeginImageContext(size);
-//    CGContextRef currentContext = UIGraphicsGetCurrentContext();
-//    CGContextTranslateCTM(currentContext, 0, image.size.height);
-//    CGContextScaleCTM(currentContext, 1.0f, -1.0f);
-//    CGContextDrawImage(currentContext, CGRectMake(0.0, 0.0, size.width, size.height), [image CGImage]);
-//    UIImage *flipedImage = UIGraphicsGetImageFromCurrentImageContext();
-//    UIGraphicsEndImageContext();
-//
-//    return flipedImage;
-//}
-
 
 - (NSDate*) todaysUpdateDate {
     NSDate* today = [[NSDate alloc] init];

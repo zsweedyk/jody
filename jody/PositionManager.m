@@ -131,13 +131,13 @@
         CGFloat wordWidth = [(NSNumber*) (NSArray*)wordSize[0]  floatValue];
         // can we add the word to the current line?
         
-        if ((widthSoFar+wordWidth + self.minSpaceBetweenWords <maxWidth*.95 ) || widthSoFar==0) {
+        if ((widthSoFar+ wordWidth <maxWidth*.95 ) || widthSoFar==0) {
             widthSoFar += wordWidth+self.minSpaceBetweenWords;
             wordsPlaced++;
         }
         else {
             [lastWordInLine insertObject: [NSNumber numberWithInt:wordsPlaced-1] atIndex:[lastWordInLine count]];
-            [wordWidthInLine insertObject:[NSNumber numberWithFloat:widthSoFar] atIndex:[wordWidthInLine count]];
+            [wordWidthInLine insertObject:[NSNumber numberWithFloat:widthSoFar-self.minSpaceBetweenWords] atIndex:[wordWidthInLine count]];
             widthSoFar=wordWidth+self.minSpaceBetweenWords;
             wordsPlaced++;
         }
@@ -162,12 +162,16 @@
         heightSoFar += [(NSNumber*)[spaceBetweenLines objectAtIndex:i] floatValue];
         widthSoFar=0;
         CGFloat minSpaceForWords = [(NSNumber*)[wordWidthInLine objectAtIndex:i] floatValue];
-        NSArray* spaceBetweenWords = [self allocateForSpaceWords:lastWord-firstWord+1 withMinSpace:minSpaceForWords andMaxSpace:maxWidth-self.minSpaceBetweenWords withRandomness:randomness];
+        NSArray* spaceBetweenWords = [self allocateForSpaceWords:lastWord-firstWord+1 withMinSpace:minSpaceForWords andMaxSpace:maxWidth withRandomness:randomness];
         
+        //NSLog(@"starting line: %d",i);
         for (int j=firstWord; j<=lastWord; j++) {
+            //NSLog(@"using space %f",[(NSNumber*)[spaceBetweenWords objectAtIndex:j-firstWord] floatValue ]);
+            //NSLog(@"using width so far %f",widthSoFar);
             CGFloat x = widthSoFar + [(NSNumber*)[spaceBetweenWords objectAtIndex:j-firstWord] floatValue];
             [positions insertObject:@[[NSNumber numberWithFloat:x],[NSNumber numberWithFloat:heightSoFar]] atIndex:[positions count]];
-            widthSoFar += self.minSpaceBetweenWords + [(NSNumber*)[(NSArray*)[wordSizes objectAtIndex:j] objectAtIndex:0] floatValue];
+            //NSLog(@"word at position %f with width %f", x, [(NSNumber*)[(NSArray*)[wordSizes objectAtIndex:j] objectAtIndex:0] floatValue]);
+            widthSoFar += [(NSNumber*)[spaceBetweenWords objectAtIndex:j-firstWord] floatValue]+self.minSpaceBetweenWords + [(NSNumber*)[(NSArray*)[wordSizes objectAtIndex:j] objectAtIndex:0] floatValue];
         }
         heightSoFar += self.maxWordHeight;
         firstWord=lastWord+1;
