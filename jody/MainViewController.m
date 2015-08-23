@@ -42,6 +42,9 @@
     
     self.navigationController.toolbarHidden=NO;
     self.navigationController.toolbar.backgroundColor = [UIColor blackColor];
+    self.navigationController.toolbar.barTintColor = [UIColor blackColor];
+    self.navigationController.toolbar.translucent = NO;
+
     
     // create source manager
     self.sourceManager = [SourceManager sharedManager];

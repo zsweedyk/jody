@@ -14,11 +14,11 @@
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC" customClass="ColorWheelView">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="556"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Rdi-Sr-XJU">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="556"/>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
                         </subviews>
@@ -52,7 +52,7 @@
                     </toolbarItems>
                     <navigationItem key="navigationItem" id="VJi-vt-fqa"/>
                     <nil key="simulatedTopBarMetrics"/>
-                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics" barStyle="black" translucent="NO"/>
                     <connections>
                         <outlet property="colorWheelToolBarButton" destination="u9f-eo-7j5" id="FpB-rj-cDX"/>
                         <outlet property="infoButton" destination="Cl2-eK-oNu" id="Kqn-8y-Soc"/>
@@ -73,7 +73,7 @@
                         <viewControllerLayoutGuide type="bottom" id="pg0-Sl-0aj"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="iTE-Tw-2a7">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="556"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="News Wheel" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2Gv-uq-378">
@@ -138,30 +138,13 @@
         <scene sceneID="Z41-Nh-ruC">
             <objects>
                 <viewController id="WeI-R2-hc7" customClass="StartViewController" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="eAN-c4-1YS"/>
-                        <viewControllerLayoutGuide type="bottom" id="tdF-0E-V3V"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="77p-SA-vPJ">
+                    <imageView key="view" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="splashScreen.png" id="bn9-Gw-Zeu">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DuY-iL-z1d">
-                                <rect key="frame" x="300" y="300" width="0.0" height="0.0"/>
-                                <attributedString key="attributedText"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                        </subviews>
-                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstAttribute="centerY" secondItem="DuY-iL-z1d" secondAttribute="centerY" id="K4g-Rz-o5o"/>
-                            <constraint firstAttribute="centerX" secondItem="DuY-iL-z1d" secondAttribute="centerX" id="Zym-oe-bHQ"/>
-                        </constraints>
-                    </view>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    </imageView>
                     <navigationItem key="navigationItem" id="3mD-ut-oHS"/>
                     <nil key="simulatedTopBarMetrics"/>
                     <connections>
-                        <outlet property="titleLabel" destination="DuY-iL-z1d" id="Jle-KP-24d"/>
                         <segue destination="BYZ-38-t0r" kind="show" identifier="colorWheel" id="hol-aO-FJb"/>
                     </connections>
                 </viewController>
@@ -190,5 +173,6 @@
     </scenes>
     <resources>
         <image name="colorWheelSmall.png" width="22" height="22"/>
+        <image name="splashScreen.png" width="768" height="1024"/>
     </resources>
 </document>
