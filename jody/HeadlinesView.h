@@ -14,12 +14,17 @@
 
 @property (strong,nonatomic) NSMutableArray* headlines;
 @property (strong,nonatomic) NSMutableArray* words;
+@property (strong,nonatomic) NSMutableArray* initialWordPositions;
 @property (strong,nonatomic) NSMutableArray* wordChain;
+@property CGFloat startX;
+@property CGFloat startY;
+@property BOOL enableInput;
 
 @property int chosenHeadline;
 
 - (int) addHeadline: (NSString*) headline withColor: (UIColor*) color;
 - (void) endChain;
 - (void) reset;
+- (void) animate;
 
 @end

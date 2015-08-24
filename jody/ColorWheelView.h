@@ -12,7 +12,7 @@
 
 @interface ColorWheelView : UIView
 
-@property double angle;
+//@property double angle;
 @property (strong,nonatomic) UIImage* myBackgroundImage;
 @property (strong,nonatomic) UIImage* myFadedBackgroundImage;
 @property NSMutableArray* colors;

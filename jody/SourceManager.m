@@ -30,7 +30,11 @@ enum {
 @property (strong,nonatomic) NSMutableArray* sources;
 @property (strong,nonatomic) NSMutableArray* frontPageImages;
 @property (strong,nonatomic) NSMutableArray* frontPageImageUrl;
+@property (strong,nonatomic) NSArray* sourceNames;
+@property (strong,nonatomic) NSArray* urlEnds;
+@property (strong,nonatomic) NSArray* rssFeeds;
 @property (strong, nonatomic) NSDate* lastUpdate;
+
 @property int imagesProcessed;
 @property int pdfsSought;
 
@@ -52,6 +56,36 @@ enum {
     if (self) {
         self.sources = [[NSMutableArray alloc] initWithCapacity:kSourceCount];
         self.frontPageImages = [[NSMutableArray alloc] initWithCapacity:kSourceCount];
+        
+        self.sourceNames =@[@"N.Y. Times",
+                                @"Washington Post",
+                                @"Guardian",
+                                @"L.A. Times",
+                                @"Wall Street Journal",
+                                @"Philadelphia Inquirer",
+                                @"N.Y. Daily News",
+                                @"Asian Age",
+                                @"National"];
+        
+        self.urlEnds =@[@"/NY_NYT.pdf",
+                        @"/DC_WP.pdf",
+                        @"/UK_TG.pdf",
+                        @"/CA_LAT.pdf",
+                        @"/WSJ.pdf",
+                        @"/PA_PI.pdf",
+                        @"/NY_DN.pdf",
+                        @"/IND_AGE.pdf",
+                        @"/UAE_TN.pdf"];
+        
+        self.rssFeeds =@[@"http://feeds.feedburner.com/nytimes/gTKh",
+                             @"http://feeds.feedburner.com/washingtonpost/HBJr",
+                             @"http://feeds.feedburner.com/theguardian/bKzI",
+                             @"http://feeds.feedburner.com/latimes/Wxwm",
+                             @"http://feeds.feedburner.com/wsj/tGpR",
+                             @"http://feeds.feedburner.com/philly/oyxv",
+                             @"http://feeds.feedburner.com/nydailynews/Fhuw",
+                             @"http://feeds.feedburner.com/asianage/Knmy",
+                             @"http://feeds.feedburner.com/thenational/uNww"];
         
         // we use dummy images initially so we can insert images at the appropriate index
         UIImage* dummy = [UIImage imageNamed:@"colorWheelSmall@2x.png"];
@@ -77,13 +111,21 @@ enum {
                 for (int i=0; i<kSourceCount; i++) {
                     NWSource* source = [sources objectAtIndex:i];
                     [self.sources insertObject:source atIndex:i];
-                    NSString* latestURL = [self createNewUrlForSource:source.sourceNum andUpdateDay:updateDay];
+                    
+                    // check if the parse data is consistent with our class data (this allows us to change parse data by simply changing our constants in this class
+                    int parseSourceNum = source.sourceNum;
+                    if (![source.sourceName isEqualToString:self.sourceNames[parseSourceNum]] ||
+                        ![source.rssFeed isEqualToString: self.rssFeeds[parseSourceNum]]) {
+                        source.sourceName = self.sourceNames[parseSourceNum];
+                        source.rssFeed = self.rssFeeds[parseSourceNum];
+                        [source saveInBackground];
+                    }
+                    NSString* latestURL = [self createNewUrlForSource:parseSourceNum andUpdateDay:updateDay];
                     if (![latestURL isEqualToString:source.frontPageUrl]){
                         // we get the latest pdf -- we don't use it here but it will be available for other users
                         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
                             [self savePdfForSource: source fromUrl:latestURL];
                         });
-                        
                         
                     }
                     
@@ -127,51 +169,18 @@ enum {
     
     // we can recreate what is in parse -- it is just very slow
     
-    self.sources = [[NSMutableArray alloc] initWithCapacity:9];
+    int sourceCount = (int)[self.sourceNames count];
+    NSAssert (sourceCount == [self.urlEnds count] && sourceCount==[self.rssFeeds count], @"Source names, urls, and rss feeds don't have same size.\n");
     
-    NSArray* sourceNames =@[@"N.Y. Times",
-                            @"Washington Post",
-                            @"Guardian",
-                            @"L.A. Times",
-                            @"Philadelphia Inquirer",
-                            @"Wall Street Journal",
-                            @"N.Y. Daily News",
-                            @"Asian Age",
-                            @"National"];
-    
-    
-    NSArray* urlEnds =
-    @[@"/NY_NYT.pdf",
-      @"/DC_WP.pdf",
-      @"/UK_TG.pdf",
-      @"/CA_LAT.pdf",
-      @"/PA_PI.pdf",
-      @"/WSJ.pdf",
-      @"/NY_DN.pdf",
-      @"/IND_AGE.pdf",
-      @"/UAE_TN.pdf"];
-    
-    
-    NSArray* rssFeeds =@[@"http://feeds.feedburner.com/nytimes/gTKh",
-                         @"http://feeds.feedburner.com/washingtonpost/HBJr",
-                         @"http://feeds.feedburner.com/theguardian/bKzI",
-                         @"http://feeds.feedburner.com/latimes/Wxwm",
-                         @"http://feeds.feedburner.com/philly/oyxv",
-                         @"http://feeds.feedburner.com/wsj/tGpR",
-                         @"http://feeds.feedburner.com/nydailynews/Fhuw",
-                         @"http://feeds.feedburner.com/asianage/Knmy",
-                         @"http://feeds.feedburner.com/thenational/uNww"];
-    
-    int sourceCount = (int)[sourceNames count];
-    NSAssert (sourceCount == [urlEnds count] && sourceCount==[rssFeeds count], @"Source names, urls, and rss feeds don't have same size.\n");
+    self.sources = [[NSMutableArray alloc] initWithCapacity:sourceCount];
     
     int day = [self lastUpdateDayAtPdfSource];
     for (int i=0; i<sourceCount; i++) {
         
         NWSource* source = [[NWSource alloc] init];
         source.sourceNum = i;
-        source.sourceName = [sourceNames objectAtIndex:i];
-        source.rssFeed = [rssFeeds objectAtIndex:i];
+        source.sourceName = [self.sourceNames objectAtIndex:i];
+        source.rssFeed = [self.rssFeeds objectAtIndex:i];
         source.frontPageUrl = [self createNewUrlForSource:i andUpdateDay:day];
         NSData* pdfPageData = [self pdfDataFromUrl:source.frontPageUrl];
         source.frontPagePdf = [PFFile fileWithData:pdfPageData];
@@ -248,21 +257,11 @@ enum {
 
 - (NSString*) createNewUrlForSource: (int) i andUpdateDay: (int) day
 {
-    NSArray* urlEnds =
-    @[@"/NY_NYT.pdf",
-      @"/DC_WP.pdf",
-      @"/UK_TG.pdf",
-      @"/CA_LAT.pdf",
-      @"/WSJ.pdf",
-      @"/NY_NYP.pdf",
-      @"/NY_DN.pdf",
-      @"/IND_AGE.pdf",
-      @"/UAE_TN.pdf"];
+
     NSAssert(i>=0 && i<kSourceCount, @"URL requested for non-existent source.");
     NSString* urlStart =@"http://webmedia.newseum.org/newseum-multimedia/dfp/pdf";
     
-    
-    NSString* url = [NSString stringWithFormat:@"%@%d%@",urlStart,day,urlEnds[i]];
+    NSString* url = [NSString stringWithFormat:@"%@%d%@",urlStart,day,self.urlEnds[i]];
     return url;
 }
 

@@ -11,6 +11,8 @@
 #import "ChainView.h"
 #import "constants.h"
 
+const CGFloat firstPointDisplacement=50;
+
 @interface ChainView()
 
 @property (weak,nonatomic) NSArray* words;
@@ -59,7 +61,7 @@
 {
     UILabel* firstWord = self.words[i];
     self.fingerPosition = position;
-    UILabel* newWord = [self createLabelForWord:(int)firstWord.tag centeredAt: position];
+    UILabel* newWord = [self createLabelForWord:(int)firstWord.tag centeredAt: CGPointMake(position.x-firstPointDisplacement, position.y)];
     self.chain[0] = newWord;
     self.wordSizes[0]=[self NSArrayFromCGSize:newWord.frame.size];
     self.chainPtrToPath[0]=[NSNumber numberWithInt:0];
@@ -146,7 +148,7 @@
     UILabel* theWord = (UILabel*)self.chain[0];
     int pathIndex = (int)[self.chainPtrToPath[0] integerValue] + 1;
     CGPoint nextPoint = [self CGPointFromArray:(NSArray*) self.path[pathIndex]];
-    [theWord setCenter: nextPoint];
+    [theWord setCenter: CGPointMake(nextPoint.x-firstPointDisplacement, nextPoint.y)];
     self.chainPtrToPath[0]=[NSNumber numberWithInt:pathIndex];
     UILabel* nextWord=theWord;
     

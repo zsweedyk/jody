@@ -9,7 +9,9 @@
 enum {
     IN_FOCUS_WAITING =0,
     OUT_OF_FOCUS = 1,
-    SPINNING = 2
+    SPINNING = 2,
+    SLOWING = 3,
+    STOPPED = 4
 };
 
 #import "SourceManager.h"
@@ -25,7 +27,8 @@ enum {
 @property (strong,nonatomic) HeadlinesView* headlinesView;
 @property (strong,nonatomic) ColorWheelView* colorWheelView;
 @property (strong,nonatomic) UIButton* showToolBarButton;
-@property (strong,nonatomic) NSTimer* timer;
+@property (strong,nonatomic) NSTimer* colorWheelTimer;
+@property (strong,nonatomic) NSTimer* headlineTimer;
 @property (strong,nonatomic) UIGestureRecognizer* tapRecognizer;
 @property (weak,nonatomic) RSSManager* rssManager;
 @property (weak,nonatomic) BackgroundGenerator* bgManager;
@@ -35,7 +38,9 @@ enum {
 @property int sourceChosen;
 @property int colorWheelState;
 @property double colorWheelAngle;
+@property double finalAngle;
 @property BOOL toolBarUsed;
+@property BOOL headlinesAnimated;
 
 @end
 
@@ -47,55 +52,62 @@ enum {
     
     self.sourceChosen=-1;
     
+    self.headlinesAnimated=NO;
+    
+    // turn off nav bar
+    [self.navigationController setNavigationBarHidden:YES];
+    
     // set up tool bar
     [self setUpToolBar];
     
     // create source manager
     self.sourceManager = [SourceManager sharedManager];
 
-    // create headlines view
-    self.headlinesView = [[HeadlinesView alloc] initWithFrame:self.view.frame];
-    [self.view addSubview:self.headlinesView];
 
-    // set up color wheel button on tool bar
-
-    
-    // turn off nav bar
-    [self.navigationController setNavigationBarHidden:YES];
-    
-    // create rss manager
-    self.rssManager = [RSSManager sharedManager];
-    self.rssManager.mainVC = self;
-    
+    CGRect myFrame = self.view.frame;
     
     // create frame for color wheel
-    CGFloat myDiameter = MIN(self.view.frame.size.width, self.view.frame.size.height);
-    CGFloat colorWheelFrameSize = floor(myDiameter*.85);
+    CGFloat diameter = MIN(myFrame.size.width, myFrame.size.height);
+    CGFloat colorWheelFrameSize = floor(diameter*.90);
     // we get artifacts if the frame isn't an even integers
     if ((colorWheelFrameSize/2)*2 != colorWheelFrameSize) {
         colorWheelFrameSize +=-1;
     }
     
-    CGFloat leftX= (self.view.frame.size.width - colorWheelFrameSize)/2.0;
-    CGFloat topY = (self.view.frame.size.height-colorWheelFrameSize)/2.0;
+    CGFloat leftX= (myFrame.size.width - colorWheelFrameSize)/2.0;
+    CGFloat topY = (myFrame.size.height-colorWheelFrameSize)/2.0;
     CGRect colorWheelFrame = CGRectMake(leftX, topY, colorWheelFrameSize, colorWheelFrameSize);
 
     
-    // create background
+    // create background view
     self.bgManager = [BackgroundGenerator sharedManager];
     self.bgManager.diameter = colorWheelFrameSize;
     self.backgroundImage = [self.bgManager createBackground];
     self.fadedBackgroundImage = [self.bgManager createFadedBackgroundFromBackground:self.backgroundImage];
 
+    // create color wheel view
     self.colorWheelView = [[ColorWheelView alloc] initWithFrame: colorWheelFrame withBackgroundImage: self.backgroundImage andFadedBackgroundImage:self.fadedBackgroundImage];
     [self.view addSubview:self.colorWheelView];
-    
+
     // add gesture recognizer for color wheel
     self.tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(spin:)];
     [self.colorWheelView addGestureRecognizer:self.tapRecognizer];
     
     // set up color wheel state
     self.colorWheelState = IN_FOCUS_WAITING;
+    
+    // create headlines view
+
+    CGRect toolBarFrame = self.navigationController.toolbar.frame;
+    CGRect headlineFrame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height - toolBarFrame.size.height);
+    self.headlinesView = [[HeadlinesView alloc] initWithFrame:headlineFrame];
+    [self.view addSubview:self.headlinesView];
+    self.headlinesView.startX = leftX + diameter/2.0;
+    self.headlinesView.startY = topY;
+    
+    // create rss manager
+    self.rssManager = [RSSManager sharedManager];
+    self.rssManager.mainVC = self;
     
 }
 
@@ -131,8 +143,7 @@ enum {
     self.showToolBarButton.enabled=NO;
     [self.showToolBarButton addTarget:self action:@selector(showToolBar:) forControlEvents:UIControlEventTouchUpInside];
     
-    // timer disabled for testing
-    //NSTimer* timer = [NSTimer scheduledTimerWithTimeInterval:5.0 target:self selector:@selector(checkToolBarTimer) userInfo:nil repeats:YES];
+    NSTimer* timer = [NSTimer scheduledTimerWithTimeInterval:5.0 target:self selector:@selector(checkToolBarTimer) userInfo:nil repeats:YES];
     self.toolBarUsed=NO;
     
 }
@@ -212,38 +223,78 @@ enum {
 
 - (void)spin:(id)sender
 {
+
+    if (self.headlineTimer) {
+        [self.headlineTimer invalidate];
+    }
     if (self.colorWheelState == OUT_OF_FOCUS) {
         [self bringColorWheelIntoFocus];
     }
     
     if (self.colorWheelState == IN_FOCUS_WAITING) {
         // start spinning
-        self.timer = [NSTimer timerWithTimeInterval:1.0/60.0 target:self selector:@selector(update) userInfo:nil repeats:YES];
-        [[NSRunLoop mainRunLoop] addTimer:self.timer forMode:NSDefaultRunLoopMode];
+        self.headlinesView.enableInput=NO; // we disable input on the headline view while the color wheel is spinning
+        self.colorWheelTimer = [NSTimer timerWithTimeInterval:1.0/60.0 target:self selector:@selector(update) userInfo:nil repeats:YES];
+        [[NSRunLoop mainRunLoop] addTimer:self.colorWheelTimer forMode:NSDefaultRunLoopMode];
         self.colorWheelState = SPINNING;
     }
     else if (self.colorWheelState == SPINNING) {
-        [self.timer invalidate];
-        [self.colorWheelView fade:YES];
+
         [self.colorWheelView removeGestureRecognizer:self.tapRecognizer];
-        [self.colorWheelView setNeedsDisplay];
-        [self.view bringSubviewToFront:self.headlinesView];
-        self.colorWheelState = OUT_OF_FOCUS;
-        int currentAngle = (int) ((self.colorWheelAngle+3.14159/2.0)/(2*3.14159)*9  );
-        self.sourceChosen = currentAngle % 9;
-        [self.rssManager getHeadlineFrom: self.sourceChosen];
+        self.finalAngle = self.colorWheelAngle+3.14159;
+        self.colorWheelState = SLOWING;
     }
+    
 }
 
 - (void) update
 {
-    self.colorWheelAngle += 3.14159/60.0;
-    if (self.colorWheelAngle > 2*3.14159) {
-        self.colorWheelAngle -= 2*3.14159;
+    static int slowDownCount=0;
+    const int slowDownSteps = 60;
+    if (self.colorWheelState != SLOWING) {
+        self.colorWheelAngle += 3.14159/60.0;
+        if (self.colorWheelAngle > 2*3.14159) {
+            self.colorWheelAngle -= 2*3.14159;
+        }
+        self.colorWheelView.transform = CGAffineTransformMakeRotation(self.colorWheelAngle);
+        [self.colorWheelView setNeedsDisplay];
     }
-    self.colorWheelView.transform = CGAffineTransformMakeRotation(self.colorWheelAngle);
+    else {
+        if (slowDownSteps>slowDownCount) {
+            CGFloat angleDiff = ((CGFloat)(slowDownSteps-slowDownCount))*3.14159/60.0/slowDownSteps;
+            self.colorWheelAngle += angleDiff;
+            if (self.colorWheelAngle > 2*3.14159) {
+                self.colorWheelAngle -= 2*3.14159;
+            }
+            slowDownCount++;
+            self.colorWheelView.transform = CGAffineTransformMakeRotation(self.colorWheelAngle);
+            [self.colorWheelView setNeedsDisplay];
+        }
+        else {
+            slowDownCount=0;
+            self.colorWheelState = STOPPED;
+            [self colorWheelStoppedSpinning];
+        }
+    }
+}
+
+- (void) colorWheelStoppedSpinning
+{
+    [self.colorWheelTimer invalidate];
+    self.sourceChosen= ((int) ((self.colorWheelAngle+3.14159/4.0)/(2*3.14159)*9  )+2)%9;
+    [self.colorWheelView fade:YES];
+    self.colorWheelState = OUT_OF_FOCUS;
     [self.colorWheelView setNeedsDisplay];
+    [self.view bringSubviewToFront:self.headlinesView];
+    self.headlinesView.enableInput=YES;
+    [self.rssManager getHeadlineFrom: self.sourceChosen];
+    self.headlineTimer = [NSTimer scheduledTimerWithTimeInterval:1.0/10.0 target:self selector:@selector(animateHeadlines) userInfo:nil repeats:YES];
     
+}
+
+- (void) animateHeadlines {
+    
+    [self.headlinesView animate];
 }
 
 - (void)newHeadline:(NSString *)headline

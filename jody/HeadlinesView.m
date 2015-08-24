@@ -12,6 +12,8 @@
 #import "HeadlinesView.h"
 #import "constants.h"
 
+const int maxDisplacement = 5;
+
 
 @interface HeadlinesView()
 
@@ -23,6 +25,8 @@
 @property (weak,nonatomic) PositionManager* positionManager;
 @property (strong,nonatomic) UITapGestureRecognizer* myTapRecognizer;
 @property int fontSize;
+@property BOOL okToAnimate;
+
 
 @end
 
@@ -36,10 +40,13 @@
         self.headlines = [[NSMutableArray alloc] init];
         self.backgroundColor = [UIColor colorWithRed:1 green:1 blue:1 alpha:0];
         self.words = [[NSMutableArray alloc] init];
+        self.initialWordPositions = [[NSMutableArray alloc] init];
         self.deleted = [[NSMutableArray alloc] init];
         self.positionManager = [PositionManager sharedManager];
         FontManager* fontManager = [FontManager sharedManager];
         self.fontSize = fontManager.headlineFontSize;
+        self.enableInput=YES;
+        self.okToAnimate=YES;
     }
     return self;
 }
@@ -51,7 +58,9 @@
     if (self.chainView) {
         [self endChain];
     }
-    
+    self.okToAnimate=NO;
+    //headline=@"Is a ballot-booth selfie free speech, or a threat to the sanctity of the secret vote?";
+    //headline=@"ABCD EFGH IJIK MNOP QRST UVWX YZ abcd efgh ijkl mnop qrst uvwx yz 12345";
     NSLog(@"Adding headline: %@",headline);
     // find words
     NSMutableArray* newWords = [self wordsOfHeadline: headline];
@@ -100,7 +109,6 @@
 - (NSMutableArray*) wordSizes: (NSArray*) theWords withAttributes: (NSDictionary*) attributes
 {
     NSMutableArray* wordSizes = [[NSMutableArray alloc] initWithCapacity:[theWords count]];
-
     
     for (NSString* word in theWords) {
         CGSize frameSize = [word sizeWithAttributes:attributes];
@@ -122,15 +130,11 @@
     for (int i=0;i<[theWords count]; i++) {
         // find last word in this line
         
-        NSArray* position = (NSArray*)[wordPositions objectAtIndex:i];
-        CGFloat x = [(NSNumber*)[position objectAtIndex:0] floatValue];
-        CGFloat y = [(NSNumber*)[position objectAtIndex:1] floatValue];
+        CGPoint point = [self CGPointFromArray:(NSArray*)[wordPositions objectAtIndex:i]];
+        CGSize size = [self CGSizeFromArray:(NSArray*)[wordSizes objectAtIndex:i]];
         
-        NSArray* size = (NSArray*)[wordSizes objectAtIndex:i];
-        CGFloat width = [(NSNumber*)[size objectAtIndex:0] floatValue];
-        CGFloat height = [(NSNumber*)[size objectAtIndex:1] floatValue];
+        CGRect labelFrame = CGRectMake(point.x, point.y, size.width, size.height);
         
-        CGRect labelFrame = CGRectMake(x, y, width, height);
         UILabel* newLabel = [[UILabel alloc] initWithFrame:labelFrame];
         newLabel.text=(NSString*)[theWords objectAtIndex:i];
         
@@ -148,6 +152,7 @@
         newLabel.textAlignment = NSTextAlignmentCenter;
         newLabel.userInteractionEnabled = YES;
         newLabel.tag = [self.words count];
+        newLabel.alpha = 0;
         
         // add gesture recognizers
         UITapGestureRecognizer* tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(removeHeadline:)];
@@ -160,23 +165,41 @@
         // add subview
         [self addSubview:newLabel];
         [self.words insertObject:newLabel atIndex:newLabel.tag];
+        [self.initialWordPositions insertObject:[self NSArrayFromCGPoint:CGPointMake(newLabel.frame.origin.x, newLabel.frame.origin.y)] atIndex:newLabel.tag];
         [self.deleted insertObject:[NSNumber numberWithInt:0] atIndex:newLabel.tag];
         
+        if (i<[self.words count]-1) {
+            [UIView animateWithDuration:.5 delay:.2*i options:0 animations:^(){newLabel.alpha=1;} completion:nil];
+        }
+        else {
+            [UIView animateWithDuration:.5 delay:.2*i options:0 animations:^(){newLabel.alpha=1;} completion:^(BOOL finished) {if (finished) [self startAnimation];}];
+        }
+
     }
-    
+}
+
+- (void)startAnimation
+{
+    self.okToAnimate=YES;
+    NSLog(@"starting animation");
 }
 
 
 - (void) removeHeadline: (UITapGestureRecognizer*)sender
 {
+    if (!self.enableInput) {
+        return;
+    }
     UILabel* label = (UILabel*)[sender view];
     [label removeFromSuperview];
     self.deleted[label.tag]=[NSNumber numberWithInt:1];
-
 }
 
 - (void) moveHeadline: (UIPanGestureRecognizer*)sender
 {
+    if (!self.enableInput) {
+        return;
+    }
     CGPoint translation = [sender translationInView:self];
     sender.view.center = CGPointMake(sender.view.center.x + translation.x,
                                      sender.view.center.y + translation.y);
@@ -185,8 +208,12 @@
 
 - (void) startChain: (UILongPressGestureRecognizer*)sender
 {
+    if (!self.enableInput) {
+        return;
+    }
     if(sender.state == UIGestureRecognizerStateBegan)
     {
+        self.okToAnimate=NO;
         if (self.chainView) {
             self.chainView=nil;
         }
@@ -235,6 +262,7 @@
         self.chainView = nil;
         [self.fade removeFromSuperview];
         [self removeGestureRecognizer:self.myTapRecognizer];
+        self.okToAnimate=YES;
     }
     
 }
@@ -250,6 +278,46 @@
     }
     self.headlines = [[NSMutableArray alloc] init];
     self.words = [[NSMutableArray alloc] init];
+}
+
+- (void)animate {
+    if (!self.words || !self.okToAnimate) {
+        return;
+    }
+    
+    for (int i=0;i<[self.words count]; i++) {
+        
+    
+  
+        CGFloat x = (arc4random()%(100*maxDisplacement))/100.0 - maxDisplacement/2.0;
+        CGFloat y = (arc4random()%(100*maxDisplacement))/100.0 - maxDisplacement/2.0;
+        
+        UILabel* word = (UILabel*)self.words[i];
+        CGRect frame = word.frame;
+        CGPoint origin = [self CGPointFromArray:(NSArray*)self.initialWordPositions[i]];
+        CGRect newFrame = CGRectMake(origin.x+x, origin.y+y, frame.size.width, frame.size.height);
+        word.frame = newFrame;
+   }
+ 
+}
+
+- (CGPoint) CGPointFromArray: (NSArray*) array
+{
+    return CGPointMake([(NSNumber*)array[0] floatValue], [(NSNumber*)array[1] floatValue]);
+}
+- (NSArray*) NSArrayFromCGPoint: (CGPoint) point
+{
+    return @[[NSNumber numberWithFloat:point.x],[NSNumber numberWithFloat:point.y]];
+}
+
+- (CGSize) CGSizeFromArray: (NSArray*) array
+{
+    return CGSizeMake([(NSNumber*)array[0] floatValue], [(NSNumber*)array[1] floatValue]);
+}
+
+- (NSArray*) NSArrayFromCGSize: (CGSize) size
+{
+    return @[[NSNumber numberWithFloat:size.width],[NSNumber numberWithFloat:size.height]];
 }
 
 @end

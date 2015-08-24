@@ -13,7 +13,7 @@
 
 @property CGFloat maxWordHeight;
 @property CGFloat minSpaceBetweenWords;
-@property  CGRect frame;
+@property  CGRect frameForWords;
 
 @end
 
@@ -32,7 +32,7 @@
 
 - (NSMutableArray*) positionForWordsWithSizes: (NSArray*) wordSizes inFrame: (CGRect) frame maxWordHeight: (CGFloat) maxWordHeight andMinSpaceBetweenWords: (CGFloat) minSpaceBetweenWords withRandomness:(bool)randomness {
 
-    self.frame = frame;
+    self.frameForWords = frame;
     self.maxWordHeight=maxWordHeight;
     self.minSpaceBetweenWords=minSpaceBetweenWords;
     return[self positions: wordSizes randomness: randomness];
@@ -42,17 +42,17 @@
 - (CGFloat) spacePerLine: (int)lineCount
 {
     // determine how much space (height) we should allow for each line
-    // if we are aiming for 25% of word height spacing between lines
+    // if we are aiming for a minimum 10% of word height spacing between lines
     CGFloat spacePerLine;
-    CGFloat maxSpaceBetweenLines = (self.frame.size.height-self.maxWordHeight*lineCount)/(lineCount+1);
+    CGFloat maxSpaceBetweenLines = (self.frameForWords.size.height-self.maxWordHeight*lineCount)/(lineCount+1);
     if (maxSpaceBetweenLines<0) {
         // we don't have enough room
         // we give each line the same space and let them overlap
-        spacePerLine = self.frame.size.height/lineCount;
+        spacePerLine = self.frameForWords.size.height/lineCount;
     }
-    else if (maxSpaceBetweenLines>self.maxWordHeight*.25) {
+    else if (maxSpaceBetweenLines>.1*self.maxWordHeight) {
         // we have more than enough space and so we want to display headline in smaller area
-        spacePerLine=1.25*self.maxWordHeight;
+        spacePerLine=1.1*self.maxWordHeight;
         
     }
     else {
@@ -77,7 +77,6 @@
     else {
         endSpace = 0;
     }
-    endSpace /= 2.0;
     
     NSMutableArray* space;
     if (randomness) {
@@ -91,8 +90,15 @@
     }
     
     // now add endspace
+    CGFloat initialOffset = endSpace/2.0;
+    if (endSpace>=1 && randomness) {
+        initialOffset = arc4random()%((int)endSpace );
+        CGFloat finalOffset = arc4random()%((int)endSpace);
+        initialOffset *= endSpace/(initialOffset+finalOffset+1);
+    }
+
     CGFloat firstSpace = [(NSNumber*) space[0] floatValue];
-    space[0] = [NSNumber numberWithFloat:firstSpace+endSpace];
+    space[0] = [NSNumber numberWithFloat:firstSpace+initialOffset];
     
     return space;
 }
@@ -100,24 +106,28 @@
 - (NSMutableArray*) randomValues: (int) number withTotal: (CGFloat) total
 {
     NSMutableArray* rands = [[NSMutableArray alloc] initWithCapacity:number];
-    int sum=0;
+    if (total==0) {
+        for (int i=0;i<number;i++) {
+            rands[i]=[NSNumber numberWithInteger:0];
+        }
+        return rands;
+    }
+    CGFloat sum=0;
     for (int i=0;i<number;i++) {
-        CGFloat val=0;
-        if (total>0)
-            val = (arc4random()%((int)ceil(total*1000)))/1000.0;
+        CGFloat val = ((CGFloat)(arc4random()%((int)ceil(total*1000))))/1000.0;
         rands[i] = [NSNumber numberWithFloat:val];
         sum +=val;
     }
-    if (total==0)
-        return rands;
-    for (int i=0;i<number-1;i++) {
-        CGFloat val = [(NSNumber*)rands[i] floatValue];
-        rands[i] = [NSNumber numberWithFloat:val/sum*total];
+    CGFloat finalSum=0;
+    for (int i=0;i<number;i++) {
+        CGFloat val = [(NSNumber*)rands[i] floatValue]*total/sum;
+        rands[i] = [NSNumber numberWithFloat:val];
+        finalSum += val;
     }
     return rands;
 }
 
-- (NSMutableArray*) positions: (NSArray*) wordSizes randomness: (bool)randomness
+- (NSMutableArray*) positions: (NSArray*) wordSizes  randomness: (bool)randomness
 {
     NSMutableArray* positions = [[NSMutableArray alloc] initWithCapacity:[wordSizes count]];
     
@@ -126,12 +136,11 @@
     int wordsPlaced=0;
     NSMutableArray* lastWordInLine = [[NSMutableArray alloc] init];
     NSMutableArray* wordWidthInLine = [[NSMutableArray alloc] init];
-    CGFloat maxWidth=self.frame.size.width;
     for (id wordSize in wordSizes) {
         CGFloat wordWidth = [(NSNumber*) (NSArray*)wordSize[0]  floatValue];
         // can we add the word to the current line?
         
-        if ((widthSoFar+ wordWidth <maxWidth*.95 ) || widthSoFar==0) {
+        if ((widthSoFar+ wordWidth <self.frameForWords.size.width*.95 ) || widthSoFar==0) {
             widthSoFar += wordWidth+self.minSpaceBetweenWords;
             wordsPlaced++;
         }
@@ -149,31 +158,24 @@
     // now we go through and determine actual positions
     int lineCount = (int)[lastWordInLine count];
     CGFloat spacePerLine = [self spacePerLine:lineCount];
-    //NSLog(@"Max word height: %f, spacePerLine: %f, total: %f", self.maxWordHeight, spacePerLine, spacePerLine*lineCount);
-    NSArray* spaceBetweenLines = [self allocateForSpaceWords: (int) lineCount withMinSpace: spacePerLine*lineCount andMaxSpace:self.frame.size.height withRandomness: randomness];
-    
+    NSArray* spaceBetweenLines = [self allocateForSpaceWords: (int) lineCount withMinSpace: spacePerLine*lineCount andMaxSpace:self.frameForWords.size.height withRandomness: randomness];
     int firstWord=0;
     int lastWord;
-    
-    
     CGFloat heightSoFar = 0;
     for (int i=0;i<lineCount;i++) {
         lastWord = (int)[(NSNumber*)[lastWordInLine objectAtIndex:i] integerValue];
         heightSoFar += [(NSNumber*)[spaceBetweenLines objectAtIndex:i] floatValue];
         widthSoFar=0;
         CGFloat minSpaceForWords = [(NSNumber*)[wordWidthInLine objectAtIndex:i] floatValue];
-        NSArray* spaceBetweenWords = [self allocateForSpaceWords:lastWord-firstWord+1 withMinSpace:minSpaceForWords andMaxSpace:maxWidth withRandomness:randomness];
+        NSArray* spaceBetweenWords = [self allocateForSpaceWords:lastWord-firstWord+1 withMinSpace:minSpaceForWords andMaxSpace:self.frameForWords.size.width withRandomness:randomness];
         
-        //NSLog(@"starting line: %d",i);
+        // place words in line i
         for (int j=firstWord; j<=lastWord; j++) {
-            //NSLog(@"using space %f",[(NSNumber*)[spaceBetweenWords objectAtIndex:j-firstWord] floatValue ]);
-            //NSLog(@"using width so far %f",widthSoFar);
             CGFloat x = widthSoFar + [(NSNumber*)[spaceBetweenWords objectAtIndex:j-firstWord] floatValue];
             [positions insertObject:@[[NSNumber numberWithFloat:x],[NSNumber numberWithFloat:heightSoFar]] atIndex:[positions count]];
-            //NSLog(@"word at position %f with width %f", x, [(NSNumber*)[(NSArray*)[wordSizes objectAtIndex:j] objectAtIndex:0] floatValue]);
             widthSoFar += [(NSNumber*)[spaceBetweenWords objectAtIndex:j-firstWord] floatValue]+self.minSpaceBetweenWords + [(NSNumber*)[(NSArray*)[wordSizes objectAtIndex:j] objectAtIndex:0] floatValue];
         }
-        heightSoFar += self.maxWordHeight;
+        heightSoFar += spacePerLine;
         firstWord=lastWord+1;
         
     }

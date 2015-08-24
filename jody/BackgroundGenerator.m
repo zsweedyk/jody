@@ -53,11 +53,9 @@
   
         if (frontPage.size.width<self.diameter || frontPage.size.height<self.diameter) {
             frontPage = [frontPage scaleImageToSize:CGSizeMake(self.diameter,self.diameter)];
-            //NSLog(@"scaled image up");
         }
         if (frontPage.size.width>2*self.diameter || frontPage.size.height>2*self.diameter) {
             frontPage = [frontPage scaleImageToSize:CGSizeMake(2*self.diameter,2*self.diameter)];
-            //NSLog(@"scaled image down");
         }
 
         // crop to a square about center
