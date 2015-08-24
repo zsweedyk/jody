@@ -147,6 +147,10 @@ const CGFloat firstPointDisplacement=50;
     // move the first word
     UILabel* theWord = (UILabel*)self.chain[0];
     int pathIndex = (int)[self.chainPtrToPath[0] integerValue] + 1;
+    if (pathIndex >= [self.path count]) {
+        NSLog(@"trying to access bad path.");
+        return;
+    }
     CGPoint nextPoint = [self CGPointFromArray:(NSArray*) self.path[pathIndex]];
     [theWord setCenter: CGPointMake(nextPoint.x-firstPointDisplacement, nextPoint.y)];
     self.chainPtrToPath[0]=[NSNumber numberWithInt:pathIndex];
@@ -158,10 +162,18 @@ const CGFloat firstPointDisplacement=50;
         UILabel* theWord = (UILabel*)self.chain[i];
         pathIndex = (int)[self.chainPtrToPath[i] integerValue]+1;
         int startingIndex=pathIndex-1;
+        if (pathIndex >= [self.path count]) {
+            NSLog(@"trying to access bad path.");
+            return;
+        }
         CGPoint moveToPoint = [self CGPointFromArray:(NSArray*) self.path[pathIndex]];
         CGRect movedFrame = CGRectMake(moveToPoint.x, moveToPoint.y, theWord.frame.size.width, theWord.frame.size.height);
         while ([self goodDistanceFrom: movedFrame To: nextWord.frame]){
             pathIndex++;
+            if (pathIndex >= [self.path count]) {
+                NSLog(@"trying to access bad path.");
+                return;
+            }
             moveToPoint = [self CGPointFromArray:(NSArray*) self.path[pathIndex]];
             movedFrame.origin.x = moveToPoint.x;
             movedFrame.origin.y = moveToPoint.y;

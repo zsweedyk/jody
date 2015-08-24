@@ -12,7 +12,7 @@
 #import "HeadlinesView.h"
 #import "constants.h"
 
-const int maxDisplacement = 5;
+const int maxDisplacement = 3;
 
 
 @interface HeadlinesView()
@@ -26,6 +26,7 @@ const int maxDisplacement = 5;
 @property (strong,nonatomic) UITapGestureRecognizer* myTapRecognizer;
 @property int fontSize;
 @property BOOL okToAnimate;
+@property int wordsToAdd;
 
 
 @end
@@ -53,6 +54,7 @@ const int maxDisplacement = 5;
 
 - (int)addHeadline:(NSString*) headline withColor:(UIColor*)color
 {
+    self.wordsToAdd=0;
     // it doesn't disappear sometimes -- not sure why but this should take care of it
     // until we can find the problem
     if (self.chainView) {
@@ -126,7 +128,14 @@ const int maxDisplacement = 5;
 
 - (void)layoutWords: (NSArray*) theWords atPositions: (NSArray*) wordPositions withSizes: (NSArray*) wordSizes withColor: (UIColor*) color
 {
+    if (!self.fade) {
+        self.fade = [[UIView alloc] initWithFrame:self.frame];
+        self.fade.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:.65];
+    }
+    [self addSubview:self.fade];
+    [self bringSubviewToFront:self.fade];
     
+    self.wordsToAdd = (int)[theWords count];
     for (int i=0;i<[theWords count]; i++) {
         // find last word in this line
         
@@ -168,20 +177,22 @@ const int maxDisplacement = 5;
         [self.initialWordPositions insertObject:[self NSArrayFromCGPoint:CGPointMake(newLabel.frame.origin.x, newLabel.frame.origin.y)] atIndex:newLabel.tag];
         [self.deleted insertObject:[NSNumber numberWithInt:0] atIndex:newLabel.tag];
         
-        if (i<[self.words count]-1) {
-            [UIView animateWithDuration:.5 delay:.2*i options:0 animations:^(){newLabel.alpha=1;} completion:nil];
-        }
-        else {
-            [UIView animateWithDuration:.5 delay:.2*i options:0 animations:^(){newLabel.alpha=1;} completion:^(BOOL finished) {if (finished) [self startAnimation];}];
-        }
+        [UIView animateWithDuration:.5 delay:.2*i options:0 animations:^(){newLabel.alpha=1;} completion:^(BOOL finished) {[self startAnimation];}];
 
     }
 }
 
 - (void)startAnimation
 {
-    self.okToAnimate=YES;
-    NSLog(@"starting animation");
+    static int count=0;
+    count++;
+    if (count == self.wordsToAdd) {
+        self.okToAnimate=YES;
+        count=0;
+        self.wordsToAdd=0;
+        [self.fade removeFromSuperview];
+    }
+ 
 }
 
 
@@ -203,6 +214,11 @@ const int maxDisplacement = 5;
     CGPoint translation = [sender translationInView:self];
     sender.view.center = CGPointMake(sender.view.center.x + translation.x,
                                      sender.view.center.y + translation.y);
+ 
+    UILabel* label = (UILabel*)[sender view];
+    int tag = label.tag;
+    CGPoint origin = sender.view.frame.origin;
+    self.initialWordPositions[tag]= [self NSArrayFromCGPoint:origin];
     [sender setTranslation:CGPointMake(0, 0) inView:self];
 }
 

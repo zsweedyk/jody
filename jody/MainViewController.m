@@ -111,11 +111,27 @@ enum {
     
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [[NSNotificationCenter defaultCenter] addObserver:self  selector:@selector(orientationChanged:)    name:UIDeviceOrientationDidChangeNotification  object:nil];
+
+}
+
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
     
     //[self hideToolBarWithDelay:1.0];
+}
+
+- (void)orientationChanged:(NSNotification *)notification{
+    [self adjustViewsForOrientation:[[UIApplication sharedApplication] statusBarOrientation]];
+}
+
+- (void) adjustViewsForOrientation: (UIInterfaceOrientation) orientation
+{
+    //TODO -- adjust view
 }
 
 - (void)setUpToolBar
