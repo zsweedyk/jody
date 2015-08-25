@@ -181,19 +181,5 @@
     return outputImage;
 }
 
-//- (UIImage*) flip: (UIImage*) inputImage
-//{
-//    CGSize size = CGSizeMake(inputImage.size.width,inputImage.size.height);
-//    UIGraphicsBeginImageContext(size);
-//    CGContextRef context = UIGraphicsGetCurrentContext();
-//    CGContextScaleCTM (context, -1,1);
-//    CGRect bounds = CGRectMake( 0,0, inputImage.size.width, inputImage.size.height);
-//    [inputImage drawInRect:bounds];
-//    UIImage *outputImage = UIGraphicsGetImageFromCurrentImageContext();
-//    UIGraphicsEndImageContext();
-//    
-//    return outputImage;
-//}
-
 
 @end

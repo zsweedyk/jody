@@ -25,8 +25,7 @@ const int maxDisplacement = 3;
 @property (weak,nonatomic) PositionManager* positionManager;
 @property (strong,nonatomic) UITapGestureRecognizer* myTapRecognizer;
 @property int fontSize;
-@property BOOL okToAnimate;
-@property int wordsToAdd;
+
 
 
 @end
@@ -41,26 +40,23 @@ const int maxDisplacement = 3;
         self.headlines = [[NSMutableArray alloc] init];
         self.backgroundColor = [UIColor colorWithRed:1 green:1 blue:1 alpha:0];
         self.words = [[NSMutableArray alloc] init];
-        self.initialWordPositions = [[NSMutableArray alloc] init];
         self.deleted = [[NSMutableArray alloc] init];
         self.positionManager = [PositionManager sharedManager];
         FontManager* fontManager = [FontManager sharedManager];
         self.fontSize = fontManager.headlineFontSize;
-        self.enableInput=YES;
-        self.okToAnimate=YES;
+  
     }
     return self;
 }
 
 - (int)addHeadline:(NSString*) headline withColor:(UIColor*)color
 {
-    self.wordsToAdd=0;
+
     // it doesn't disappear sometimes -- not sure why but this should take care of it
     // until we can find the problem
     if (self.chainView) {
         [self endChain];
     }
-    self.okToAnimate=NO;
     //headline=@"Is a ballot-booth selfie free speech, or a threat to the sanctity of the secret vote?";
     //headline=@"ABCD EFGH IJIK MNOP QRST UVWX YZ abcd efgh ijkl mnop qrst uvwx yz 12345";
     NSLog(@"Adding headline: %@",headline);
@@ -128,14 +124,7 @@ const int maxDisplacement = 3;
 
 - (void)layoutWords: (NSArray*) theWords atPositions: (NSArray*) wordPositions withSizes: (NSArray*) wordSizes withColor: (UIColor*) color
 {
-    if (!self.fade) {
-        self.fade = [[UIView alloc] initWithFrame:self.frame];
-        self.fade.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:.65];
-    }
-    [self addSubview:self.fade];
-    [self bringSubviewToFront:self.fade];
-    
-    self.wordsToAdd = (int)[theWords count];
+    int oldWordCount = (int)[self.words count];
     for (int i=0;i<[theWords count]; i++) {
         // find last word in this line
         
@@ -155,13 +144,13 @@ const int maxDisplacement = 3;
                 alpha: &alpha];
         UIColor* textColor = [UIColor colorWithRed: red green:green blue:blue alpha:1];
         newLabel.textColor=textColor;
+        newLabel.alpha = 0;
         
         [newLabel setFont:[UIFont fontWithName:kFontName size:self.fontSize]];
         newLabel.numberOfLines = 1;
         newLabel.textAlignment = NSTextAlignmentCenter;
         newLabel.userInteractionEnabled = YES;
         newLabel.tag = [self.words count];
-        newLabel.alpha = 0;
         
         // add gesture recognizers
         UITapGestureRecognizer* tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(removeHeadline:)];
@@ -173,28 +162,61 @@ const int maxDisplacement = 3;
         
         // add subview
         [self addSubview:newLabel];
+        [self addWord: newLabel withAnimationDelay: i*.5 andMoveWords:oldWordCount];
+
         [self.words insertObject:newLabel atIndex:newLabel.tag];
-        [self.initialWordPositions insertObject:[self NSArrayFromCGPoint:CGPointMake(newLabel.frame.origin.x, newLabel.frame.origin.y)] atIndex:newLabel.tag];
         [self.deleted insertObject:[NSNumber numberWithInt:0] atIndex:newLabel.tag];
         
-        [UIView animateWithDuration:.5 delay:.2*i options:0 animations:^(){newLabel.alpha=1;} completion:^(BOOL finished) {[self startAnimation];}];
 
     }
 }
 
-- (void)startAnimation
+- (void) addWord: (UILabel*) word withAnimationDelay: (CGFloat) delay andMoveWords: (int) oldWordCount
 {
-    static int count=0;
-    count++;
-    if (count == self.wordsToAdd) {
-        self.okToAnimate=YES;
-        count=0;
-        self.wordsToAdd=0;
-        [self.fade removeFromSuperview];
+    __block NSMutableArray* toFade = [[NSMutableArray alloc] init];
+    for (int i=0;i<oldWordCount;i++) {
+        UILabel* oldWord = (UILabel*) self.words[i];
+
+        CGRect intersect = CGRectIntersection (oldWord.frame, word.frame);
+        if (CGRectIsNull(intersect) || CGRectIsEmpty(intersect)) {
+                toFade[[toFade count]]=oldWord;
+        }
     }
- 
+    [UIView animateWithDuration:.5 delay:.2*delay options:0
+                     animations:^(){
+                         word.alpha=1;
+                         for (int j=0; j<[toFade count];j++) {
+                             UILabel* oldWord = (UILabel*)toFade[j];
+                             oldWord.alpha=.5;
+                        }
+                     }
+                     completion:^(BOOL finished) {
+                         [UIView animateWithDuration:.5 delay:.2*delay options:0
+                                          animations:^() {
+                                              for (int j=0; j<[toFade count];j++) {
+                                                  UILabel* oldWord = (UILabel*)toFade[j];
+                                                  oldWord.alpha=1;
+                                              }
+                                          }
+                                          completion:nil];
+                     }];
 }
 
+- (CGPoint)moveOldWord:(CGRect)oldFrame forNewWord:(CGRect)newFrame
+{
+    CGPoint displacement = CGPointMake(0, 0);
+    CGRect intersect = CGRectIntersection (oldFrame, newFrame);
+    if (CGRectIsNull(intersect) || CGRectIsEmpty(intersect)) {
+        return displacement;
+    }
+    if (newFrame.origin.y < oldFrame.origin.y) {
+        displacement.y = -intersect.size.height;
+    }
+    else {
+        displacement.y = intersect.size.height;
+    }
+    return displacement;
+}
 
 - (void) removeHeadline: (UITapGestureRecognizer*)sender
 {
@@ -218,7 +240,6 @@ const int maxDisplacement = 3;
     UILabel* label = (UILabel*)[sender view];
     int tag = label.tag;
     CGPoint origin = sender.view.frame.origin;
-    self.initialWordPositions[tag]= [self NSArrayFromCGPoint:origin];
     [sender setTranslation:CGPointMake(0, 0) inView:self];
 }
 
@@ -229,7 +250,7 @@ const int maxDisplacement = 3;
     }
     if(sender.state == UIGestureRecognizerStateBegan)
     {
-        self.okToAnimate=NO;
+
         if (self.chainView) {
             self.chainView=nil;
         }
@@ -278,7 +299,6 @@ const int maxDisplacement = 3;
         self.chainView = nil;
         [self.fade removeFromSuperview];
         [self removeGestureRecognizer:self.myTapRecognizer];
-        self.okToAnimate=YES;
     }
     
 }
@@ -296,26 +316,6 @@ const int maxDisplacement = 3;
     self.words = [[NSMutableArray alloc] init];
 }
 
-- (void)animate {
-    if (!self.words || !self.okToAnimate) {
-        return;
-    }
-    
-    for (int i=0;i<[self.words count]; i++) {
-        
-    
-  
-        CGFloat x = (arc4random()%(100*maxDisplacement))/100.0 - maxDisplacement/2.0;
-        CGFloat y = (arc4random()%(100*maxDisplacement))/100.0 - maxDisplacement/2.0;
-        
-        UILabel* word = (UILabel*)self.words[i];
-        CGRect frame = word.frame;
-        CGPoint origin = [self CGPointFromArray:(NSArray*)self.initialWordPositions[i]];
-        CGRect newFrame = CGRectMake(origin.x+x, origin.y+y, frame.size.width, frame.size.height);
-        word.frame = newFrame;
-   }
- 
-}
 
 - (CGPoint) CGPointFromArray: (NSArray*) array
 {

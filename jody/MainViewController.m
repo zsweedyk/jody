@@ -14,12 +14,14 @@ enum {
     STOPPED = 4
 };
 
+#import "NWSharedImage.h"
 #import "SourceManager.h"
 #import "MainViewController.h"
 #import "HeadlinesView.h"
 #import "ColorWheelView.h"
 #import "RSSManager.h"
 #import "BackgroundGenerator.h"
+#import <Parse/Parse.h>
 
 @interface MainViewController ()
 
@@ -28,7 +30,6 @@ enum {
 @property (strong,nonatomic) ColorWheelView* colorWheelView;
 @property (strong,nonatomic) UIButton* showToolBarButton;
 @property (strong,nonatomic) NSTimer* colorWheelTimer;
-@property (strong,nonatomic) NSTimer* headlineTimer;
 @property (strong,nonatomic) UIGestureRecognizer* tapRecognizer;
 @property (weak,nonatomic) RSSManager* rssManager;
 @property (weak,nonatomic) BackgroundGenerator* bgManager;
@@ -40,7 +41,7 @@ enum {
 @property double colorWheelAngle;
 @property double finalAngle;
 @property BOOL toolBarUsed;
-@property BOOL headlinesAnimated;
+
 
 @end
 
@@ -51,8 +52,6 @@ enum {
     // Do any additional setup after loading the view, typically from a nib.
     
     self.sourceChosen=-1;
-    
-    self.headlinesAnimated=NO;
     
     // turn off nav bar
     [self.navigationController setNavigationBarHidden:YES];
@@ -240,9 +239,6 @@ enum {
 - (void)spin:(id)sender
 {
 
-    if (self.headlineTimer) {
-        [self.headlineTimer invalidate];
-    }
     if (self.colorWheelState == OUT_OF_FOCUS) {
         [self bringColorWheelIntoFocus];
     }
@@ -304,14 +300,10 @@ enum {
     [self.view bringSubviewToFront:self.headlinesView];
     self.headlinesView.enableInput=YES;
     [self.rssManager getHeadlineFrom: self.sourceChosen];
-    self.headlineTimer = [NSTimer scheduledTimerWithTimeInterval:1.0/10.0 target:self selector:@selector(animateHeadlines) userInfo:nil repeats:YES];
+
     
 }
 
-- (void) animateHeadlines {
-    
-    [self.headlinesView animate];
-}
 
 - (void)newHeadline:(NSString *)headline
 {
@@ -337,9 +329,33 @@ enum {
 
 - (IBAction)share:(id)sender
 {
-    NSLog(@"share");
-    self.toolBarUsed=YES;
+  
+    if ([[UIScreen mainScreen] respondsToSelector:@selector(scale)])
+        UIGraphicsBeginImageContextWithOptions(self.view.bounds.size, NO, [UIScreen mainScreen].scale);
+    else
+        UIGraphicsBeginImageContext(self.view.bounds.size);
+    
+    [self.view.layer renderInContext:UIGraphicsGetCurrentContext()];
+    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    NSData * imgData = UIImagePNGRepresentation(image);
+    if(imgData) {
+        NWSharedImage* sharedImage = [[NWSharedImage alloc] init];
+        sharedImage.screenShot = [PFFile fileWithData:imgData];
+    
+    
+        [sharedImage.screenShot saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+            if (succeeded) {
+                [sharedImage saveInBackground];
+            }
+        }];
+    }
+    else
+        NSLog(@"error while taking screenshot");
+  
 }
+
+
 
 - (IBAction)save:(id)sender
 {

@@ -9,6 +9,7 @@
 #import "AppDelegate.h"
 #import <Parse/Parse.h>
 #import "NWSource.h"
+#import "NWSharedImage.h"
 
 
 
@@ -25,6 +26,7 @@
 
     
     [NWSource registerSubclass];
+    [NWSharedImage registerSubclass];
     [Parse setApplicationId:@"yGmCLSLRXZqoKUWCdhNFFhDP8zl7id3pLoEhJsMq" clientKey:@"xcqd94lznxBYVj22fAMksq4rozoiopGHDQGVXyWS"];
     
 

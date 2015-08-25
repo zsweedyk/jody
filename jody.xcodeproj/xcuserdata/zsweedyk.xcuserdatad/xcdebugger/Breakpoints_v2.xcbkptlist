@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "jody/MainViewController.m"
-            timestampString = "462143917.535342"
+            timestampString = "462159220.774028"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "50"
-            endingLineNumber = "50"
+            startingLineNumber = "51"
+            endingLineNumber = "51"
             landmarkName = "-viewDidLoad"
             landmarkType = "5">
          </BreakpointContent>
@@ -202,11 +202,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "jody/HeadlinesView.m"
-            timestampString = "462149411.938495"
+            timestampString = "462158061.691358"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "204"
-            endingLineNumber = "204"
+            startingLineNumber = "226"
+            endingLineNumber = "226"
             landmarkName = "-removeHeadline:"
             landmarkType = "5">
          </BreakpointContent>

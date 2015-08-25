@@ -14,7 +14,6 @@
 
 @property (strong,nonatomic) NSMutableArray* headlines;
 @property (strong,nonatomic) NSMutableArray* words;
-@property (strong,nonatomic) NSMutableArray* initialWordPositions;
 @property (strong,nonatomic) NSMutableArray* wordChain;
 @property CGFloat startX;
 @property CGFloat startY;
