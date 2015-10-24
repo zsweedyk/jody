@@ -47,10 +47,13 @@
         self.sourceManager = [SourceManager sharedManager];
     }
 
+    // for each source
     for (int i=0; i<kSourceCount; i++) {
   
+        // get front page image for source
         UIImage* frontPage = [self.sourceManager frontPageImageForSource:i];
   
+        // scale front page to size of screen or 2x size of screen
         if (frontPage.size.width<self.diameter || frontPage.size.height<self.diameter) {
             frontPage = [frontPage scaleImageToSize:CGSizeMake(self.diameter,self.diameter)];
         }
@@ -61,9 +64,12 @@
         // crop to a square about center
         CGFloat x = (frontPage.size.width-self.diameter)/2.0;
         CGFloat y = (frontPage.size.height-self.diameter)/2.0;
-
         frontPage = [frontPage crop: CGRectMake(x, y, self.diameter, self.diameter)];
+        
+        // blend image with color for source
         frontPage = [self blendImage:frontPage withColor: [self.sourceManager colorForSource:i]];
+        
+        // mask front page for segment and add to background
         UIImage* mask =[self createMaskForSegment:i];
         UIImage* maskedImage=[self maskImage:frontPage withMask:mask];
         if (background) {
@@ -73,30 +79,22 @@
             background=maskedImage;
         }
     }
-
     return background;
 }
 
-
-
 -(UIImage*) blendImage:(UIImage*)image withColor:(UIColor*) color {
-    
     
     CGSize size = CGSizeMake(image.size.width, image.size.height);
     UIGraphicsBeginImageContext( size );
-    
     [color setFill];
     [[UIBezierPath bezierPathWithRect:CGRectMake(0, 0, self.diameter, self.diameter)] fill];
     
     // Apply supplied opacity
     [image drawInRect:CGRectMake(0,0,size.width,size.height) blendMode:kCGBlendModeNormal alpha:0.5];
-    
     UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
-    
     UIGraphicsEndImageContext();
     
     return newImage;
-    
 }
 - (UIImage*) maskImage:(UIImage *)image withMask:(UIImage *)maskImage {
     
@@ -110,7 +108,6 @@
     
     CGImageRef masked = CGImageCreateWithMask([image CGImage], mask);
     return [UIImage imageWithCGImage:masked];
-    
 }
 
 - (UIImage*) createMaskForSegment: (int) segmentNumber

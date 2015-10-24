@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="mos-2t-KVU">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8191" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="mos-2t-KVU">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
         <!--Main View Controller-->
@@ -75,6 +77,7 @@
         <!--Info View Controller-->
         <scene sceneID="YgP-pn-vy6">
             <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="jNu-qX-ylY" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <viewController id="PTm-5Q-fll" customClass="InfoViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="ug1-DN-c5g"/>
@@ -84,66 +87,44 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="556"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="News Wheel" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2Gv-uq-378">
-                                <rect key="frame" x="187" y="44" width="96" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Concept/Design: Jody Zellen" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3PR-kk-BYE">
-                                <rect key="frame" x="47" y="124" width="223" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Software Development: Z Sweedyk" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BGY-eH-hdY">
-                                <rect key="frame" x="47" y="173" width="270" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="This project was funded in part through a 2016 Artists Fellowship grant from the City of Santa Monica" lineBreakMode="wordWrap" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hGd-4B-aWA">
-                                <rect key="frame" x="47" y="222" width="304" height="66"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Sources:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="n50-L9-Rk2">
-                                <rect key="frame" x="47" y="312" width="68" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Instructions:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GgT-bH-gbd">
-                                <rect key="frame" x="47" y="379" width="95" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NrI-iT-lhE">
-                                <rect key="frame" x="530" y="0.0" width="46" height="30"/>
+                            <webView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tqn-Wd-cV9">
+                                <rect key="frame" x="20" y="47" width="560" height="509"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </webView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="a4y-qA-GZn">
+                                <rect key="frame" x="543" y="7" width="30" height="30"/>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                 <state key="normal" title="X">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <action selector="close:" destination="PTm-5Q-fll" eventType="touchUpInside" id="uZ7-tl-TJL"/>
+                                    <action selector="close:" destination="PTm-5Q-fll" eventType="touchUpInside" id="vC1-3K-nfs"/>
                                 </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailingMargin" secondItem="a4y-qA-GZn" secondAttribute="trailing" constant="7" id="8aY-8b-dZ8"/>
+                            <constraint firstItem="a4y-qA-GZn" firstAttribute="top" secondItem="iTE-Tw-2a7" secondAttribute="topMargin" constant="7" id="QMS-Ji-Sup"/>
+                            <constraint firstItem="tqn-Wd-cV9" firstAttribute="leading" secondItem="iTE-Tw-2a7" secondAttribute="leadingMargin" id="b5A-6g-VOh"/>
+                            <constraint firstItem="tqn-Wd-cV9" firstAttribute="top" secondItem="ug1-DN-c5g" secondAttribute="bottom" constant="27" id="n8A-Fv-i4x"/>
+                            <constraint firstItem="V5k-Sy-0iV" firstAttribute="top" secondItem="tqn-Wd-cV9" secondAttribute="bottom" id="rNP-9k-Dsc"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="tqn-Wd-cV9" secondAttribute="trailing" id="v2x-hw-cWp"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="Lgd-jf-7lu"/>
+                    <connections>
+                        <outlet property="webView" destination="tqn-Wd-cV9" id="P8m-mX-dW6"/>
+                    </connections>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="jNu-qX-ylY" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2387" y="167.99999999999997"/>
+            <point key="canvasLocation" x="2446" y="160"/>
         </scene>
         <!--Start View Controller-->
         <scene sceneID="Z41-Nh-ruC">
             <objects>
                 <viewController id="WeI-R2-hc7" customClass="StartViewController" sceneMemberID="viewController">
-                    <imageView key="view" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="splashScreen.png" id="bn9-Gw-Zeu">
+                    <imageView key="view" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="default-landscape-1024x768.png" id="bn9-Gw-Zeu">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     </imageView>
@@ -178,6 +159,6 @@
     </scenes>
     <resources>
         <image name="colorWheelSmall.png" width="22" height="22"/>
-        <image name="splashScreen.png" width="768" height="1024"/>
+        <image name="default-landscape-1024x768.png" width="1024" height="768"/>
     </resources>
 </document>

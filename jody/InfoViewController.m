@@ -17,6 +17,14 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
+    NSString *urlAddress = @"https://google.com";
+    //Create a URL object.
+    NSURL *url = [NSURL URLWithString:urlAddress];
+    //URL Requst Object
+    NSURLRequest *requestObj = [NSURLRequest requestWithURL:url];
+    //Load the request in the UIWebView.
+    [self.webView loadRequest:requestObj];
 }
 
 - (void)didReceiveMemoryWarning {

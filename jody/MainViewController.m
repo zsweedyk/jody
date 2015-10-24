@@ -10,8 +10,6 @@ enum {
     IN_FOCUS_WAITING =0,
     OUT_OF_FOCUS = 1,
     SPINNING = 2,
-    SLOWING = 3,
-    STOPPED = 4
 };
 
 #import "NWSharedImage.h"
@@ -72,7 +70,6 @@ enum {
     if ((colorWheelFrameSize/2)*2 != colorWheelFrameSize) {
         colorWheelFrameSize +=-1;
     }
-    
     CGFloat leftX= (myFrame.size.width - colorWheelFrameSize)/2.0;
     CGFloat topY = (myFrame.size.height-colorWheelFrameSize)/2.0;
     CGRect colorWheelFrame = CGRectMake(leftX, topY, colorWheelFrameSize, colorWheelFrameSize);
@@ -251,43 +248,22 @@ enum {
         self.colorWheelState = SPINNING;
     }
     else if (self.colorWheelState == SPINNING) {
-
         [self.colorWheelView removeGestureRecognizer:self.tapRecognizer];
         self.finalAngle = self.colorWheelAngle+3.14159;
-        self.colorWheelState = SLOWING;
+        [self colorWheelStoppedSpinning];
     }
     
 }
 
 - (void) update
 {
-    static int slowDownCount=0;
-    const int slowDownSteps = 60;
-    if (self.colorWheelState != SLOWING) {
         self.colorWheelAngle += 3.14159/60.0;
         if (self.colorWheelAngle > 2*3.14159) {
             self.colorWheelAngle -= 2*3.14159;
         }
         self.colorWheelView.transform = CGAffineTransformMakeRotation(self.colorWheelAngle);
         [self.colorWheelView setNeedsDisplay];
-    }
-    else {
-        if (slowDownSteps>slowDownCount) {
-            CGFloat angleDiff = ((CGFloat)(slowDownSteps-slowDownCount))*3.14159/60.0/slowDownSteps;
-            self.colorWheelAngle += angleDiff;
-            if (self.colorWheelAngle > 2*3.14159) {
-                self.colorWheelAngle -= 2*3.14159;
-            }
-            slowDownCount++;
-            self.colorWheelView.transform = CGAffineTransformMakeRotation(self.colorWheelAngle);
-            [self.colorWheelView setNeedsDisplay];
-        }
-        else {
-            slowDownCount=0;
-            self.colorWheelState = STOPPED;
-            [self colorWheelStoppedSpinning];
-        }
-    }
+
 }
 
 - (void) colorWheelStoppedSpinning

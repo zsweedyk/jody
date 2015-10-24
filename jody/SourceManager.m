@@ -77,15 +77,15 @@ enum {
                         @"/IND_AGE.pdf",
                         @"/UAE_TN.pdf"];
         
-        self.rssFeeds =@[@"http://feeds.feedburner.com/nytimes/gTKh",
-                             @"http://feeds.feedburner.com/washingtonpost/HBJr",
-                             @"http://feeds.feedburner.com/theguardian/bKzI",
-                             @"http://feeds.feedburner.com/latimes/Wxwm",
-                             @"http://feeds.feedburner.com/wsj/tGpR",
-                             @"http://feeds.feedburner.com/philly/oyxv",
-                             @"http://feeds.feedburner.com/nydailynews/Fhuw",
-                             @"http://feeds.feedburner.com/asianage/Knmy",
-                             @"http://feeds.feedburner.com/thenational/uNww"];
+        self.rssFeeds =@[@"https://feeds.feedburner.com/nytimes/gTKh",
+                             @"https://feeds.feedburner.com/washingtonpost/HBJr",
+                             @"https://feeds.feedburner.com/theguardian/bKzI",
+                             @"https://feeds.feedburner.com/latimes/Wxwm",
+                             @"https://feeds.feedburner.com/wsj/tGpR",
+                             @"https://feeds.feedburner.com/philly/oyxv",
+                             @"https://feeds.feedburner.com/nydailynews/Fhuw",
+                             @"https://feeds.feedburner.com/asianage/Knmy",
+                             @"https://feeds.feedburner.com/thenational/uNww"];
         
         // we use dummy images initially so we can insert images at the appropriate index
         UIImage* dummy = [UIImage imageNamed:@"colorWheelSmall@2x.png"];
