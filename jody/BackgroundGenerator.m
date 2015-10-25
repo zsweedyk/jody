@@ -84,6 +84,13 @@
 
 -(UIImage*) blendImage:(UIImage*)image withColor:(UIColor*) color {
     
+//    CGFloat red, green,blue, alpha;
+//    [color getRed: &red green: &green blue: &blue alpha: &alpha];
+//    NSLog(@"red = %f. Green = %f. Blue = %f. Alpha = %f",
+//          red,
+//          green,
+//          blue,
+//          alpha);
     CGSize size = CGSizeMake(image.size.width, image.size.height);
     UIGraphicsBeginImageContext( size );
     [color setFill];
@@ -143,6 +150,7 @@
                  startAngle-radiansInSegment,
                  YES);
     CGPathAddLineToPoint(segment, NULL,0,0);
+    //NSLog(@"Segment from %f to %f",(startAngle)*180.0/3.14159, startAngle+radiansInSegment*180.0/3.14159);
     
     UIColor* segmentColor;
     segmentColor = [UIColor blackColor];

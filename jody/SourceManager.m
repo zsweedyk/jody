@@ -28,6 +28,8 @@ enum {
 @interface SourceManager ()
 
 @property (strong,nonatomic) NSMutableArray* sources;
+@property (strong,nonatomic) NSDictionary* sourceNums;
+@property (strong,nonatomic) NSArray* defaultFrontPages;
 @property (strong,nonatomic) NSMutableArray* frontPageImages;
 @property (strong,nonatomic) NSMutableArray* frontPageImageUrl;
 @property (strong,nonatomic) NSArray* sourceNames;
@@ -57,6 +59,17 @@ enum {
         self.sources = [[NSMutableArray alloc] initWithCapacity:kSourceCount];
         self.frontPageImages = [[NSMutableArray alloc] initWithCapacity:kSourceCount];
         
+        
+        self.defaultFrontPages = @[@"newYorkTimesDefault",
+                                   @"washingtonPostDefault",
+                                   @"guardianDefault",
+                                   @"laTimesDefault",
+                                   @"wallStreetJournalDefault",
+                                   @"philadelphiaInquirerDefault",
+                                   @"dailyNewsDefault",
+                                   @"AsianAgeDefault",
+                                   @"nationalDefault"];
+        
         self.sourceNames =@[@"N.Y. Times",
                                 @"Washington Post",
                                 @"Guardian",
@@ -66,6 +79,16 @@ enum {
                                 @"N.Y. Daily News",
                                 @"Asian Age",
                                 @"National"];
+        
+        self.sourceNums=@{self.sourceNames[0]: @0,
+                          self.sourceNames[1]: @1,
+                          self.sourceNames[2]: @2,
+                          self.sourceNames[3]: @3,
+                          self.sourceNames[4]: @4,
+                          self.sourceNames[5]: @5,
+                          self.sourceNames[6]: @6,
+                          self.sourceNames[7]: @7,
+                          self.sourceNames[8]: @8};
         
         self.urlEnds =@[@"/NY_NYT.pdf",
                         @"/DC_WP.pdf",
@@ -112,15 +135,9 @@ enum {
                     NWSource* source = [sources objectAtIndex:i];
                     [self.sources insertObject:source atIndex:i];
                     
-                    // check if the parse data is consistent with our class data (this allows us to change parse data by simply changing our constants in this class
-                    int parseSourceNum = source.sourceNum;
-                    if (![source.sourceName isEqualToString:self.sourceNames[parseSourceNum]] ||
-                        ![source.rssFeed isEqualToString: self.rssFeeds[parseSourceNum]]) {
-                        source.sourceName = self.sourceNames[parseSourceNum];
-                        source.rssFeed = self.rssFeeds[parseSourceNum];
-                        [source saveInBackground];
-                    }
-                    NSString* latestURL = [self createNewUrlForSource:parseSourceNum andUpdateDay:updateDay];
+                    // check if the pdf we have in parse is current
+                    __block int sourceNum = (int)[(NSNumber*)[self.sourceNums objectForKey:source.sourceName] integerValue];
+                    NSString* latestURL = [self createNewUrlForSource:sourceNum andUpdateDay:updateDay];
                     if (![latestURL isEqualToString:source.frontPageUrl]){
                         // we get the latest pdf -- we don't use it here but it will be available for other users
                         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
@@ -129,7 +146,6 @@ enum {
                         
                     }
                     
-                    __block int sourceNum=i;
                     self.pdfsSought++;
                     [source.frontPagePdf getDataInBackgroundWithBlock:^(NSData *data, NSError *error){
                         dispatch_async(dispatch_get_main_queue(), ^{
@@ -138,6 +154,13 @@ enum {
                                 if (newImage) {
                                     [self.frontPageImages replaceObjectAtIndex: sourceNum withObject: newImage];
                                 }
+                                else {
+                                    newImage = [self imageFromPdf:[NSData dataWithContentsOfFile:self.defaultFrontPages[sourceNum]]];
+                                    if (newImage) {
+                                        [self.frontPageImages replaceObjectAtIndex: sourceNum withObject: newImage];
+                                    }
+                                    // else we don't have an image
+                                }
                                 self.imagesProcessed++;
                                 if (self.imagesProcessed==kSourceCount) {
                                     self.lastUpdate = [NSDate date];
@@ -145,8 +168,13 @@ enum {
                                 }}
                             
                             else {
+                                NSString *filePath = [[NSBundle mainBundle] pathForResource:self.defaultFrontPages[sourceNum] ofType:@"pdf"];
+                                UIImage* newImage = [self imageFromPdf:[NSData dataWithContentsOfFile:filePath]];
+                                if (newImage) {
+                                    [self.frontPageImages replaceObjectAtIndex: sourceNum withObject: newImage];
+                                }
+                                    // else we don't have an image
                                 self.imagesProcessed++;
-                                NSLog(@"Couldn't retrieve front page pdf file.");
                                 if (self.imagesProcessed==kSourceCount) {
                                     [self.delegate frontPagesCreated];
                                 }
@@ -178,7 +206,6 @@ enum {
     for (int i=0; i<sourceCount; i++) {
         
         NWSource* source = [[NWSource alloc] init];
-        source.sourceNum = i;
         source.sourceName = [self.sourceNames objectAtIndex:i];
         source.rssFeed = [self.rssFeeds objectAtIndex:i];
         source.frontPageUrl = [self createNewUrlForSource:i andUpdateDay:day];
@@ -288,6 +315,7 @@ enum {
     return data;
 }
 
+
 - (UIImage*) imageFromPdf: (NSData*) pdf
 {
     CGDataProviderRef provider = CGDataProviderCreateWithCFData((__bridge CFDataRef)pdf);
@@ -330,7 +358,8 @@ enum {
 {
     NSAssert(i>=0 && i<kSourceCount, @"Image requested for non-existent source.");
     NWSource* source = (NWSource*)[self.sources objectAtIndex:i];
-    int sourceNum = source.sourceNum;
+    //int sourceNum = source.sourceNum;
+    int sourceNum=i;
     float red = basicColors[sourceNum][0];
     float green = basicColors[sourceNum][1];
     float blue = basicColors[sourceNum][2];

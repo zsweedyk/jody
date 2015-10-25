@@ -31,15 +31,10 @@
 }
 
 
-
 - (void)getHeadlineFrom: (int) sourceNum {
     
     if (!self.sourceManager) {
         self.sourceManager = [SourceManager sharedManager];
-    }
-    if (sourceNum==4)
-    {
-        NSLog(@"check it out");
     }
     
     NSLog(@"Getting headline for source: %d", sourceNum);

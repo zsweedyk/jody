@@ -10,7 +10,6 @@
 
 @implementation NWSource
 
-@dynamic sourceNum;
 @dynamic sourceName;
 @dynamic rssFeed;
 @dynamic frontPageUrl;

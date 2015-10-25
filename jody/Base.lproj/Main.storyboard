@@ -77,7 +77,6 @@
         <!--Info View Controller-->
         <scene sceneID="YgP-pn-vy6">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="jNu-qX-ylY" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <viewController id="PTm-5Q-fll" customClass="InfoViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="ug1-DN-c5g"/>
@@ -117,6 +116,7 @@
                         <outlet property="webView" destination="tqn-Wd-cV9" id="P8m-mX-dW6"/>
                     </connections>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="jNu-qX-ylY" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2446" y="160"/>
         </scene>

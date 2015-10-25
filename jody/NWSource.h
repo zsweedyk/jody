@@ -11,7 +11,7 @@
 
 @interface NWSource : PFObject <PFSubclassing>
 
-@property int sourceNum;
+
 @property (strong,nonatomic) NSString* sourceName;
 @property (strong,nonatomic) NSString* rssFeed;
 @property (strong,nonatomic) NSString* frontPageUrl;
