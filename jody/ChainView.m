@@ -171,8 +171,7 @@ const CGFloat firstPointDisplacement=50;
         while ([self goodDistanceFrom: movedFrame To: nextWord.frame]){
             pathIndex++;
             if (pathIndex >= [self.path count]) {
-                NSLog(@"trying to access bad path.");
-                return;
+                break;
             }
             moveToPoint = [self CGPointFromArray:(NSArray*) self.path[pathIndex]];
             movedFrame.origin.x = moveToPoint.x;

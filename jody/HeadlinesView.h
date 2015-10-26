@@ -24,6 +24,6 @@
 - (int) addHeadline: (NSString*) headline withColor: (UIColor*) color;
 - (void) endChain;
 - (void) reset;
-- (void) animate;
+
 
 @end

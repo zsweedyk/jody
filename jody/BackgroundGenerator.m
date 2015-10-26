@@ -79,6 +79,12 @@
             background=maskedImage;
         }
     }
+    
+    // the above alg works fine for background of uiview but in a uiimageview it is mirrored so we have to flip it
+    
+    background = [UIImage imageWithCGImage:background.CGImage
+                                                scale:background.scale
+                                          orientation:UIImageOrientationDownMirrored];
     return background;
 }
 

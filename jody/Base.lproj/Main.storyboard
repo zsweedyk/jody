@@ -1,11 +1,49 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8191" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="mos-2t-KVU">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8191" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="KXb-wa-t3a">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
     </dependencies>
     <scenes>
+        <!--Start View Controller-->
+        <scene sceneID="1qc-Ba-Amc">
+            <objects>
+                <viewController id="Fgd-YR-Osk" customClass="StartViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="NBZ-1y-Xtg"/>
+                        <viewControllerLayoutGuide type="bottom" id="NFK-TU-imP"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Xej-P0-nrJ">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="default-portrait-640x960.png" translatesAutoresizingMaskIntoConstraints="NO" id="AGe-xt-TyI">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="AGe-xt-TyI" firstAttribute="centerX" secondItem="Xej-P0-nrJ" secondAttribute="centerX" id="Ser-ec-PbZ"/>
+                            <constraint firstItem="AGe-xt-TyI" firstAttribute="height" secondItem="Xej-P0-nrJ" secondAttribute="height" id="Z6R-fN-8lJ"/>
+                            <constraint firstItem="AGe-xt-TyI" firstAttribute="width" secondItem="Xej-P0-nrJ" secondAttribute="width" id="cVR-H3-1ve"/>
+                            <constraint firstItem="AGe-xt-TyI" firstAttribute="centerY" secondItem="Xej-P0-nrJ" secondAttribute="centerY" id="yW5-cM-BiV"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="4nu-7r-G3i"/>
+                    <nil key="simulatedStatusBarMetrics"/>
+                    <simulatedOrientationMetrics key="simulatedOrientationMetrics"/>
+                    <connections>
+                        <outlet property="imageView" destination="AGe-xt-TyI" id="WCj-dd-EjX"/>
+                        <segue destination="BYZ-38-t0r" kind="show" identifier="ColorWheel" id="yp4-g8-9EP"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ygi-LI-3D0" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2519" y="171"/>
+        </scene>
         <!--Main View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
@@ -17,7 +55,21 @@
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="556"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="newspaperCircle.png" translatesAutoresizingMaskIntoConstraints="NO" id="9kb-3s-M9N" customClass="ColorWheelView">
+                                <rect key="frame" x="220" y="132" width="300" height="300"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="9kb-3s-M9N" secondAttribute="height" multiplier="1:1" id="oUo-bE-5Wh"/>
+                                </constraints>
+                            </imageView>
+                        </subviews>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="9kb-3s-M9N" firstAttribute="height" relation="lessThanOrEqual" secondItem="8bC-Xf-vdC" secondAttribute="height" multiplier="0.9" id="0Zh-p0-JIu"/>
+                            <constraint firstItem="9kb-3s-M9N" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="Z5x-Bb-O17"/>
+                            <constraint firstItem="9kb-3s-M9N" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="mcc-fg-9xl"/>
+                            <constraint firstItem="9kb-3s-M9N" firstAttribute="width" relation="lessThanOrEqual" secondItem="8bC-Xf-vdC" secondAttribute="width" multiplier="0.9" id="u0w-CW-zMa"/>
+                        </constraints>
                     </view>
                     <toolbarItems>
                         <barButtonItem title="INFO" id="Cl2-eK-oNu">
@@ -61,7 +113,9 @@
                     <navigationItem key="navigationItem" id="VJi-vt-fqa"/>
                     <nil key="simulatedTopBarMetrics"/>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics" barStyle="black" translucent="NO"/>
+                    <simulatedOrientationMetrics key="simulatedOrientationMetrics"/>
                     <connections>
+                        <outlet property="colorWheelView" destination="9kb-3s-M9N" id="XrV-8S-kxP"/>
                         <outlet property="infoButton" destination="Cl2-eK-oNu" id="Kqn-8y-Soc"/>
                         <outlet property="resetButton" destination="biE-5q-OUH" id="bdp-Rx-OQr"/>
                         <outlet property="saveButton" destination="ng8-Sv-snj" id="J8r-tR-UbP"/>
@@ -72,7 +126,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1663" y="167"/>
+            <point key="canvasLocation" x="3216" y="160"/>
         </scene>
         <!--Info View Controller-->
         <scene sceneID="YgP-pn-vy6">
@@ -112,53 +166,39 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="Lgd-jf-7lu"/>
+                    <simulatedOrientationMetrics key="simulatedOrientationMetrics"/>
                     <connections>
                         <outlet property="webView" destination="tqn-Wd-cV9" id="P8m-mX-dW6"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jNu-qX-ylY" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2446" y="160"/>
-        </scene>
-        <!--Start View Controller-->
-        <scene sceneID="Z41-Nh-ruC">
-            <objects>
-                <viewController id="WeI-R2-hc7" customClass="StartViewController" sceneMemberID="viewController">
-                    <imageView key="view" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="default-landscape-1024x768.png" id="bn9-Gw-Zeu">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    </imageView>
-                    <navigationItem key="navigationItem" id="3mD-ut-oHS"/>
-                    <nil key="simulatedTopBarMetrics"/>
-                    <connections>
-                        <segue destination="BYZ-38-t0r" kind="show" identifier="colorWheel" id="hol-aO-FJb"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="opN-EF-SGD" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="904" y="184"/>
+            <point key="canvasLocation" x="4070" y="160"/>
         </scene>
         <!--Navigation Controller-->
-        <scene sceneID="wKb-0y-1No">
+        <scene sceneID="KPt-bL-JZu">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" navigationBarHidden="YES" id="mos-2t-KVU" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="KXb-wa-t3a" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="vYx-QM-FWp">
+                    <nil key="simulatedStatusBarMetrics"/>
+                    <simulatedOrientationMetrics key="simulatedOrientationMetrics"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="CQe-S6-8n7">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="WeI-R2-hc7" kind="relationship" relationship="rootViewController" id="0WJ-fB-sKY"/>
+                        <segue destination="Fgd-YR-Osk" kind="relationship" relationship="rootViewController" id="o5a-a7-ZxM"/>
                     </connections>
                 </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="0BF-aO-MPa" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="LME-Zs-ARx" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="92" y="184"/>
+            <point key="canvasLocation" x="1777" y="143"/>
         </scene>
     </scenes>
     <resources>
         <image name="colorWheelSmall.png" width="22" height="22"/>
-        <image name="default-landscape-1024x768.png" width="1024" height="768"/>
+        <image name="default-portrait-640x960.png" width="640" height="960"/>
+        <image name="newspaperCircle.png" width="567" height="581"/>
     </resources>
 </document>

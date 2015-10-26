@@ -21,30 +21,38 @@ float fadeFactor=.5;
 
 @implementation ColorWheelView
 
-- (id)initWithFrame: (CGRect)frame withBackgroundImage:(UIImage *)backgroundImage andFadedBackgroundImage: (UIImage*)fadedBackgroundImage
+//- (id)initWithFrame: (CGRect)frame withBackgroundImage:(UIImage *)backgroundImage andFadedBackgroundImage: (UIImage*)fadedBackgroundImage
+//{
+//    
+//    self=[super initWithFrame:frame];
+//    if (self) {
+//        self.myBackgroundImage = backgroundImage;
+//        self.myFadedBackgroundImage = fadedBackgroundImage;
+//        self.backgroundColor = [UIColor clearColor];
+//        UIColor* imageColor = [[UIColor alloc] initWithPatternImage:self.myBackgroundImage];
+//        self.layer.backgroundColor = imageColor.CGColor;
+//    }
+//    return self;
+//}
+
+- (void)initBackgroundImage:(UIImage *)backgroundImage andFadedBackgroundImage: (UIImage*)fadedBackgroundImage
 {
     
-    self=[super initWithFrame:frame];
-    if (self) {
-        self.myBackgroundImage = backgroundImage;
-        self.myFadedBackgroundImage = fadedBackgroundImage;
-        self.backgroundColor = [UIColor clearColor];
-        UIColor* imageColor = [[UIColor alloc] initWithPatternImage:self.myBackgroundImage];
-        self.layer.backgroundColor = imageColor.CGColor;
-    }
-    return self;
-}
+  
+    self.myBackgroundImage = backgroundImage;
+    self.myFadedBackgroundImage = fadedBackgroundImage;
+    [self setImage:self.myBackgroundImage];
 
+
+}
 
 - (void)fade: (bool)fade
 {
     if (fade) {
-        UIColor* imageColor = [[UIColor alloc] initWithPatternImage:self.myFadedBackgroundImage];
-        self.layer.backgroundColor = imageColor.CGColor;
+        [self setImage:self.myFadedBackgroundImage];
     }
     else {
-        UIColor* imageColor = [[UIColor alloc] initWithPatternImage:self.myBackgroundImage];
-        self.layer.backgroundColor = imageColor.CGColor;
+        [self setImage:self.myBackgroundImage];
     }
 }
 

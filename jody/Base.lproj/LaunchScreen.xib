@@ -31,6 +31,7 @@
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
             <constraints>
+                <constraint firstItem="8ie-xW-0ye" firstAttribute="top" secondItem="wMP-iu-iu3" secondAttribute="bottom" id="48d-BW-9Bo"/>
                 <constraint firstItem="kId-c2-rCX" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="bottom" multiplier="1/3" constant="1" id="5cJ-9S-tgC"/>
                 <constraint firstAttribute="trailing" secondItem="wMP-iu-iu3" secondAttribute="trailing" id="Gnz-xi-t2g"/>
                 <constraint firstItem="wMP-iu-iu3" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="Ka0-eX-2DZ"/>
@@ -38,11 +39,14 @@
                 <constraint firstAttribute="bottom" secondItem="8ie-xW-0ye" secondAttribute="bottom" constant="20" id="Kzo-t9-V3l"/>
                 <constraint firstItem="8ie-xW-0ye" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="20" symbolic="YES" id="MfP-vx-nX0"/>
                 <constraint firstItem="wMP-iu-iu3" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="NLq-ml-nOD"/>
+                <constraint firstAttribute="trailing" secondItem="wMP-iu-iu3" secondAttribute="trailing" id="Ori-Cy-j5B"/>
                 <constraint firstItem="wMP-iu-iu3" firstAttribute="top" secondItem="kId-c2-rCX" secondAttribute="bottom" id="YKR-CY-6qV"/>
                 <constraint firstAttribute="centerX" secondItem="8ie-xW-0ye" secondAttribute="centerX" id="ZEH-qu-HZ9"/>
                 <constraint firstItem="wMP-iu-iu3" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="cQf-Jc-r7v"/>
                 <constraint firstItem="kId-c2-rCX" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="20" symbolic="YES" id="fvb-Df-36g"/>
                 <constraint firstItem="8ie-xW-0ye" firstAttribute="top" secondItem="wMP-iu-iu3" secondAttribute="bottom" id="khD-CQ-bCM"/>
+                <constraint firstItem="wMP-iu-iu3" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="tow-eq-jVb"/>
+                <constraint firstItem="wMP-iu-iu3" firstAttribute="top" secondItem="kId-c2-rCX" secondAttribute="bottom" id="vlE-mh-UDH"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>

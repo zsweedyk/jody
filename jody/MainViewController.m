@@ -16,7 +16,6 @@ enum {
 #import "SourceManager.h"
 #import "MainViewController.h"
 #import "HeadlinesView.h"
-#import "ColorWheelView.h"
 #import "RSSManager.h"
 #import "BackgroundGenerator.h"
 #import <Parse/Parse.h>
@@ -25,7 +24,6 @@ enum {
 
 @property (strong,nonatomic) SourceManager* sourceManager;
 @property (strong,nonatomic) HeadlinesView* headlinesView;
-@property (strong,nonatomic) ColorWheelView* colorWheelView;
 @property (strong,nonatomic) UIButton* showToolBarButton;
 @property (strong,nonatomic) NSTimer* colorWheelTimer;
 @property (strong,nonatomic) UIGestureRecognizer* tapRecognizer;
@@ -72,7 +70,7 @@ enum {
     }
     CGFloat leftX= (myFrame.size.width - colorWheelFrameSize)/2.0;
     CGFloat topY = (myFrame.size.height-colorWheelFrameSize)/2.0;
-    CGRect colorWheelFrame = CGRectMake(leftX, topY, colorWheelFrameSize, colorWheelFrameSize);
+    //CGRect colorWheelFrame = CGRectMake(leftX, topY, colorWheelFrameSize, colorWheelFrameSize);
 
     
     // create background view
@@ -82,7 +80,7 @@ enum {
     self.fadedBackgroundImage = [self.bgManager createFadedBackgroundFromBackground:self.backgroundImage];
 
     // create color wheel view
-    self.colorWheelView = [[ColorWheelView alloc] initWithFrame: colorWheelFrame withBackgroundImage: self.backgroundImage andFadedBackgroundImage:self.fadedBackgroundImage];
+    [self.colorWheelView initBackgroundImage: self.backgroundImage andFadedBackgroundImage:self.fadedBackgroundImage];
     [self.view addSubview:self.colorWheelView];
 
     // add gesture recognizer for color wheel
@@ -100,6 +98,7 @@ enum {
     [self.view addSubview:self.headlinesView];
     self.headlinesView.startX = leftX + diameter/2.0;
     self.headlinesView.startY = topY;
+
     
     // create rss manager
     self.rssManager = [RSSManager sharedManager];
@@ -110,7 +109,6 @@ enum {
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    [[NSNotificationCenter defaultCenter] addObserver:self  selector:@selector(orientationChanged:)    name:UIDeviceOrientationDidChangeNotification  object:nil];
 
 }
 
@@ -121,13 +119,15 @@ enum {
     //[self hideToolBarWithDelay:1.0];
 }
 
-- (void)orientationChanged:(NSNotification *)notification{
-    [self adjustViewsForOrientation:[[UIApplication sharedApplication] statusBarOrientation]];
+-(BOOL) shouldAutorotate
+{
+    return NO;
 }
 
-- (void) adjustViewsForOrientation: (UIInterfaceOrientation) orientation
+- (NSUInteger)supportedInterfaceOrientations
 {
-    //TODO -- adjust view
+
+    return UIInterfaceOrientationMaskPortrait;
 }
 
 - (void)setUpToolBar

@@ -5,6 +5,7 @@
 //  Created by Z Sweedyk on 8/5/15.
 //  Copyright (c) 2015 Z Sweedyk. All rights reserved.
 //
+#import <sys/utsname.h>
 #import "SourceManager.h"
 #import "StartViewController.h"
 #import "constants.h"
@@ -34,38 +35,41 @@
     
      self.navigationController.navigationBarHidden=YES;
     
-//    NSMutableAttributedString *attributedString1 = [[NSMutableAttributedString alloc]  initWithString:@"News "];
-//    [attributedString1 addAttribute:NSBackgroundColorAttributeName value:[UIColor blackColor] range:NSMakeRange(0,5)];
-//    [attributedString1 addAttribute:NSFontAttributeName value:[UIFont fontWithName:kFontName size:48] range:NSMakeRange(0,5)];
-//    [attributedString1 addAttribute:NSForegroundColorAttributeName value:[UIColor redColor] range:NSMakeRange(0,1)];
-//    [attributedString1 addAttribute:NSForegroundColorAttributeName value:[UIColor blueColor] range:NSMakeRange(1,2)];
-//    [attributedString1 addAttribute:NSForegroundColorAttributeName value:[UIColor greenColor] range:NSMakeRange(2,3)];
-//    
-//    NSMutableAttributedString *attributedString2 = [[NSMutableAttributedString alloc] initWithString:@"Wheel  " ];
-//    [attributedString2 addAttribute:NSBackgroundColorAttributeName value:[UIColor blackColor] range:NSMakeRange(0,6)];
-//    [attributedString2 addAttribute:NSFontAttributeName value:[UIFont fontWithName:kFontName size:48] range:NSMakeRange(0,6)];
-//    [attributedString2 addAttribute:NSForegroundColorAttributeName value:[UIColor orangeColor] range:NSMakeRange(0,1)];
-//    [attributedString2 addAttribute:NSForegroundColorAttributeName value:[UIColor yellowColor] range:NSMakeRange(1,2)];
-//    [attributedString2 addAttribute:NSForegroundColorAttributeName value:[UIColor purpleColor] range:NSMakeRange(2,3)];
-//    [attributedString2 addAttribute:NSForegroundColorAttributeName value:[UIColor redColor] range:NSMakeRange(3,4)];
-//  
-//
-//
-//    [attributedString1 appendAttributedString:attributedString2];
-//    self.titleLabel.attributedText = attributedString1;
-//    
-//    NSDictionary *attributes = @{NSFontAttributeName: [UIFont fontWithName:kFontName size:48]};
-//    CGSize labelSize = [@"News Wheel  " sizeWithAttributes:attributes];
-//    CGFloat x = (self.view.frame.size.width - labelSize.width)/2.0;
-//    CGFloat y = (self.view.frame.size.height - labelSize.height)/2.0;
-//    CGRect frame = CGRectMake(x, y, labelSize.width, labelSize.height);
-//    NSLog(@"old frame Width %f",self.titleLabel.frame.size.width);
-//    self.titleLabel.frame = frame;
-//    
-//    
+   
     self.sourceManager = [SourceManager sharedManager];
     self.sourceManager.delegate = self;
-
+    
+    // set up start screen image
+    CGRect screenBounds = [[UIScreen mainScreen] bounds];
+    CGFloat screenScale = [[UIScreen mainScreen] scale];
+    CGSize screenSize = CGSizeMake(screenBounds.size.width * screenScale, screenBounds.size.height * screenScale);
+    if (screenSize.width == 640) {
+        if (screenSize.height == 1136) {
+            [self.imageView setImage: [UIImage imageNamed: @"default-portrait-640x1136.png"]];
+        }
+        else {
+            [self.imageView setImage: [UIImage imageNamed: @"default-portrait-640x960.png"]];
+        }
+    }
+    else if (screenSize.width == 750) {
+        [self.imageView setImage: [UIImage imageNamed: @"default-portrait-750x1334.png"]];
+        
+    }
+    else if (screenSize.width == 768) {
+        [self.imageView setImage: [UIImage imageNamed: @"default-portrait-768x1024.png"]];
+        
+    }
+    else if (screenSize.width == 1242) {
+        [self.imageView setImage: [UIImage imageNamed: @"default-portrait-1242x2208.png"]];
+        
+    }
+    else if (screenSize.width == 1536) {
+        [self.imageView setImage: [UIImage imageNamed: @"default-portrait-1536x2048.png"]];
+    }
+    else {
+        [self.imageView setImage: [UIImage imageNamed: @"default-portrait-640x960.png"]];
+    }
+    
     
 }
 
@@ -88,8 +92,10 @@
 
 
 - (void)frontPagesCreated {
-    [self performSegueWithIdentifier:@"colorWheel" sender:self];
+    [self performSegueWithIdentifier:@"ColorWheel" sender:self];
 }
+
+
 
 /*
 #pragma mark - Navigation

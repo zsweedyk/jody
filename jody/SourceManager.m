@@ -357,12 +357,10 @@ enum {
 - (UIColor*) colorForSource:(int)i
 {
     NSAssert(i>=0 && i<kSourceCount, @"Image requested for non-existent source.");
-    NWSource* source = (NWSource*)[self.sources objectAtIndex:i];
-    //int sourceNum = source.sourceNum;
-    int sourceNum=i;
-    float red = basicColors[sourceNum][0];
-    float green = basicColors[sourceNum][1];
-    float blue = basicColors[sourceNum][2];
+
+    float red = basicColors[i][0];
+    float green = basicColors[i][1];
+    float blue = basicColors[i][2];
     return [UIColor colorWithRed:red green:green blue:blue alpha:.5];
 }
 

@@ -71,9 +71,9 @@ const int maxDisplacement = 3;
     self.minSpaceBetweenWords=-1;
     NSDictionary *attributes = @{NSFontAttributeName: [UIFont fontWithName:kFontName size:self.fontSize]};
     NSMutableArray* wordSizes = [self wordSizes: newWords withAttributes:attributes];
-    
-    // set positions
-    NSMutableArray* wordPositions = [self.positionManager positionForWordsWithSizes: wordSizes inFrame: self.frame     maxWordHeight: self.maxWordHeight andMinSpaceBetweenWords: self.minSpaceBetweenWords withRandomness:YES];
+
+
+    NSMutableArray* wordPositions = [self.positionManager positionForWordsWithSizes: wordSizes inFrame: self.frame    maxWordHeight: self.maxWordHeight andMinSpaceBetweenWords: self.minSpaceBetweenWords withRandomness:YES];
     
     // now create frames
     [self layoutWords:newWords atPositions: wordPositions withSizes: wordSizes withColor:color];
@@ -238,8 +238,6 @@ const int maxDisplacement = 3;
                                      sender.view.center.y + translation.y);
  
     UILabel* label = (UILabel*)[sender view];
-    int tag = label.tag;
-    CGPoint origin = sender.view.frame.origin;
     [sender setTranslation:CGPointMake(0, 0) inView:self];
 }
 

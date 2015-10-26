@@ -7,10 +7,12 @@
 //
 
 
+#import "ColorWheelView.h"
 #import <UIKit/UIKit.h>
 
 @interface MainViewController : UIViewController
 
+@property (weak,nonatomic) IBOutlet ColorWheelView* colorWheelView;
 @property (weak,nonatomic) IBOutlet UIBarButtonItem* infoButton;
 @property (weak,nonatomic) IBOutlet UIBarButtonItem* saveButton;
 @property (weak,nonatomic) IBOutlet UIBarButtonItem* shareButton;
