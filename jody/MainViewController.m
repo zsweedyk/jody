@@ -110,7 +110,6 @@ enum {
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    [[NSNotificationCenter defaultCenter] addObserver:self  selector:@selector(orientationChanged:)    name:UIDeviceOrientationDidChangeNotification  object:nil];
 
 }
 
@@ -121,13 +120,15 @@ enum {
     //[self hideToolBarWithDelay:1.0];
 }
 
-- (void)orientationChanged:(NSNotification *)notification{
-    [self adjustViewsForOrientation:[[UIApplication sharedApplication] statusBarOrientation]];
+-(BOOL) shouldAutorotate
+{
+    return NO;
 }
 
-- (void) adjustViewsForOrientation: (UIInterfaceOrientation) orientation
+- (NSUInteger)supportedInterfaceOrientations
 {
-    //TODO -- adjust view
+
+    return UIInterfaceOrientationMaskPortrait;
 }
 
 - (void)setUpToolBar
@@ -223,6 +224,16 @@ enum {
                      completion:^(BOOL finished){
                          self.toolBarUsed=NO;
                      }];
+}
+
+- (void)setUpSpinButton
+{
+    UIButton* customButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [customButton setImage:[UIImage imageNamed:@"colorWheelIcon.png"] forState:UIControlStateNormal];
+    [customButton setTitle:@"Spin" forState:UIControlStateNormal];
+    [customButton sizeToFit];
+    UIBarButtonItem* customBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:customButton];
+    self.navigationItem.leftBarButtonItem = customBarButtonItem; // or self.navigationItem.ri
 }
 
 
