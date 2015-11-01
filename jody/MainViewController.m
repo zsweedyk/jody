@@ -155,7 +155,7 @@ enum {
     self.showToolBarButton.enabled=NO;
     [self.showToolBarButton addTarget:self action:@selector(showToolBar:) forControlEvents:UIControlEventTouchUpInside];
     
-    NSTimer* timer = [NSTimer scheduledTimerWithTimeInterval:5.0 target:self selector:@selector(checkToolBarTimer) userInfo:nil repeats:YES];
+    [NSTimer scheduledTimerWithTimeInterval:5.0 target:self selector:@selector(checkToolBarTimer) userInfo:nil repeats:YES];
     self.toolBarUsed=NO;
     
 }

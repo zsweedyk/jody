@@ -236,10 +236,6 @@ const int maxDisplacement = 3;
     CGPoint translation = [sender translationInView:self];
     sender.view.center = CGPointMake(sender.view.center.x + translation.x,
                                      sender.view.center.y + translation.y);
- 
-    UILabel* label = (UILabel*)[sender view];
-    int tag = label.tag;
-    CGPoint origin = sender.view.frame.origin;
     [sender setTranslation:CGPointMake(0, 0) inView:self];
 }
 
