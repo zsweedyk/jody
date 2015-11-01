@@ -16,7 +16,6 @@
 		11A33C0D1B4C75A000DA0108 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 11A33C0C1B4C75A000DA0108 /* AppDelegate.m */; };
 		11A33C151B4C75A000DA0108 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 11A33C141B4C75A000DA0108 /* Images.xcassets */; };
 		11A33C181B4C75A000DA0108 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 11A33C161B4C75A000DA0108 /* LaunchScreen.xib */; };
-		11A33C241B4C75A100DA0108 /* jodyTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 11A33C231B4C75A100DA0108 /* jodyTests.m */; };
 		11A33C321B4C75DE00DA0108 /* ColorWheelView.m in Sources */ = {isa = PBXBuildFile; fileRef = 11A33C2F1B4C75DE00DA0108 /* ColorWheelView.m */; };
 		11A33C331B4C75DE00DA0108 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 11A33C311B4C75DE00DA0108 /* MainViewController.m */; };
 		11A33C391B4C761500DA0108 /* HeadlinesView.m in Sources */ = {isa = PBXBuildFile; fileRef = 11A33C361B4C761500DA0108 /* HeadlinesView.m */; };
@@ -82,16 +81,6 @@
 		11F1A8451B4D7D3300BDD73B /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 11F1A8441B4D7D3300BDD73B /* libz.dylib */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXContainerItemProxy section */
-		11A33C1E1B4C75A100DA0108 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 11A33BFC1B4C75A000DA0108 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 11A33C031B4C75A000DA0108;
-			remoteInfo = jody;
-		};
-/* End PBXContainerItemProxy section */
-
 /* Begin PBXFileReference section */
 		1146C2811B85FCEB00B3872B /* FontManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FontManager.h; sourceTree = "<group>"; };
 		1146C2821B85FCEB00B3872B /* FontManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FontManager.m; sourceTree = "<group>"; };
@@ -108,7 +97,6 @@
 		11A33C0C1B4C75A000DA0108 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		11A33C141B4C75A000DA0108 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		11A33C171B4C75A000DA0108 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
-		11A33C1D1B4C75A100DA0108 /* jodyTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = jodyTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		11A33C221B4C75A100DA0108 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		11A33C231B4C75A100DA0108 /* jodyTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = jodyTests.m; sourceTree = "<group>"; };
 		11A33C2E1B4C75DE00DA0108 /* ColorWheelView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ColorWheelView.h; sourceTree = "<group>"; };
@@ -230,13 +218,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		11A33C1A1B4C75A100DA0108 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -278,7 +259,6 @@
 			isa = PBXGroup;
 			children = (
 				11A33C041B4C75A000DA0108 /* jody.app */,
-				11A33C1D1B4C75A100DA0108 /* jodyTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -515,24 +495,6 @@
 			productReference = 11A33C041B4C75A000DA0108 /* jody.app */;
 			productType = "com.apple.product-type.application";
 		};
-		11A33C1C1B4C75A100DA0108 /* jodyTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 11A33C2A1B4C75A100DA0108 /* Build configuration list for PBXNativeTarget "jodyTests" */;
-			buildPhases = (
-				11A33C191B4C75A100DA0108 /* Sources */,
-				11A33C1A1B4C75A100DA0108 /* Frameworks */,
-				11A33C1B1B4C75A100DA0108 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				11A33C1F1B4C75A100DA0108 /* PBXTargetDependency */,
-			);
-			name = jodyTests;
-			productName = jodyTests;
-			productReference = 11A33C1D1B4C75A100DA0108 /* jodyTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -544,10 +506,6 @@
 				TargetAttributes = {
 					11A33C031B4C75A000DA0108 = {
 						CreatedOnToolsVersion = 6.4;
-					};
-					11A33C1C1B4C75A100DA0108 = {
-						CreatedOnToolsVersion = 6.4;
-						TestTargetID = 11A33C031B4C75A000DA0108;
 					};
 				};
 			};
@@ -565,7 +523,6 @@
 			projectRoot = "";
 			targets = (
 				11A33C031B4C75A000DA0108 /* jody */,
-				11A33C1C1B4C75A100DA0108 /* jodyTests */,
 			);
 		};
 /* End PBXProject section */
@@ -598,13 +555,6 @@
 				11E655E71B8CE7D2008C8050 /* default-portrait-1536x2048.png in Resources */,
 				116EAACC1B62D37900C7511E /* newspaperCircle.png in Resources */,
 				11E655EB1B8CE7D2008C8050 /* default-portrait750x1334.png in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		11A33C1B1B4C75A100DA0108 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -653,23 +603,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		11A33C191B4C75A100DA0108 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				11A33C241B4C75A100DA0108 /* jodyTests.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		11A33C1F1B4C75A100DA0108 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 11A33C031B4C75A000DA0108 /* jody */;
-			targetProxy = 11A33C1E1B4C75A100DA0108 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		11A33C161B4C75A000DA0108 /* LaunchScreen.xib */ = {
@@ -807,40 +741,6 @@
 			};
 			name = Release;
 		};
-		11A33C2B1B4C75A100DA0108 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-				);
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				INFOPLIST_FILE = jodyTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/jody.app/jody";
-			};
-			name = Debug;
-		};
-		11A33C2C1B4C75A100DA0108 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-				);
-				INFOPLIST_FILE = jodyTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/jody.app/jody";
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -858,15 +758,6 @@
 			buildConfigurations = (
 				11A33C281B4C75A100DA0108 /* Debug */,
 				11A33C291B4C75A100DA0108 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		11A33C2A1B4C75A100DA0108 /* Build configuration list for PBXNativeTarget "jodyTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				11A33C2B1B4C75A100DA0108 /* Debug */,
-				11A33C2C1B4C75A100DA0108 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
