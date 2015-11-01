@@ -61,6 +61,7 @@
                     <navigationItem key="navigationItem" id="VJi-vt-fqa"/>
                     <nil key="simulatedTopBarMetrics"/>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics" barStyle="black" translucent="NO"/>
+                    <simulatedOrientationMetrics key="simulatedOrientationMetrics"/>
                     <connections>
                         <outlet property="infoButton" destination="Cl2-eK-oNu" id="Kqn-8y-Soc"/>
                         <outlet property="resetButton" destination="biE-5q-OUH" id="bdp-Rx-OQr"/>
@@ -77,7 +78,6 @@
         <!--Info View Controller-->
         <scene sceneID="YgP-pn-vy6">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="jNu-qX-ylY" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <viewController id="PTm-5Q-fll" customClass="InfoViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="ug1-DN-c5g"/>
@@ -117,6 +117,7 @@
                         <outlet property="webView" destination="tqn-Wd-cV9" id="P8m-mX-dW6"/>
                     </connections>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="jNu-qX-ylY" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2446" y="160"/>
         </scene>
@@ -130,6 +131,7 @@
                     </imageView>
                     <navigationItem key="navigationItem" id="3mD-ut-oHS"/>
                     <nil key="simulatedTopBarMetrics"/>
+                    <simulatedOrientationMetrics key="simulatedOrientationMetrics"/>
                     <connections>
                         <segue destination="BYZ-38-t0r" kind="show" identifier="colorWheel" id="hol-aO-FJb"/>
                     </connections>
@@ -143,6 +145,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" navigationBarHidden="YES" id="mos-2t-KVU" sceneMemberID="viewController">
                     <toolbarItems/>
+                    <simulatedOrientationMetrics key="simulatedOrientationMetrics"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="vYx-QM-FWp">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
