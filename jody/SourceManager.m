@@ -28,6 +28,7 @@ enum {
 @interface SourceManager ()
 
 @property (strong,nonatomic) NSMutableArray* sources;
+@property (strong,nonatomic) NSArray* defaultFrontPages;
 @property (strong,nonatomic) NSMutableArray* frontPageImages;
 @property (strong,nonatomic) NSMutableArray* frontPageImageUrl;
 @property (strong,nonatomic) NSArray* sourceNames;
@@ -56,6 +57,17 @@ enum {
     if (self) {
         self.sources = [[NSMutableArray alloc] initWithCapacity:kSourceCount];
         self.frontPageImages = [[NSMutableArray alloc] initWithCapacity:kSourceCount];
+        
+        
+        self.defaultFrontPages = @[@"newYorkTimesDefault",
+                                   @"washingtonPostDefault",
+                                   @"guardianDefault",
+                                   @"laTimesDefault",
+                                   @"wallStreetJournalDefault",
+                                   @"philadelphiaInquirerDefault",
+                                   @"dailyNewsDefault",
+                                   @"AsianAgeDefault",
+                                   @"nationalDefault"];
         
         self.sourceNames =@[@"N.Y. Times",
                                 @"Washington Post",
@@ -101,26 +113,35 @@ enum {
 - (void)getSources {
     
     PFQuery *query = [PFQuery queryWithClassName:@"NWSource"];
-    [query orderByDescending:@"createdAt"];
+    [query orderByAscending:@"sourceNum"];
     self.imagesProcessed=0;
     self.pdfsSought=0;
-    [query findObjectsInBackgroundWithBlock:^(NSArray* sources, NSError *error) {
-        if (sources) {
-            if ([sources count]==kSourceCount) {
+    [query findObjectsInBackgroundWithBlock:^(NSArray* parseSources, NSError *error) {
+        if (parseSources) {
+            if ([parseSources count]==kSourceCount) {
                 int updateDay = [self lastUpdateDayAtPdfSource];
                 for (int i=0; i<kSourceCount; i++) {
-                    NWSource* source = [sources objectAtIndex:i];
+
+                    NWSource* source = [parseSources objectAtIndex:i];
+                    if (source.sourceNum!=i) { // they arrived in the wrong order
+                        NSLog(@"Parse sources retrieved out of order.");
+                        for (int j=0;j<kSourceCount;j++) {
+                            NWSource* tmpSource = [parseSources objectAtIndex:i];
+                            if (tmpSource.sourceNum==i) {
+                                source=tmpSource;
+                                break;
+                            }
+                        }
+                    }
+                    if (source.sourceNum!=i) {
+                        NSLog(@"Problem with source numbers in parse.");
+                    }
+                    
                     [self.sources insertObject:source atIndex:i];
                     
-                    // check if the parse data is consistent with our class data (this allows us to change parse data by simply changing our constants in this class
-                    int parseSourceNum = source.sourceNum;
-                    if (![source.sourceName isEqualToString:self.sourceNames[parseSourceNum]] ||
-                        ![source.rssFeed isEqualToString: self.rssFeeds[parseSourceNum]]) {
-                        source.sourceName = self.sourceNames[parseSourceNum];
-                        source.rssFeed = self.rssFeeds[parseSourceNum];
-                        [source saveInBackground];
-                    }
-                    NSString* latestURL = [self createNewUrlForSource:parseSourceNum andUpdateDay:updateDay];
+                    NSString* latestURL = [self createNewUrlForSource:i andUpdateDay:updateDay];
+                    
+                    __block int sourceNum = i;
                     if (![latestURL isEqualToString:source.frontPageUrl]){
                         // we get the latest pdf -- we don't use it here but it will be available for other users
                         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
@@ -129,7 +150,6 @@ enum {
                         
                     }
                     
-                    __block int sourceNum=i;
                     self.pdfsSought++;
                     [source.frontPagePdf getDataInBackgroundWithBlock:^(NSData *data, NSError *error){
                         dispatch_async(dispatch_get_main_queue(), ^{
@@ -138,6 +158,13 @@ enum {
                                 if (newImage) {
                                     [self.frontPageImages replaceObjectAtIndex: sourceNum withObject: newImage];
                                 }
+                                else {
+                                    newImage = [self imageFromPdf:[NSData dataWithContentsOfFile:self.defaultFrontPages[sourceNum]]];
+                                    if (newImage) {
+                                        [self.frontPageImages replaceObjectAtIndex: sourceNum withObject: newImage];
+                                    }
+                                    // else we don't have an image
+                                }
                                 self.imagesProcessed++;
                                 if (self.imagesProcessed==kSourceCount) {
                                     self.lastUpdate = [NSDate date];
@@ -145,8 +172,13 @@ enum {
                                 }}
                             
                             else {
+                                NSString *filePath = [[NSBundle mainBundle] pathForResource:self.defaultFrontPages[sourceNum] ofType:@"pdf"];
+                                UIImage* newImage = [self imageFromPdf:[NSData dataWithContentsOfFile:filePath]];
+                                if (newImage) {
+                                    [self.frontPageImages replaceObjectAtIndex: sourceNum withObject: newImage];
+                                }
+                                    // else we don't have an image
                                 self.imagesProcessed++;
-                                NSLog(@"Couldn't retrieve front page pdf file.");
                                 if (self.imagesProcessed==kSourceCount) {
                                     [self.delegate frontPagesCreated];
                                 }
@@ -158,58 +190,11 @@ enum {
         }
         else {
             NSLog(@"Unable to retrieve sources");
-            [self initializeSourcesWithUpdate: NO];
         }
         
     }];
 }
 
-
-- (void) initializeSourcesWithUpdate: (BOOL)update {
-    
-    // we can recreate what is in parse -- it is just very slow
-    
-    int sourceCount = (int)[self.sourceNames count];
-    NSAssert (sourceCount == [self.urlEnds count] && sourceCount==[self.rssFeeds count], @"Source names, urls, and rss feeds don't have same size.\n");
-    
-    self.sources = [[NSMutableArray alloc] initWithCapacity:sourceCount];
-    
-    int day = [self lastUpdateDayAtPdfSource];
-    for (int i=0; i<sourceCount; i++) {
-        
-        NWSource* source = [[NWSource alloc] init];
-        source.sourceNum = i;
-        source.sourceName = [self.sourceNames objectAtIndex:i];
-        source.rssFeed = [self.rssFeeds objectAtIndex:i];
-        source.frontPageUrl = [self createNewUrlForSource:i andUpdateDay:day];
-        NSData* pdfPageData = [self pdfDataFromUrl:source.frontPageUrl];
-        source.frontPagePdf = [PFFile fileWithData:pdfPageData];
-        UIImage* pdfImage = [self imageFromPdf:pdfPageData];
-        [self.frontPageImages insertObject:pdfImage atIndex:i];
-        [self.sources insertObject:source atIndex:i];
-        
-        // this is useful for initially creating the parse db
-        // doing it with an existing db will cause duplication of records -- which is problematicc
-        //        if (update) {
-        //            // save pffiles then the object
-        //            [source.frontPagePdf saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-        //                if (succeeded) {
-        //                    [source saveInBackground];
-        //                }
-        //                else {
-        //                    NSLog(@"Error saving PDF.");
-        //                }
-        //
-        //            }];
-        //        }
-        //        else {
-        //            [self.delegate frontPagesCreated];
-        //        }
-        
-    }
-    self.lastUpdate = [NSDate date];
-    [self.delegate frontPagesCreated];
-}
 
 - (BOOL)sourcesUpToDate
 {
@@ -242,25 +227,20 @@ enum {
 - (int) lastUpdateDayAtPdfSource
 {
     // we assume the pdfs at newseum are updated by 6am PST
-    
     NSCalendar *cal = [NSCalendar currentCalendar];
     NSDate* gmtNow = [NSDate date];
     NSTimeZone* pstZone = [NSTimeZone timeZoneWithAbbreviation:@"PST"];
     NSInteger interval = [pstZone secondsFromGMTForDate:gmtNow];
     NSDate* pstNow = [[NSDate alloc] initWithTimeInterval:interval sinceDate:gmtNow];
-    
     NSDateComponents *components = [cal components:NSCalendarUnitDay fromDate:pstNow];
     return (int)[components day];
-    
 }
 
 
 - (NSString*) createNewUrlForSource: (int) i andUpdateDay: (int) day
 {
-
     NSAssert(i>=0 && i<kSourceCount, @"URL requested for non-existent source.");
     NSString* urlStart =@"http://webmedia.newseum.org/newseum-multimedia/dfp/pdf";
-    
     NSString* url = [NSString stringWithFormat:@"%@%d%@",urlStart,day,self.urlEnds[i]];
     return url;
 }
@@ -268,15 +248,20 @@ enum {
 
 - (void) savePdfForSource: (NWSource*) source fromUrl: (NSString*) url
 {
-    source.frontPageUrl = url;
-    NSData* pdfPageData = [self pdfDataFromUrl:source.frontPageUrl];
+    __block NWSource* theSource=source;
+    theSource.frontPageUrl = url;
+    NSData* pdfPageData = [self pdfDataFromUrl:theSource.frontPageUrl];
     if (pdfPageData) {
-        source.frontPagePdf = [PFFile fileWithData:pdfPageData];
+        theSource.frontPagePdf = [PFFile fileWithData:pdfPageData];
         
         // save pffiles then the object
-        [source.frontPagePdf saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        [theSource.frontPagePdf saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
             if (succeeded) {
-                [source saveInBackground];
+                [theSource saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                    if (!succeeded) {
+                        NSLog(@"error saving pdf for %@", theSource.sourceName);
+                    }
+                }];
             }
         }];
     }

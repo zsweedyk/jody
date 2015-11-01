@@ -4,8 +4,20 @@
 <dict>
 	<key>NSAppTransportSecurity</key>
 	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
 		<key>NSExceptionDomains</key>
 		<dict>
+			<key>parse.com</key>
+			<dict/>
+			<key>NSTemporaryThirdPartyExceptionAllowsInsecureHTTPLoads</key>
+			<true/>
+			<key>NSTemporaryExceptionMinimumTLSVersion</key>
+			<string>TLSv1.1</string>
+			<key>NSTemporaryExceptionAllowsInsecureHTTPLoads</key>
+			<true/>
+			<key>NSIncludesSubdomains</key>
+			<true/>
 			<key>webmedia.newseum.org</key>
 			<dict>
 				<key>NSTemporaryThirdPartyExceptionAllowsInsecureHTTPLoads</key>
