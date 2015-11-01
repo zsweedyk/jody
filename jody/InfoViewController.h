@@ -10,7 +10,7 @@
 
 @interface InfoViewController : UIViewController
 
-@property (weak,nonatomic) IBOutlet UIWebView* webView;
+@property (weak,nonatomic) IBOutlet UITextView* textView;
 
 -(IBAction)close:(id)sender;
 

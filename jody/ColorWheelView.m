@@ -31,6 +31,7 @@ float fadeFactor=.5;
         self.backgroundColor = [UIColor clearColor];
         UIColor* imageColor = [[UIColor alloc] initWithPatternImage:self.myBackgroundImage];
         self.layer.backgroundColor = imageColor.CGColor;
+        self.userInteractionEnabled = YES;
     }
     return self;
 }

@@ -84,9 +84,9 @@ enum {
     // create color wheel view
     self.colorWheelView = [[ColorWheelView alloc] initWithFrame: colorWheelFrame withBackgroundImage: self.backgroundImage andFadedBackgroundImage:self.fadedBackgroundImage];
     [self.view addSubview:self.colorWheelView];
-
+    
     // add gesture recognizer for color wheel
-    self.tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(spin:)];
+    self.tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(spin)];
     [self.colorWheelView addGestureRecognizer:self.tapRecognizer];
     
     // set up color wheel state
@@ -233,12 +233,17 @@ enum {
     [customButton setTitle:@"Spin" forState:UIControlStateNormal];
     [customButton sizeToFit];
     UIBarButtonItem* customBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:customButton];
-    self.navigationItem.leftBarButtonItem = customBarButtonItem; // or self.navigationItem.ri
+    self.navigationItem.rightBarButtonItem = customBarButtonItem; // or self.navigationItem.ri
 }
-
+- (void)spin
+{
+    NSLog(@"wheel tapped");
+    [self spin:self];
+}
 
 - (IBAction)spinButtonPressed:(id)sender
 {
+
     self.toolBarUsed=YES;
     [self spin:self];
 }
@@ -257,7 +262,6 @@ enum {
         self.colorWheelState = SPINNING;
     }
     else if (self.colorWheelState == SPINNING) {
-        [self.colorWheelView removeGestureRecognizer:self.tapRecognizer];
         self.finalAngle = self.colorWheelAngle+3.14159;
         [self colorWheelStoppedSpinning];
     }
@@ -352,7 +356,6 @@ enum {
 - (IBAction)bringColorWheelIntoFocus
 {
     [self.headlinesView endChain];
-    [self.colorWheelView addGestureRecognizer:self.tapRecognizer];
     [self.colorWheelView fade:NO];
     [self.view bringSubviewToFront:self.colorWheelView];
     [self.colorWheelView setNeedsDisplay];
