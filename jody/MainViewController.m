@@ -223,7 +223,6 @@ enum {
                      completion:^(BOOL finished){
                          self.toolBarUsed=NO;
                      }];
-    
 }
 
 
@@ -235,7 +234,6 @@ enum {
 
 - (void)spin:(id)sender
 {
-
     if (self.colorWheelState == OUT_OF_FOCUS) {
         [self bringColorWheelIntoFocus];
     }
@@ -252,7 +250,6 @@ enum {
         self.finalAngle = self.colorWheelAngle+3.14159;
         [self colorWheelStoppedSpinning];
     }
-    
 }
 
 - (void) update
@@ -263,7 +260,6 @@ enum {
         }
         self.colorWheelView.transform = CGAffineTransformMakeRotation(self.colorWheelAngle);
         [self.colorWheelView setNeedsDisplay];
-
 }
 
 - (void) colorWheelStoppedSpinning
@@ -279,7 +275,6 @@ enum {
 
     
 }
-
 
 - (void)newHeadline:(NSString *)headline
 {
@@ -305,20 +300,11 @@ enum {
 
 - (IBAction)share:(id)sender
 {
-  
-    if ([[UIScreen mainScreen] respondsToSelector:@selector(scale)])
-        UIGraphicsBeginImageContextWithOptions(self.view.bounds.size, NO, [UIScreen mainScreen].scale);
-    else
-        UIGraphicsBeginImageContext(self.view.bounds.size);
-    
-    [self.view.layer renderInContext:UIGraphicsGetCurrentContext()];
-    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-    NSData * imgData = UIImagePNGRepresentation(image);
+    UIImage* screenShot = [self getScreenShot];
+    NSData * imgData = UIImagePNGRepresentation(screenShot);
     if(imgData) {
         NWSharedImage* sharedImage = [[NWSharedImage alloc] init];
         sharedImage.screenShot = [PFFile fileWithData:imgData];
-    
     
         [sharedImage.screenShot saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
             if (succeeded) {
@@ -326,19 +312,31 @@ enum {
             }
         }];
     }
-    else
+    else {
         NSLog(@"error while taking screenshot");
-  
+    }
 }
-
-
 
 - (IBAction)save:(id)sender
 {
-    NSLog(@"save");
+    UIImage* screenShot = [self getScreenShot];
+    UIImageWriteToSavedPhotosAlbum(screenShot, nil, nil, nil);
     self.toolBarUsed=YES;
 }
 
+- (UIImage*)getScreenShot
+{
+    if ([[UIScreen mainScreen] respondsToSelector:@selector(scale)])
+        UIGraphicsBeginImageContextWithOptions(self.view.bounds.size, NO, [UIScreen mainScreen].scale);
+    else
+        UIGraphicsBeginImageContext(self.view.bounds.size);
+    
+    [self.view.layer renderInContext:UIGraphicsGetCurrentContext()];
+    UIImage* screenShot =UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return screenShot;
+    
+}
 
 - (IBAction)bringColorWheelIntoFocus
 {
@@ -350,12 +348,9 @@ enum {
     self.colorWheelState = IN_FOCUS_WAITING;
 }
 
-
-
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
 
 @end

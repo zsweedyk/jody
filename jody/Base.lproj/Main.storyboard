@@ -87,8 +87,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <webView contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="tqn-Wd-cV9">
-                                <rect key="frame" x="20" y="47" width="560" height="509"/>
+                            <webView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tqn-Wd-cV9">
+                                <rect key="frame" x="20" y="600" width="560" height="0.0"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </webView>
                         </subviews>
@@ -99,6 +99,7 @@
                             <constraint firstItem="tqn-Wd-cV9" firstAttribute="trailing" secondItem="iTE-Tw-2a7" secondAttribute="trailingMargin" id="Whl-Oe-Wxg"/>
                             <constraint firstItem="tqn-Wd-cV9" firstAttribute="leading" secondItem="iTE-Tw-2a7" secondAttribute="leadingMargin" id="b5A-6g-VOh"/>
                             <constraint firstItem="V5k-Sy-0iV" firstAttribute="top" secondItem="tqn-Wd-cV9" secondAttribute="bottom" id="chh-hR-SR4"/>
+                            <constraint firstItem="tqn-Wd-cV9" firstAttribute="top" secondItem="V5k-Sy-0iV" secondAttribute="top" id="eYs-RW-UBX"/>
                             <constraint firstItem="tqn-Wd-cV9" firstAttribute="top" secondItem="ug1-DN-c5g" secondAttribute="bottom" constant="27" id="n8A-Fv-i4x"/>
                             <constraint firstItem="V5k-Sy-0iV" firstAttribute="top" secondItem="tqn-Wd-cV9" secondAttribute="bottom" id="rNP-9k-Dsc"/>
                             <constraint firstAttribute="trailingMargin" secondItem="tqn-Wd-cV9" secondAttribute="trailing" id="v2x-hw-cWp"/>
@@ -131,7 +132,7 @@
                     <nil key="simulatedTopBarMetrics"/>
                     <simulatedOrientationMetrics key="simulatedOrientationMetrics"/>
                     <connections>
-                        <segue destination="BYZ-38-t0r" kind="show" identifier="colorWheel" id="hol-aO-FJb"/>
+                        <segue destination="BYZ-38-t0r" kind="custom" identifier="colorWheel" customClass="FadeSegue" id="hol-aO-FJb"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="opN-EF-SGD" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -160,6 +161,6 @@
     </scenes>
     <resources>
         <image name="colorWheelSmall.png" width="22" height="22"/>
-        <image name="default-portrait-640x960.png" width="22" height="22"/>
+        <image name="default-portrait-640x960.png" width="640" height="960"/>
     </resources>
 </document>
