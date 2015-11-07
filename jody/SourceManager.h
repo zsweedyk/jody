@@ -29,6 +29,7 @@
 - (UIImage*) frontPageImageForSource: (int) i;
 - (UIColor*) colorForSource: (int) i;
 - (NSDate*) updateDateForSource: (int) i;
+- (int) numberForSource: (NSString*) sourceName;
 
 
 

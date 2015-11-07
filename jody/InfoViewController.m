@@ -6,9 +6,17 @@
 //  Copyright (c) 2015 Z Sweedyk. All rights reserved.
 //
 
+
+#import "FontManager.h"
+#import "SourceManager.h"
 #import "InfoViewController.h"
+#import "constants.h"
 
 @interface InfoViewController ()
+
+@property (strong,nonatomic) UIFont* font;
+@property (strong,nonatomic) NSDictionary* attrsDictionary;
+
 
 @end
 
@@ -19,72 +27,48 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
+    FontManager* fontManager = [FontManager sharedManager];
+    SourceManager* sourceManager = [SourceManager sharedManager];
+    int fontSize = fontManager.infoScreenFontSize;
+    self.font = [UIFont fontWithName:@"Arial" size:fontSize];
+    self.attrsDictionary = [NSDictionary dictionaryWithObject:self.font
+                                                                forKey:NSFontAttributeName];
     
-    NSMutableAttributedString* text=[[NSMutableAttributedString alloc] initWithString:@"Credits:\n"];
-    NSRange cRange = NSMakeRange(0, text.length);
-    [text addAttribute:NSForegroundColorAttributeName
-                 value:[UIColor grayColor]
-                 range:cRange];
+    self.xButton.titleLabel.font = self.font;
+    [self.label setFont:[UIFont fontWithName:@"Arial" size:fontSize+2]];
+  
     
     // credits
-    NSMutableAttributedString* addText = [[NSMutableAttributedString alloc]  initWithString: [NSString stringWithFormat:
-                                        @"%@\n%@\n\n%@\n",
-                                          @"Concept/Design: Jody Zellen",
-                                          @"Software Design/Development: Z Sweedyk",
-                                          @"This project was funded in part though a 2016 Artists Fellowship grant from the City of Santa Monica."]];
-    cRange = NSMakeRange(0, [addText length]);
-    [addText addAttribute:NSForegroundColorAttributeName
-                 value:[UIColor whiteColor]
-                 range:cRange];
-    [text appendAttributedString:addText];
+    NSMutableAttributedString* text = [self createText:@"Credits" withColor:[UIColor grayColor] link:nil newlineCount:2];
+    [text appendAttributedString:[self createText:@"Concept/Design: " withColor:[UIColor whiteColor] link:nil newlineCount:0]];
+    [text appendAttributedString:[self createText:@"Jody Zellen"  withColor:[UIColor whiteColor] link:@"http://jodyzellen.com/" newlineCount:1]];
+    [text appendAttributedString:[self createText:@"Sofware Design/Development: " withColor:[UIColor whiteColor] link:nil newlineCount:0]];
+    [text appendAttributedString:[self createText:@"Z Sweedyk" withColor:[UIColor whiteColor] link:@"http://cs.hmc.edu/~z" newlineCount:2]];
+    [text appendAttributedString:[self createText:@"This project was funded in part though a 2015 Artists Fellowship grant from the City of Santa Monica." withColor:[UIColor whiteColor] link:nil newlineCount:3]];
+
     
     //instructions
-    addText = [[NSMutableAttributedString alloc]  initWithString: @"\nInstructions\n"];
-    cRange = NSMakeRange(0, [addText length]);
-    [addText addAttribute:NSForegroundColorAttributeName
-                    value:[UIColor grayColor]
-                    range:cRange];
-    [text appendAttributedString:addText];
-    
-    addText = [[NSMutableAttributedString alloc]  initWithString: [NSString stringWithFormat:@"%@\n%@\n%@\n%@\n%@\n",
-                                                                   @"\u2022Spin the wheel to reveal a new headline from today's news.",
-                                                                   @"\u2022Tap the wheel or the 'spin' icon to start/stop spinning the wheel.",
-                                                                   @"\u2022Drag a word to move it.",
-                                                                   @"\u2022Tap a word to delete it.",
-                                                                   @"\u2022Press and hold a word and then drag across other words to create a chain.\n"]
-                                                                   ];
-    cRange = NSMakeRange(0, [addText length]);
-    [addText addAttribute:NSForegroundColorAttributeName
-                    value:[UIColor whiteColor]
-                    range:cRange];
-    [text appendAttributedString:addText];
+    [text appendAttributedString:[self createText:@"Instructions" withColor:[UIColor grayColor] link:nil newlineCount:2]];
+    [text appendAttributedString:[self createText:@"Spin the wheel to reveal a new headline from today's news." withColor:[UIColor whiteColor] link:nil newlineCount:1]];
+    [text appendAttributedString:[self createText:@"Tap the wheel or the 'spin' icon to start/stop spinning the wheel." withColor:[UIColor whiteColor] link:nil newlineCount:1]];
+    [text appendAttributedString:[self createText:@"Drag a word to move it." withColor:[UIColor whiteColor] link:nil newlineCount:1]];
+    [text appendAttributedString:[self createText:@"Tap a word to delete it." withColor:[UIColor whiteColor] link:nil newlineCount:1]];
+    [text appendAttributedString:[self createText:@"Press and hold a word and then drag across other words to create a chain.\n" withColor:[UIColor whiteColor] link:nil newlineCount:3]];
+
+
     
     // sources
-    addText = [[NSMutableAttributedString alloc]  initWithString: @"\nSources\n"];
-    cRange = NSMakeRange(0, [addText length]);
-    [addText addAttribute:NSForegroundColorAttributeName
-                    value:[UIColor grayColor]
-                    range:cRange];
-    [text appendAttributedString:addText];
+    [text appendAttributedString:[self createText:@"Sources" withColor:[UIColor grayColor] link:nil newlineCount:2]];
+    [text appendAttributedString:[self createText:@"Asian Age" withColor:[UIColor whiteColor] link:@"http://www.asianage.com/" newlineCount:1]];
+    [text appendAttributedString:[self createText:@"Guardian" withColor:[UIColor whiteColor] link:@"https://www.theguardian.com/uk" newlineCount:1]];
+    [text appendAttributedString:[self createText:@"New York Daily News" withColor:[UIColor whiteColor] link:@"https://www.nydailynews.com/" newlineCount:1]];
+    [text appendAttributedString:[self createText:@"New York Times" withColor:[UIColor whiteColor] link:@"https://www.nytimes.com/" newlineCount:1]];
+    [text appendAttributedString:[self createText:@"Los Angeles Times" withColor:[UIColor whiteColor] link:@"https://www.latimes.com/" newlineCount:1]];
+    [text appendAttributedString:[self createText:@"National" withColor:[UIColor whiteColor] link:@"http://www.thenational.ae/" newlineCount:1]];
+    [text appendAttributedString:[self createText:@"Philadelphia Inquirer" withColor:[UIColor whiteColor] link:@"http://www.philly.com/inquirer/" newlineCount:1]];
+    [text appendAttributedString:[self createText:@"Wall Street Journal" withColor:[UIColor whiteColor] link:@"http://www.wsj.com/" newlineCount:1]];
+    [text appendAttributedString:[self createText:@"Washington Post" withColor:[UIColor whiteColor] link:@"https://www.washingtonpost.com/" newlineCount:1]];
     
-    addText = [[NSMutableAttributedString alloc]  initWithString:[NSString stringWithFormat:@"%@\n%@\n%@\n%@\n%@\n%@\n%@\n%@\n%@\n",
-                                                                   @"AsianAge",
-                                                                   @"Daily News",
-                                                                   @"TheGuardian",
-                                                                   @"The National",
-                                                                   @"The New York times",
-                                                                   @"The Los Angeles Times",
-                                                                   @"The Philadelphia Inquirer",
-                                                                   @"The Wall Street Joural",
-                                                                   @"The Washington Post"]];
-               
-    cRange = NSMakeRange(0, [addText length]);
-    [addText addAttribute:NSForegroundColorAttributeName
-                    value:[UIColor whiteColor]
-                    range:cRange];
-    [text appendAttributedString:addText];
-    
-
     self.textView.attributedText = text;
 }
 
@@ -95,6 +79,27 @@
 
 - (IBAction)close:(id)sender {
     [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (NSMutableAttributedString*) createText:(NSString*) string withColor: (UIColor*) color link: (NSString*)url newlineCount: (int) newlineCount
+{
+    
+    self.attrsDictionary = [NSDictionary dictionaryWithObject:self.font
+                                                       forKey:NSFontAttributeName];
+    NSDictionary *dictionary = @{NSFontAttributeName: self.font,
+                                 NSForegroundColorAttributeName: color};
+
+    NSMutableString* newString = [NSMutableString stringWithString:string];
+    for (int i=0;i<newlineCount;i++) {
+        [newString appendFormat:@"\n"];
+    }
+    NSMutableAttributedString* newAttString = [[NSMutableAttributedString alloc] initWithString:(NSString*)newString attributes:dictionary];
+    
+    if (url) {
+        NSRange cRange = NSMakeRange(0, newAttString.length);
+        [newAttString addAttribute: NSLinkAttributeName value: url range: cRange];
+    }
+    return newAttString;
 }
 
 /*

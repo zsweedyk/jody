@@ -65,6 +65,7 @@
         self.chainFontSize = kChainFontSize[self.device];
         self.startScreenLargeFontSize = kStartScreenLargeFontSize[self.device];
         self.startScreenSmallFontSize = kStartScreenSmallFontSize[self.device];
+        self.infoScreenFontSize = kInfoScreenFontSize[self.device];
     }
     
     return self;

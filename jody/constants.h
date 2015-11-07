@@ -28,5 +28,6 @@ FOUNDATION_EXPORT int const kHeadlineFontSize[6];
 FOUNDATION_EXPORT int const kChainFontSize[6];
 FOUNDATION_EXPORT int const kStartScreenSmallFontSize[6];
 FOUNDATION_EXPORT int const kStartScreenLargeFontSize[6];
+FOUNDATION_EXPORT int const kInfoScreenFontSize[6];
 
 #endif

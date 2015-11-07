@@ -26,36 +26,30 @@
                                 <action selector="info:" destination="BYZ-38-t0r" id="PSW-go-AEg"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem width="20" style="plain" systemItem="fixedSpace" id="faO-ch-p8R"/>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="jYN-Cl-y76"/>
                         <barButtonItem title="SAVE" id="ng8-Sv-snj">
                             <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <connections>
                                 <action selector="save:" destination="BYZ-38-t0r" id="xoh-Gk-sz1"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem width="20" style="plain" systemItem="fixedSpace" id="3LX-ZJ-mfW"/>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="9Sc-4H-9J5"/>
                         <barButtonItem title="SHARE" id="hhr-P2-qVw">
                             <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <connections>
                                 <action selector="share:" destination="BYZ-38-t0r" id="2eV-kR-Ht3"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem width="20" style="plain" systemItem="fixedSpace" id="YGh-UF-UEf"/>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="fm9-yz-3sc"/>
                         <barButtonItem title="RESET" id="biE-5q-OUH">
                             <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <connections>
                                 <action selector="reset:" destination="BYZ-38-t0r" id="hu0-ST-dN0"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem style="plain" systemItem="flexibleSpace" id="Ve0-oU-URE"/>
-                        <barButtonItem image="colorWheelSmall.png" style="plain" id="u9f-eo-7j5">
-                            <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
-                        </barButtonItem>
-                        <barButtonItem title="SPIN" style="plain" id="yEt-0F-8FT">
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="D2g-HH-YaH"/>
+                        <barButtonItem title="SPIN" id="m2b-xt-Ja7">
                             <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            <connections>
-                                <action selector="spinButtonPressed:" destination="BYZ-38-t0r" id="9xT-Dd-0ba"/>
-                            </connections>
                         </barButtonItem>
                     </toolbarItems>
                     <navigationItem key="navigationItem" id="VJi-vt-fqa"/>
@@ -67,7 +61,7 @@
                         <outlet property="resetButton" destination="biE-5q-OUH" id="bdp-Rx-OQr"/>
                         <outlet property="saveButton" destination="ng8-Sv-snj" id="J8r-tR-UbP"/>
                         <outlet property="shareButton" destination="hhr-P2-qVw" id="cvW-NL-m5K"/>
-                        <outlet property="spinButton" destination="yEt-0F-8FT" id="5D9-O3-h4K"/>
+                        <outlet property="spinButton" destination="m2b-xt-Ja7" id="oxv-W4-kbb"/>
                         <segue destination="PTm-5Q-fll" kind="presentation" identifier="info" modalTransitionStyle="crossDissolve" id="yuC-Zn-z1S"/>
                     </connections>
                 </viewController>
@@ -87,21 +81,23 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" usesAttributedText="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zKT-TG-yfV">
-                                <rect key="frame" x="20" y="20" width="535" height="600"/>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" usesAttributedText="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zKT-TG-yfV">
+                                <rect key="frame" x="20" y="60" width="535" height="600"/>
                                 <attributedString key="attributedText">
                                     <fragment content="Credits:\n">
                                         <attributes>
                                             <color key="NSColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                            <font key="NSFont" size="14" name="ArialMT"/>
+                                            <font key="NSFont" size="43" name="ArialMT"/>
                                             <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural"/>
                                         </attributes>
                                     </fragment>
                                 </attributedString>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                <dataDetectorType key="dataDetectorTypes" link="YES"/>
                             </textView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3wo-th-zOX">
-                                <rect key="frame" x="545" y="565" width="30" height="30"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3wo-th-zOX">
+                                <rect key="frame" x="550" y="569" width="30" height="26"/>
+                                <fontDescription key="fontDescription" name="ArialMT" family="Arial" pointSize="12"/>
                                 <state key="normal" title="X">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -109,22 +105,35 @@
                                     <action selector="close:" destination="PTm-5Q-fll" eventType="touchUpInside" id="Q0L-WS-Ep3"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="News Wheel" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dee-HV-wX6">
+                                <rect key="frame" x="252.5" y="10" width="95.5" height="30"/>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" name="ArialMT" family="Arial" pointSize="17"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="zKT-TG-yfV" firstAttribute="height" secondItem="iTE-Tw-2a7" secondAttribute="height" id="3BZ-Rz-h2q"/>
                             <constraint firstItem="V5k-Sy-0iV" firstAttribute="top" secondItem="3wo-th-zOX" secondAttribute="bottom" constant="5" id="6DD-ti-5MZ"/>
+                            <constraint firstItem="zKT-TG-yfV" firstAttribute="top" secondItem="dee-HV-wX6" secondAttribute="bottom" constant="20" id="7XQ-Qe-HF3"/>
                             <constraint firstItem="zKT-TG-yfV" firstAttribute="centerX" secondItem="iTE-Tw-2a7" secondAttribute="centerX" id="Feh-rq-5RW"/>
                             <constraint firstAttribute="trailingMargin" secondItem="zKT-TG-yfV" secondAttribute="trailing" constant="25" id="QBa-dU-OMM"/>
-                            <constraint firstItem="zKT-TG-yfV" firstAttribute="top" secondItem="ug1-DN-c5g" secondAttribute="bottom" constant="20" id="U40-TH-o8D"/>
+                            <constraint firstItem="dee-HV-wX6" firstAttribute="top" secondItem="ug1-DN-c5g" secondAttribute="bottom" constant="10" id="SOx-bq-7xx"/>
+                            <constraint firstItem="zKT-TG-yfV" firstAttribute="top" secondItem="dee-HV-wX6" secondAttribute="bottom" constant="26" id="Wal-zw-lGW"/>
                             <constraint firstItem="zKT-TG-yfV" firstAttribute="centerY" secondItem="iTE-Tw-2a7" secondAttribute="centerY" id="WtE-lH-UGF"/>
                             <constraint firstItem="V5k-Sy-0iV" firstAttribute="top" secondItem="zKT-TG-yfV" secondAttribute="bottom" constant="20" id="b5d-B0-e37"/>
                             <constraint firstItem="zKT-TG-yfV" firstAttribute="leading" secondItem="iTE-Tw-2a7" secondAttribute="leadingMargin" id="b89-nw-hjq"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="3wo-th-zOX" secondAttribute="trailing" constant="5" id="lcG-Ua-7ly"/>
+                            <constraint firstItem="dee-HV-wX6" firstAttribute="centerX" secondItem="iTE-Tw-2a7" secondAttribute="centerX" id="foB-34-jVv"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="3wo-th-zOX" secondAttribute="trailing" id="lcG-Ua-7ly"/>
+                            <constraint firstItem="zKT-TG-yfV" firstAttribute="top" secondItem="ug1-DN-c5g" secondAttribute="bottom" constant="60" id="uEJ-MB-68S"/>
                         </constraints>
                         <variation key="default">
                             <mask key="constraints">
                                 <exclude reference="Feh-rq-5RW"/>
+                                <exclude reference="Wal-zw-lGW"/>
                                 <exclude reference="WtE-lH-UGF"/>
                                 <exclude reference="b5d-B0-e37"/>
                             </mask>
@@ -137,6 +146,7 @@
                     <simulatedOrientationMetrics key="simulatedOrientationMetrics"/>
                     <connections>
                         <outlet property="textView" destination="zKT-TG-yfV" id="PB9-yj-za6"/>
+                        <outlet property="xButton" destination="3wo-th-zOX" id="Pai-cb-ckX"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jNu-qX-ylY" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -183,7 +193,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="colorWheelSmall.png" width="22" height="22"/>
         <image name="default-portrait-640x960.png" width="640" height="960"/>
     </resources>
 </document>

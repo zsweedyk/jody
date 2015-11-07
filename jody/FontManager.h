@@ -14,6 +14,7 @@
 @property int chainFontSize;
 @property int startScreenSmallFontSize;
 @property int startScreenLargeFontSize;
+@property int infoScreenFontSize;
 
 + (id)sharedManager;
 

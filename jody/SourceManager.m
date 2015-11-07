@@ -69,13 +69,13 @@ enum {
                                    @"AsianAgeDefault",
                                    @"nationalDefault"];
         
-        self.sourceNames =@[@"N.Y. Times",
+        self.sourceNames =@[@"New York Times",
                                 @"Washington Post",
                                 @"Guardian",
-                                @"L.A. Times",
+                                @"Los Angeles Times",
                                 @"Wall Street Journal",
                                 @"Philadelphia Inquirer",
-                                @"N.Y. Daily News",
+                                @"New York Daily News",
                                 @"Asian Age",
                                 @"National"];
         
@@ -320,6 +320,15 @@ enum {
     float green = basicColors[sourceNum][1];
     float blue = basicColors[sourceNum][2];
     return [UIColor colorWithRed:red green:green blue:blue alpha:.5];
+}
+
+- (int) numberForSource:(NSString *)sourceName
+{
+    for (int i=0; i<kSourceCount; i++) {
+        if ([self.sourceNames[i] isEqualToString:sourceName])
+            return i;
+    }
+    return -1;
 }
 
 

@@ -141,7 +141,7 @@ enum {
     
     // set text on tool bar
     // need to set up sizes for different devices
-    NSUInteger size = 10;
+    NSUInteger size = 10;  //18 for ipads, 14 for 6+, 10 for others
     UIFont * font = [UIFont boldSystemFontOfSize:size];
     NSDictionary * attributes = @{NSFontAttributeName: font};
     [self.infoButton setTitleTextAttributes:attributes forState:UIControlStateNormal];
@@ -149,6 +149,7 @@ enum {
     [self.shareButton setTitleTextAttributes:attributes forState:UIControlStateNormal];
     [self.resetButton setTitleTextAttributes:attributes forState:UIControlStateNormal];
     [self.spinButton setTitleTextAttributes:attributes forState:UIControlStateNormal];
+ 
     
     CGRect rect = self.navigationController.toolbar.frame;
     self.showToolBarButton = [[UIButton alloc] initWithFrame:rect];

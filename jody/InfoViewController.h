@@ -10,7 +10,10 @@
 
 @interface InfoViewController : UIViewController
 
+
 @property (weak,nonatomic) IBOutlet UITextView* textView;
+@property (weak,nonatomic) IBOutlet UIButton* xButton;
+@property (weak,nonatomic) IBOutlet UILabel* label;
 
 -(IBAction)close:(id)sender;
 
