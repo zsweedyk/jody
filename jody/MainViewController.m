@@ -40,6 +40,8 @@ enum {
 @property double colorWheelAngle;
 @property double finalAngle;
 @property BOOL toolBarUsed;
+@property (strong,nonatomic) UILabel* shareConfirmationLabel;
+@property (strong,nonatomic) UILabel* saveConfirmationLabel;
 
 
 @end
@@ -59,7 +61,7 @@ enum {
     [self setUpToolBar];
     
     // set up confirmation label (for saving sharing image)
-    self.confirmationLabel.hidden=true;
+    [self setUpConfirmationLabels];
     
     // create source manager
     self.sourceManager = [SourceManager sharedManager];
@@ -133,6 +135,8 @@ enum {
     return UIInterfaceOrientationMaskPortrait;
 }
 
+
+#pragma mark - tool bar methods
 - (void)setUpToolBar
 {
     self.navigationController.toolbarHidden=NO;
@@ -158,22 +162,19 @@ enum {
     self.showToolBarButton.enabled=NO;
     [self.showToolBarButton addTarget:self action:@selector(showToolBar:) forControlEvents:UIControlEventTouchUpInside];
     
-    [NSTimer scheduledTimerWithTimeInterval:3.0 target:self selector:@selector(checkToolBarTimer) userInfo:nil repeats:YES];
+    [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(checkToolBarTimer) userInfo:nil repeats:YES];
     self.toolBarUsed=NO;
-    
 }
-
-// pragma mark - tool bar methods
 
 - (void)checkToolBarTimer
 {
     static int cyclesWaited=0;
     // tool bar is shown and wheel is not spinning
     if (self.showToolBarButton.enabled==NO && !(self.colorWheelState==SPINNING)) {
-        // we wait until it has been unused for a full cycle to hide it
+        // we wait until it has been unused for three full cycle to hide it
         
         if (!self.toolBarUsed) {
-            if (cyclesWaited>=1) {
+            if (cyclesWaited>=3) {
                 cyclesWaited=0;
                 [self hideToolBarWithDelay:0];
             }
@@ -222,7 +223,7 @@ enum {
                      }];
 }
 
-// pragma mark - spin methods
+#pragma mark - spin methods
 
 - (IBAction)spinButtonPressed:(id)sender
 {
@@ -232,7 +233,6 @@ enum {
 
 - (void)spin:(id)sender
 {
-    NSLog(@"caught tap");
     if (self.colorWheelState == OUT_OF_FOCUS) {
         [self bringColorWheelIntoFocus];
     }
@@ -281,7 +281,7 @@ enum {
     }
 }
 
-// pragma mark - other IBActions
+#pragma mark - other IBActions
 
 - (IBAction)reset:(id)sender {
     [self.headlinesView reset];
@@ -296,6 +296,7 @@ enum {
 
 - (IBAction)share:(id)sender
 {
+    [self showConfirmationMessage:self.shareConfirmationLabel];
     UIImage* screenShot = [self getScreenShot];
     NSData * imgData = UIImagePNGRepresentation(screenShot);
     if(imgData) {
@@ -315,6 +316,7 @@ enum {
 
 - (IBAction)save:(id)sender
 {
+    [self showConfirmationMessage:self.saveConfirmationLabel];
     UIImage* screenShot = [self getScreenShot];
     UIImageWriteToSavedPhotosAlbum(screenShot, nil, nil, nil);
     self.toolBarUsed=YES;
@@ -334,7 +336,51 @@ enum {
     // Dispose of any resources that can be recreated.
 }
 
-// pragma mark - helpers
+#pragma mark - confirmation message handlers
+
+- (void) setUpConfirmationLabels
+{
+    
+    self.saveConfirmationLabel = [self createConfirmationLabelForText: @" Saved to camera roll. "];
+    self.shareConfirmationLabel = [self createConfirmationLabelForText: @" Shared at www.newswheel.info/gallery.  "];
+}
+
+- (UILabel*) createConfirmationLabelForText: (NSString*)text;
+{
+    FontManager* fontManager = [FontManager sharedManager];
+    int fontSize = fontManager.infoScreenFontSize;
+    UIFont* font = [UIFont fontWithName:@"Arial" size:fontSize];
+    CGSize textSize = [text sizeWithAttributes:@{NSFontAttributeName:font}];
+    int x = (self.view.frame.size.width-textSize.width*1.5)/2.0;
+    int y = (self.view.frame.size.height-textSize.height*3)/2.0;
+    CGRect frame = CGRectMake(x, y, textSize.width*1.5, textSize.height*3);
+    UILabel* label = [[UILabel alloc] initWithFrame:frame];
+    label.font = font;
+    label.text = text;
+    label.backgroundColor = [UIColor darkGrayColor];
+    label.textColor = [UIColor whiteColor];
+    label.textAlignment = NSTextAlignmentCenter;
+    return label;
+}
+
+- (void) showConfirmationMessage: (UILabel*) label
+{
+    __block UILabel* theLabel = label;
+    theLabel.alpha = 1;
+    [self.view addSubview:theLabel];
+    
+    [UIView animateWithDuration:0.5
+                          delay:2.0
+                        options: UIViewAnimationOptionTransitionNone
+                     animations:^{
+                         theLabel.alpha=0;
+                     }
+                     completion:^(BOOL finished){
+                         [theLabel removeFromSuperview];
+                     }];
+}
+
+#pragma mark - helpers
 
 - (UIImage*)getScreenShot
 {
@@ -349,9 +395,6 @@ enum {
     return screenShot;
 }
 
-- (void) showConfirmationMessage: (NSString*)message
-{
-    
-}
+
 
 @end

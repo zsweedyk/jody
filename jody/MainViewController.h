@@ -16,7 +16,7 @@
 @property (weak,nonatomic) IBOutlet UIBarButtonItem* shareButton;
 @property (weak,nonatomic) IBOutlet UIBarButtonItem* resetButton;
 @property (weak,nonatomic) IBOutlet UIBarButtonItem* spinButton;
-@property (weak,nonatomic) IBOutlet UILabel* confirmationLabel;
+
 
 
 - (IBAction)info:(id)sender;

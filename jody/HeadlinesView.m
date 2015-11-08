@@ -57,9 +57,6 @@ const int maxDisplacement = 3;
     if (self.chainView) {
         [self endChain];
     }
-    //headline=@"Is a ballot-booth selfie free speech, or a threat to the sanctity of the secret vote?";
-    //headline=@"ABCD EFGH IJIK MNOP QRST UVWX YZ abcd efgh ijkl mnop qrst uvwx yz 12345";
-    NSLog(@"Adding headline: %@",headline);
     // find words
     NSMutableArray* newWords = [self wordsOfHeadline: headline];
     if (!newWords) {

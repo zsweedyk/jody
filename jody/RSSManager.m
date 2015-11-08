@@ -42,8 +42,6 @@
         NSLog(@"check it out");
     }
     
-    NSLog(@"Getting headline for source: %d", sourceNum);
-    
     self.headlines = [[NSMutableArray alloc] init];
     NSString* string = [self.sourceManager rssFeedForSource:sourceNum];
     NSAssert(string,@"Headline requested from bad source.");
@@ -121,7 +119,6 @@
     if (choice >= [self.headlines count]) {
         NSLog(@"Bad choice of headline.");
     }
-    NSLog(@"Headline number: %d", choice);
     [self.mainVC newHeadline:[self.headlines objectAtIndex:choice]];
     
 }
