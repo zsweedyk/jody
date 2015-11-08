@@ -14,6 +14,8 @@
 		116EAAD11B630DE700C7511E /* BackgroundGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 116EAAD01B630DE700C7511E /* BackgroundGenerator.m */; };
 		118CF4A81BE6C64C0064813B /* default-1536x2048.png in Resources */ = {isa = PBXBuildFile; fileRef = 118CF4A71BE6C64C0064813B /* default-1536x2048.png */; settings = {ASSET_TAGS = (); }; };
 		118CF4AA1BE6D73E0064813B /* new-icon-120.png in Resources */ = {isa = PBXBuildFile; fileRef = 118CF4A91BE6D73E0064813B /* new-icon-120.png */; settings = {ASSET_TAGS = (); }; };
+		118CF4B31BEFAFB50064813B /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 118CF4B21BEFAFB50064813B /* WebViewController.m */; settings = {ASSET_TAGS = (); }; };
+		118CF4B51BEFD8CC0064813B /* style.css in Resources */ = {isa = PBXBuildFile; fileRef = 118CF4B41BEFD8CC0064813B /* style.css */; settings = {ASSET_TAGS = (); }; };
 		11A33C0A1B4C75A000DA0108 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 11A33C091B4C75A000DA0108 /* main.m */; };
 		11A33C0D1B4C75A000DA0108 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 11A33C0C1B4C75A000DA0108 /* AppDelegate.m */; };
 		11A33C151B4C75A000DA0108 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 11A33C141B4C75A000DA0108 /* Images.xcassets */; };
@@ -92,6 +94,9 @@
 		116EAAD01B630DE700C7511E /* BackgroundGenerator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BackgroundGenerator.m; sourceTree = "<group>"; };
 		118CF4A71BE6C64C0064813B /* default-1536x2048.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "default-1536x2048.png"; sourceTree = "<group>"; };
 		118CF4A91BE6D73E0064813B /* new-icon-120.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "new-icon-120.png"; sourceTree = "<group>"; };
+		118CF4B11BEFAFB50064813B /* WebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewController.h; sourceTree = "<group>"; };
+		118CF4B21BEFAFB50064813B /* WebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebViewController.m; sourceTree = "<group>"; };
+		118CF4B41BEFD8CC0064813B /* style.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = style.css; sourceTree = "<group>"; };
 		11A33C041B4C75A000DA0108 /* jody.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = jody.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		11A33C081B4C75A000DA0108 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		11A33C091B4C75A000DA0108 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -288,6 +293,8 @@
 				11A33C141B4C75A000DA0108 /* Images.xcassets */,
 				11A33C161B4C75A000DA0108 /* LaunchScreen.xib */,
 				11A33C071B4C75A000DA0108 /* Supporting Files */,
+				118CF4B11BEFAFB50064813B /* WebViewController.h */,
+				118CF4B21BEFAFB50064813B /* WebViewController.m */,
 			);
 			path = jody;
 			sourceTree = "<group>";
@@ -388,6 +395,7 @@
 		11B49FF11B72CEF300823DB1 /* Info */ = {
 			isa = PBXGroup;
 			children = (
+				118CF4B41BEFD8CC0064813B /* style.css */,
 				11E8149A1BE5D2600005C114 /* info.html */,
 				11B49FEE1B72CEE600823DB1 /* InfoViewController.h */,
 				11B49FEF1B72CEE600823DB1 /* InfoViewController.m */,
@@ -541,6 +549,7 @@
 				11E655EA1B8CE7D2008C8050 /* default-portrait-640x960.png in Resources */,
 				11E814AA1BE5F3D20005C114 /* colorWheelButton@3x.xcf in Resources */,
 				11E655E91B8CE7D2008C8050 /* default-568@2x.png in Resources */,
+				118CF4B51BEFD8CC0064813B /* style.css in Resources */,
 				11E655F01B8CE7D2008C8050 /* store-icon-1024.png in Resources */,
 				11E8149B1BE5D2600005C114 /* info.html in Resources */,
 				11E814AE1BE6C5340005C114 /* default-768x1024.png in Resources */,
@@ -568,6 +577,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				11A33CAA1B4C856F00DA0108 /* AFURLSessionManager.m in Sources */,
+				118CF4B31BEFAFB50064813B /* WebViewController.m in Sources */,
 				11A33CA71B4C856F00DA0108 /* AFURLConnectionOperation.m in Sources */,
 				11A33CC21B4C858D00DA0108 /* UIRefreshControl+AFNetworking.m in Sources */,
 				11B49FF61B72DBEF00823DB1 /* StartViewController.m in Sources */,

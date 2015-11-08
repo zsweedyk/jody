@@ -11,20 +11,6 @@
 #import "constants.h"
 
 
-enum {
-    NYTIMES=0,
-    WASHINGTONPOST=1,
-    GUARDIAN=2,
-    LATIMES=3,
-    WALLSTREETJOURNAL=4,
-    NYPOST=5,
-    NYDAILYNEWS=6,
-    INDIANAGE=7,
-    NATIONAL=8
-};
-
-
-
 @interface SourceManager ()
 
 @property (strong,nonatomic) NSMutableArray* sources;

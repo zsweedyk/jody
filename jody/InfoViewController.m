@@ -27,6 +27,8 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
+    self.navigationController.navigationBarHidden=true;
+    
     FontManager* fontManager = [FontManager sharedManager];
     int fontSize = fontManager.infoScreenFontSize;
     self.font = [UIFont fontWithName:@"Arial" size:fontSize];

@@ -277,7 +277,6 @@ enum {
     int numHeadlinesAdded=[self.headlinesView addHeadline: headline withColor: [self.sourceManager colorForSource: self.sourceChosen]];
     if (numHeadlinesAdded==0) {
         [self.rssManager getHeadlineFrom: self.sourceChosen];
-        NSLog(@"Bad headline from source: %d",self.sourceChosen);
     }
 }
 
