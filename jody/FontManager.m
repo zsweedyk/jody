@@ -48,7 +48,6 @@
                 [deviceCode isEqualToString:@"iPad4,5"]) {
                 self.device = IPAD_MINI;
             }
-            
         }
         else {
             if (SCREEN_MAX_LENGTH == 568.0) {
@@ -66,6 +65,7 @@
         self.startScreenLargeFontSize = kStartScreenLargeFontSize[self.device];
         self.startScreenSmallFontSize = kStartScreenSmallFontSize[self.device];
         self.infoScreenFontSize = kInfoScreenFontSize[self.device];
+        self.toolBarFontSize = kToolBarFontSize[self.device];
     }
     
     return self;

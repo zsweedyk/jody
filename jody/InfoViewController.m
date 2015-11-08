@@ -28,7 +28,6 @@
     // Do any additional setup after loading the view.
     
     FontManager* fontManager = [FontManager sharedManager];
-    SourceManager* sourceManager = [SourceManager sharedManager];
     int fontSize = fontManager.infoScreenFontSize;
     self.font = [UIFont fontWithName:@"Arial" size:fontSize];
     self.attrsDictionary = [NSDictionary dictionaryWithObject:self.font
@@ -53,9 +52,10 @@
     [text appendAttributedString:[self createText:@"Tap the wheel or the 'spin' icon to start/stop spinning the wheel." withColor:[UIColor whiteColor] link:nil newlineCount:1]];
     [text appendAttributedString:[self createText:@"Drag a word to move it." withColor:[UIColor whiteColor] link:nil newlineCount:1]];
     [text appendAttributedString:[self createText:@"Tap a word to delete it." withColor:[UIColor whiteColor] link:nil newlineCount:1]];
-    [text appendAttributedString:[self createText:@"Press and hold a word and then drag across other words to create a chain.\n" withColor:[UIColor whiteColor] link:nil newlineCount:3]];
-
-
+    [text appendAttributedString:[self createText:@"Press and hold a word and then drag across other words to create a chain." withColor:[UIColor whiteColor] link:nil newlineCount:1]];
+    [text appendAttributedString:[self createText:@"Tap Save to save screenshot to camera roll." withColor:[UIColor whiteColor] link:nil newlineCount:1]];
+    [text appendAttributedString:[self createText:@"Tap share to save to " withColor:[UIColor whiteColor] link:nil newlineCount:0]];
+    [text appendAttributedString:[self createText:@"our gallery." withColor:[UIColor whiteColor] link:@"http://www.newswheel.info/gallery.html" newlineCount:3]];
     
     // sources
     [text appendAttributedString:[self createText:@"Sources" withColor:[UIColor grayColor] link:nil newlineCount:2]];

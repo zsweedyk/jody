@@ -30,5 +30,7 @@ int const kChainFontSize[6] = {20,20,20,28,28,36};
 int const kStartScreenLargeFontSize[6]={56,56,56,72,72,96};
 int const kStartScreenSmallFontSize[6]={32,32,32,48,48,56};
 int const kInfoScreenFontSize[6]={10,10,12,14,18,18};
+int const kToolBarFontSize[6]={10,10,10,14,18,18};
+
 
     

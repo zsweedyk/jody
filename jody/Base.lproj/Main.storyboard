@@ -50,6 +50,9 @@
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="D2g-HH-YaH"/>
                         <barButtonItem title="SPIN" id="m2b-xt-Ja7">
                             <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <connections>
+                                <action selector="spinButtonPressed:" destination="BYZ-38-t0r" id="dZ1-kV-M0S"/>
+                            </connections>
                         </barButtonItem>
                     </toolbarItems>
                     <navigationItem key="navigationItem" id="VJi-vt-fqa"/>

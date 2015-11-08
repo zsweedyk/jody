@@ -12,6 +12,7 @@ enum {
     SPINNING = 2,
 };
 
+#import "FontManager.h"
 #import "NWSharedImage.h"
 #import "SourceManager.h"
 #import "MainViewController.h"
@@ -57,13 +58,14 @@ enum {
     // set up tool bar
     [self setUpToolBar];
     
+    // set up confirmation label (for saving sharing image)
+    self.confirmationLabel.hidden=true;
+    
     // create source manager
     self.sourceManager = [SourceManager sharedManager];
 
-
-    CGRect myFrame = self.view.frame;
-    
     // create frame for color wheel
+    CGRect myFrame = self.view.frame;
     CGFloat diameter = MIN(myFrame.size.width, myFrame.size.height);
     CGFloat colorWheelFrameSize = floor(diameter*.90);
     // we get artifacts if the frame isn't an even integers
@@ -73,7 +75,6 @@ enum {
     CGFloat leftX= (myFrame.size.width - colorWheelFrameSize)/2.0;
     CGFloat topY = (myFrame.size.height-colorWheelFrameSize)/2.0;
     CGRect colorWheelFrame = CGRectMake(leftX, topY, colorWheelFrameSize, colorWheelFrameSize);
-
     
     // create background view
     self.bgManager = [BackgroundGenerator sharedManager];
@@ -86,20 +87,21 @@ enum {
     [self.view addSubview:self.colorWheelView];
     
     // add gesture recognizer for color wheel
-    self.tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(spin)];
+    self.tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(spin:)];
     [self.colorWheelView addGestureRecognizer:self.tapRecognizer];
     
     // set up color wheel state
     self.colorWheelState = IN_FOCUS_WAITING;
+    [self.colorWheelView addGestureRecognizer:self.tapRecognizer];
     
     // create headlines view
-
     CGRect toolBarFrame = self.navigationController.toolbar.frame;
     CGRect headlineFrame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height - toolBarFrame.size.height);
     self.headlinesView = [[HeadlinesView alloc] initWithFrame:headlineFrame];
     [self.view addSubview:self.headlinesView];
     self.headlinesView.startX = leftX + diameter/2.0;
     self.headlinesView.startY = topY;
+    [self.headlinesView addGestureRecognizer:self.tapRecognizer];
     
     // create rss manager
     self.rssManager = [RSSManager sharedManager];
@@ -138,10 +140,10 @@ enum {
     self.navigationController.toolbar.barTintColor = [UIColor blackColor];
     self.navigationController.toolbar.translucent = NO;
 
-    
     // set text on tool bar
     // need to set up sizes for different devices
-    NSUInteger size = 10;  //18 for ipads, 14 for 6+, 10 for others
+    FontManager* fontManager = [FontManager sharedManager];
+    NSUInteger size = fontManager.toolBarFontSize;
     UIFont * font = [UIFont boldSystemFontOfSize:size];
     NSDictionary * attributes = @{NSFontAttributeName: font};
     [self.infoButton setTitleTextAttributes:attributes forState:UIControlStateNormal];
@@ -149,7 +151,6 @@ enum {
     [self.shareButton setTitleTextAttributes:attributes forState:UIControlStateNormal];
     [self.resetButton setTitleTextAttributes:attributes forState:UIControlStateNormal];
     [self.spinButton setTitleTextAttributes:attributes forState:UIControlStateNormal];
- 
     
     CGRect rect = self.navigationController.toolbar.frame;
     self.showToolBarButton = [[UIButton alloc] initWithFrame:rect];
@@ -157,15 +158,16 @@ enum {
     self.showToolBarButton.enabled=NO;
     [self.showToolBarButton addTarget:self action:@selector(showToolBar:) forControlEvents:UIControlEventTouchUpInside];
     
-    [NSTimer scheduledTimerWithTimeInterval:5.0 target:self selector:@selector(checkToolBarTimer) userInfo:nil repeats:YES];
+    [NSTimer scheduledTimerWithTimeInterval:3.0 target:self selector:@selector(checkToolBarTimer) userInfo:nil repeats:YES];
     self.toolBarUsed=NO;
     
 }
-                      
+
+// pragma mark - tool bar methods
+
 - (void)checkToolBarTimer
 {
     static int cyclesWaited=0;
-    
     // tool bar is shown and wheel is not spinning
     if (self.showToolBarButton.enabled==NO && !(self.colorWheelState==SPINNING)) {
         // we wait until it has been unused for a full cycle to hide it
@@ -188,79 +190,59 @@ enum {
 
 - (void)hideToolBarWithDelay: (float) delay
 {
-    CGRect newRect = self.navigationController.toolbar.frame;
-    newRect.origin.y += 40;
+    self.showToolBarButton.backgroundColor = [UIColor clearColor];
+    [self.navigationController.view addSubview:self.showToolBarButton];
     [UIView animateWithDuration:1.0
                           delay:delay
                         options: UIViewAnimationOptionTransitionNone
                      animations:^{
-                         self.navigationController.toolbar.frame = newRect;
-                         
+                         self.showToolBarButton.backgroundColor=[UIColor blackColor];
                      }
                      completion:^(BOOL finished){
-                         [self enableShowToolBarButton];
-                     }];
-}
-
-- (void) enableShowToolBarButton {
-    [self.navigationController.view addSubview:self.showToolBarButton];
-    self.showToolBarButton.enabled=YES;
-    self.toolBarUsed=NO;
-}
-
-
-- (void)showToolBar: (id)sender {
-    
-    self.showToolBarButton.enabled=NO;
-    [self.showToolBarButton removeFromSuperview];
-    CGRect newRect = self.navigationController.toolbar.frame;
-    newRect.origin.y -= 40;
-    [UIView animateWithDuration:1.0
-                          delay:0
-                        options: UIViewAnimationOptionTransitionNone
-                     animations:^{
-                         self.navigationController.toolbar.frame = newRect;
-                         
-                     }
-                     completion:^(BOOL finished){
+                         self.showToolBarButton.enabled=YES;
                          self.toolBarUsed=NO;
                      }];
 }
 
-- (void)setUpSpinButton
-{
-    UIButton* customButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [customButton setImage:[UIImage imageNamed:@"colorWheelIcon.png"] forState:UIControlStateNormal];
-    [customButton setTitle:@"Spin" forState:UIControlStateNormal];
-    [customButton sizeToFit];
-    UIBarButtonItem* customBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:customButton];
-    self.navigationItem.rightBarButtonItem = customBarButtonItem; // or self.navigationItem.ri
+- (void)showToolBar: (id)sender {
+    self.showToolBarButton.backgroundColor = [UIColor clearColor];
+    [self.navigationController.view addSubview:self.showToolBarButton];
+    
+    [UIView animateWithDuration:1.0
+                          delay:0
+                        options: UIViewAnimationOptionTransitionNone
+                     animations:^{
+                         self.showToolBarButton.backgroundColor=[UIColor clearColor];
+                         
+                     }
+                     completion:^(BOOL finished){
+                         self.showToolBarButton.enabled=NO;
+                         [self.showToolBarButton removeFromSuperview];
+                         self.toolBarUsed=NO;
+                     }];
 }
-- (void)spin
-{
-    NSLog(@"wheel tapped");
-    [self spin:self];
-}
+
+// pragma mark - spin methods
 
 - (IBAction)spinButtonPressed:(id)sender
 {
-
     self.toolBarUsed=YES;
     [self spin:self];
 }
 
 - (void)spin:(id)sender
 {
+    NSLog(@"caught tap");
     if (self.colorWheelState == OUT_OF_FOCUS) {
         [self bringColorWheelIntoFocus];
     }
-    
     if (self.colorWheelState == IN_FOCUS_WAITING) {
         // start spinning
         self.headlinesView.enableInput=NO; // we disable input on the headline view while the color wheel is spinning
         self.colorWheelTimer = [NSTimer timerWithTimeInterval:1.0/60.0 target:self selector:@selector(update) userInfo:nil repeats:YES];
         [[NSRunLoop mainRunLoop] addTimer:self.colorWheelTimer forMode:NSDefaultRunLoopMode];
         self.colorWheelState = SPINNING;
+        [self.view bringSubviewToFront:self.headlinesView];
     }
     else if (self.colorWheelState == SPINNING) {
         self.finalAngle = self.colorWheelAngle+3.14159;
@@ -288,20 +270,18 @@ enum {
     [self.view bringSubviewToFront:self.headlinesView];
     self.headlinesView.enableInput=YES;
     [self.rssManager getHeadlineFrom: self.sourceChosen];
-
-    
 }
 
 - (void)newHeadline:(NSString *)headline
 {
-    
     int numHeadlinesAdded=[self.headlinesView addHeadline: headline withColor: [self.sourceManager colorForSource: self.sourceChosen]];
     if (numHeadlinesAdded==0) {
         [self.rssManager getHeadlineFrom: self.sourceChosen];
         NSLog(@"Bad headline from source: %d",self.sourceChosen);
-        
     }
 }
+
+// pragma mark - other IBActions
 
 - (IBAction)reset:(id)sender {
     [self.headlinesView reset];
@@ -340,20 +320,6 @@ enum {
     self.toolBarUsed=YES;
 }
 
-- (UIImage*)getScreenShot
-{
-    if ([[UIScreen mainScreen] respondsToSelector:@selector(scale)])
-        UIGraphicsBeginImageContextWithOptions(self.view.bounds.size, NO, [UIScreen mainScreen].scale);
-    else
-        UIGraphicsBeginImageContext(self.view.bounds.size);
-    
-    [self.view.layer renderInContext:UIGraphicsGetCurrentContext()];
-    UIImage* screenShot =UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-    return screenShot;
-    
-}
-
 - (IBAction)bringColorWheelIntoFocus
 {
     [self.headlinesView endChain];
@@ -366,6 +332,26 @@ enum {
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+// pragma mark - helpers
+
+- (UIImage*)getScreenShot
+{
+    if ([[UIScreen mainScreen] respondsToSelector:@selector(scale)])
+        UIGraphicsBeginImageContextWithOptions(self.view.bounds.size, NO, [UIScreen mainScreen].scale);
+    else
+        UIGraphicsBeginImageContext(self.view.bounds.size);
+    
+    [self.view.layer renderInContext:UIGraphicsGetCurrentContext()];
+    UIImage* screenShot =UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return screenShot;
+}
+
+- (void) showConfirmationMessage: (NSString*)message
+{
+    
 }
 
 @end
