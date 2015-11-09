@@ -55,6 +55,7 @@ enum {
     self.sourceChosen=-1;
     
     // turn off nav bar
+    self.navigationController.navigationBar.backgroundColor=[UIColor blackColor];
     [self.navigationController setNavigationBarHidden:YES];
     
     // set up tool bar
@@ -114,7 +115,9 @@ enum {
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-
+    self.navigationController.toolbarHidden=NO;
+    self.navigationController.navigationBarHidden=YES;
+    [self enableButtons:YES includingSpin:YES];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -134,7 +137,6 @@ enum {
 
     return UIInterfaceOrientationMaskPortrait;
 }
-
 
 #pragma mark - tool bar methods
 - (void)setUpToolBar
@@ -156,12 +158,14 @@ enum {
     [self.resetButton setTitleTextAttributes:attributes forState:UIControlStateNormal];
     [self.spinButton setTitleTextAttributes:attributes forState:UIControlStateNormal];
     
+    // create tool bar
     CGRect rect = self.navigationController.toolbar.frame;
     self.showToolBarButton = [[UIButton alloc] initWithFrame:rect];
     self.showToolBarButton.backgroundColor=[UIColor blackColor];
     self.showToolBarButton.enabled=NO;
     [self.showToolBarButton addTarget:self action:@selector(showToolBar:) forControlEvents:UIControlEventTouchUpInside];
     
+    // set timer to hide tool bar
     [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(checkToolBarTimer) userInfo:nil repeats:YES];
     self.toolBarUsed=NO;
 }
@@ -170,22 +174,29 @@ enum {
 {
     static int cyclesWaited=0;
     // tool bar is shown and wheel is not spinning
-    if (self.showToolBarButton.enabled==NO && !(self.colorWheelState==SPINNING)) {
+    //if (self.showToolBarButton.enabled==NO && !(self.colorWheelState==SPINNING)) {
+    if (self.showToolBarButton.enabled==NO) {
         // we wait until it has been unused for three full cycle to hide it
-        
-        if (!self.toolBarUsed) {
-            if (cyclesWaited>=3) {
-                cyclesWaited=0;
-                [self hideToolBarWithDelay:0];
+        if (self.isViewLoaded && self.view.window) {
+            // viewController is visible
+            
+            if (!self.toolBarUsed) {
+                if (cyclesWaited>=3) {
+                    cyclesWaited=0;
+                    [self hideToolBarWithDelay:0];
+                }
+                else {
+                    cyclesWaited++;
+                }
             }
             else {
-                cyclesWaited++;
+                self.toolBarUsed=NO;
+                cyclesWaited=0;
             }
         }
-        else {
-            self.toolBarUsed=NO;
-            cyclesWaited=0;
-        }
+    }
+    else {
+        cyclesWaited=0;
     }
 }
 
@@ -243,6 +254,8 @@ enum {
         [[NSRunLoop mainRunLoop] addTimer:self.colorWheelTimer forMode:NSDefaultRunLoopMode];
         self.colorWheelState = SPINNING;
         [self.view bringSubviewToFront:self.headlinesView];
+        // disable other buttons
+        [self enableButtons:NO includingSpin:NO];
     }
     else if (self.colorWheelState == SPINNING) {
         self.finalAngle = self.colorWheelAngle+3.14159;
@@ -270,6 +283,7 @@ enum {
     [self.view bringSubviewToFront:self.headlinesView];
     self.headlinesView.enableInput=YES;
     [self.rssManager getHeadlineFrom: self.sourceChosen];
+    [self enableButtons:YES includingSpin:YES];
 }
 
 - (void)newHeadline:(NSString *)headline
@@ -379,6 +393,7 @@ enum {
                      }];
 }
 
+
 #pragma mark - helpers
 
 - (UIImage*)getScreenShot
@@ -394,6 +409,21 @@ enum {
     return screenShot;
 }
 
+- (void)enableButtons: (BOOL)enable includingSpin: (BOOL)includeSpin
+{
+    self.infoButton.enabled=enable;
+    self.saveButton.enabled=enable;
+    self.shareButton.enabled=enable;
+    self.resetButton.enabled=enable;
+    if (includeSpin) {
+        self.spinButton.enabled=enable;
+    }
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    [self enableButtons:NO includingSpin:YES];
+}
 
 
 @end

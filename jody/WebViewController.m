@@ -6,9 +6,11 @@
 //  Copyright © 2015 Z Sweedyk. All rights reserved.
 //
 
+#import "FontManager.h"
 #import "WebViewController.h"
 
 @interface WebViewController ()
+@property (strong,nonatomic) NSString* infoHtml;
 
 @end
 
@@ -18,9 +20,37 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
+
+    self.navigationController.navigationBarHidden=YES;
+    self.view.backgroundColor=[UIColor blackColor];
+    [self.webView setBackgroundColor:[UIColor clearColor]];
+    [self.webView setOpaque:NO];
+    
+    FontManager* fontManager = [FontManager sharedManager];
+    
+    int fontSize = fontManager.infoScreenFontSize;
+    self.xButton.titleLabel.font=[UIFont fontWithName:@"Arial" size:fontSize+2];
+
+    
     NSString *htmlFile = [[NSBundle mainBundle] pathForResource:@"info" ofType:@"html"];
-    NSString* htmlString = [NSString stringWithContentsOfFile:htmlFile encoding:NSUTF8StringEncoding error:nil];
-    [self.webView loadHTMLString:htmlString baseURL:nil];
+    self.infoHtml = [NSString stringWithContentsOfFile:htmlFile encoding:NSUTF8StringEncoding error:nil];
+    [self.webView loadHTMLString:self.infoHtml baseURL:nil];
+}
+
+- (IBAction)xButtonPressed:(id)sender {
+    NSString *currentURL = self.webView.request.URL.absoluteString;
+    if ([(NSString*)currentURL isEqualToString:@"about:blank"]) {
+         [self.navigationController popViewControllerAnimated:NO];
+    }
+    else {
+        [self.webView loadHTMLString:self.infoHtml baseURL:nil];
+    }
+}
+
+- (void)webViewDidFinishLoad:(UIWebView *)webView{
+    NSURL *currentURL = [[webView request] URL];
+    NSLog(@"%@",[currentURL description]);
+    
 }
 
 - (void)didReceiveMemoryWarning {
