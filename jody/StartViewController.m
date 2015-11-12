@@ -5,6 +5,7 @@
 //  Created by Z Sweedyk on 8/5/15.
 //  Copyright (c) 2015 Z Sweedyk. All rights reserved.
 //
+#import "FontManager.h"
 #import "SourceManager.h"
 #import "StartViewController.h"
 #import "constants.h"
@@ -32,16 +33,13 @@
     [[UIApplication sharedApplication] setStatusBarHidden:YES
                                             withAnimation:UIStatusBarAnimationFade];
     
-     self.navigationController.navigationBarHidden=YES;
+    self.navigationController.navigationBarHidden=YES;
     self.sourceManager = [SourceManager sharedManager];
     self.sourceManager.delegate = self;
-
-    
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
-
     if (!self.sourceManager.sourcesUpToDate) {
         [self.sourceManager getSources];
     }

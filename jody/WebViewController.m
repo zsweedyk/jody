@@ -27,13 +27,12 @@
     [self.webView setOpaque:NO];
     
     FontManager* fontManager = [FontManager sharedManager];
-    
     int fontSize = fontManager.infoScreenFontSize;
-    self.xButton.titleLabel.font=[UIFont fontWithName:@"Arial" size:fontSize+2];
-
+    self.xButton.titleLabel.font=[UIFont fontWithName:@"Arial" size:fontSize];
     
     NSString *htmlFile = [[NSBundle mainBundle] pathForResource:@"info" ofType:@"html"];
-    self.infoHtml = [NSString stringWithContentsOfFile:htmlFile encoding:NSUTF8StringEncoding error:nil];
+    NSString *htmlString = [NSString stringWithContentsOfFile:htmlFile encoding:NSUTF8StringEncoding error:nil];
+    self.infoHtml = [htmlString stringByReplacingOccurrencesOfString: @"font-size:4px" withString:[NSString stringWithFormat:@"font-size:%dpx",fontSize]];
     [self.webView loadHTMLString:self.infoHtml baseURL:nil];
 }
 

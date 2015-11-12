@@ -19,6 +19,19 @@ enum {
     IPAD_MINI = 5
 };
 
+
+enum {
+    NYTIMES=0,
+    WASHINGTONPOST=1,
+    GUARDIAN=2,
+    LATIMES=3,
+    WALLSTREETJOURNAL=4,
+    NYPOST=5,
+    NYDAILYNEWS=6,
+    ASIANAGE=7,
+    NATIONAL=8
+};
+
 FOUNDATION_EXPORT int const kSourceCount;
 FOUNDATION_EXPORT int const kPDFWidth;
 FOUNDATION_EXPORT int const kPDFHeight;
@@ -29,5 +42,6 @@ FOUNDATION_EXPORT int const kChainFontSize[6];
 FOUNDATION_EXPORT int const kStartScreenSmallFontSize[6];
 FOUNDATION_EXPORT int const kStartScreenLargeFontSize[6];
 FOUNDATION_EXPORT int const kInfoScreenFontSize[6];
+FOUNDATION_EXPORT int const kToolBarFontSize[6];
 
 #endif
