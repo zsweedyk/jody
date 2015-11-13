@@ -16,6 +16,7 @@
 @property int startScreenLargeFontSize;
 @property int infoScreenFontSize;
 @property int toolBarFontSize;
+@property int device;
 
 + (id)sharedManager;
 

@@ -13,11 +13,11 @@
 		116EAACC1B62D37900C7511E /* newspaperCircle.png in Resources */ = {isa = PBXBuildFile; fileRef = 116EAACB1B62D37900C7511E /* newspaperCircle.png */; };
 		116EAAD11B630DE700C7511E /* BackgroundGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 116EAAD01B630DE700C7511E /* BackgroundGenerator.m */; };
 		118CF4B31BEFAFB50064813B /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 118CF4B21BEFAFB50064813B /* WebViewController.m */; settings = {ASSET_TAGS = (); }; };
-		119826AC1BF5827C00494905 /* Default-568h@2x~iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = 119826A71BF5827C00494905 /* Default-568h@2x~iphone.png */; settings = {ASSET_TAGS = (); }; };
 		119826AD1BF5827C00494905 /* Default-667h@2x~iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = 119826A81BF5827C00494905 /* Default-667h@2x~iphone.png */; settings = {ASSET_TAGS = (); }; };
 		119826AE1BF5827C00494905 /* Default-736h@3x~iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = 119826A91BF5827C00494905 /* Default-736h@3x~iphone.png */; settings = {ASSET_TAGS = (); }; };
 		119826AF1BF5827C00494905 /* Default-Portrait@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 119826AA1BF5827C00494905 /* Default-Portrait@2x~ipad.png */; settings = {ASSET_TAGS = (); }; };
 		119826B21BF584DB00494905 /* Default@2x~iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = 119826B11BF584DB00494905 /* Default@2x~iphone.png */; settings = {ASSET_TAGS = (); }; };
+		119826B41BF65A4E00494905 /* Default-568h@2x~iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = 119826B31BF65A4E00494905 /* Default-568h@2x~iphone.png */; settings = {ASSET_TAGS = (); }; };
 		11A33C0A1B4C75A000DA0108 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 11A33C091B4C75A000DA0108 /* main.m */; };
 		11A33C0D1B4C75A000DA0108 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 11A33C0C1B4C75A000DA0108 /* AppDelegate.m */; };
 		11A33C151B4C75A000DA0108 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 11A33C141B4C75A000DA0108 /* Images.xcassets */; };
@@ -81,11 +81,11 @@
 		116EAAD01B630DE700C7511E /* BackgroundGenerator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BackgroundGenerator.m; sourceTree = "<group>"; };
 		118CF4B11BEFAFB50064813B /* WebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewController.h; sourceTree = "<group>"; };
 		118CF4B21BEFAFB50064813B /* WebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebViewController.m; sourceTree = "<group>"; };
-		119826A71BF5827C00494905 /* Default-568h@2x~iphone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x~iphone.png"; sourceTree = "<group>"; };
 		119826A81BF5827C00494905 /* Default-667h@2x~iphone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-667h@2x~iphone.png"; sourceTree = "<group>"; };
 		119826A91BF5827C00494905 /* Default-736h@3x~iphone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-736h@3x~iphone.png"; sourceTree = "<group>"; };
 		119826AA1BF5827C00494905 /* Default-Portrait@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Portrait@2x~ipad.png"; sourceTree = "<group>"; };
 		119826B11BF584DB00494905 /* Default@2x~iphone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x~iphone.png"; sourceTree = "<group>"; };
+		119826B31BF65A4E00494905 /* Default-568h@2x~iphone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x~iphone.png"; sourceTree = "<group>"; };
 		11A33C041B4C75A000DA0108 /* jody.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = jody.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		11A33C081B4C75A000DA0108 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		11A33C091B4C75A000DA0108 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -200,13 +200,13 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		1146C2801B85FCD400B3872B /* FontManager */ = {
+		1146C2801B85FCD400B3872B /* DeviceManager */ = {
 			isa = PBXGroup;
 			children = (
 				1146C2811B85FCEB00B3872B /* FontManager.h */,
 				1146C2821B85FCEB00B3872B /* FontManager.m */,
 			);
-			name = FontManager;
+			name = DeviceManager;
 			sourceTree = "<group>";
 		};
 		116EAACE1B630DC200C7511E /* Background */ = {
@@ -250,7 +250,7 @@
 				11A33C2D1B4C75B200DA0108 /* ColorWheel */,
 				11B4A05F1B791CB400823DB1 /* constants */,
 				11E655CE1B8CE7D2008C8050 /* artAssets */,
-				1146C2801B85FCD400B3872B /* FontManager */,
+				1146C2801B85FCD400B3872B /* DeviceManager */,
 				11A33C341B4C75F300DA0108 /* Headlines */,
 				11B49FF11B72CEF300823DB1 /* Info */,
 				11E655911B8BFA3E008C8050 /* ParseClasses */,
@@ -424,8 +424,8 @@
 		11E655CE1B8CE7D2008C8050 /* artAssets */ = {
 			isa = PBXGroup;
 			children = (
+				119826B31BF65A4E00494905 /* Default-568h@2x~iphone.png */,
 				119826B11BF584DB00494905 /* Default@2x~iphone.png */,
-				119826A71BF5827C00494905 /* Default-568h@2x~iphone.png */,
 				119826A81BF5827C00494905 /* Default-667h@2x~iphone.png */,
 				119826A91BF5827C00494905 /* Default-736h@3x~iphone.png */,
 				119826AA1BF5827C00494905 /* Default-Portrait@2x~ipad.png */,
@@ -471,7 +471,7 @@
 		11A33BFC1B4C75A000DA0108 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0640;
+				LastUpgradeCheck = 0700;
 				ORGANIZATIONNAME = "Z Sweedyk";
 				TargetAttributes = {
 					11A33C031B4C75A000DA0108 = {
@@ -505,9 +505,9 @@
 				11E8149B1BE5D2600005C114 /* info.html in Resources */,
 				115597D51B59832A00D1A42C /* colorWheelSmall@2x.png in Resources */,
 				119826B21BF584DB00494905 /* Default@2x~iphone.png in Resources */,
+				119826B41BF65A4E00494905 /* Default-568h@2x~iphone.png in Resources */,
 				11A33C181B4C75A000DA0108 /* LaunchScreen.xib in Resources */,
 				11A33C151B4C75A000DA0108 /* Images.xcassets in Resources */,
-				119826AC1BF5827C00494905 /* Default-568h@2x~iphone.png in Resources */,
 				119826AE1BF5827C00494905 /* Default-736h@3x~iphone.png in Resources */,
 				119826AF1BF5827C00494905 /* Default-Portrait@2x~ipad.png in Resources */,
 				119826AD1BF5827C00494905 /* Default-667h@2x~iphone.png in Resources */,
@@ -606,6 +606,7 @@
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -681,6 +682,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				"LIBRARY_SEARCH_PATHS[arch=*]" = "";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.zsweedyk.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				USER_HEADER_SEARCH_PATHS = "";
 			};
@@ -699,6 +701,7 @@
 				INFOPLIST_FILE = jody/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.zsweedyk.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				USER_HEADER_SEARCH_PATHS = "";
 			};

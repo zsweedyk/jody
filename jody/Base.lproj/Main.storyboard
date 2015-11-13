@@ -24,7 +24,7 @@
                             <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <connections>
                                 <action selector="info:" destination="BYZ-38-t0r" id="PSW-go-AEg"/>
-                                <segue destination="0g1-64-ahj" kind="presentation" identifier="info" customClass="FadeSegue" id="On9-hL-nuV"/>
+                                <segue destination="0g1-64-ahj" kind="custom" identifier="info" customClass="FadeSegue" id="On9-hL-nuV"/>
                             </connections>
                         </barButtonItem>
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="jYN-Cl-y76"/>
@@ -125,7 +125,7 @@
         <scene sceneID="Z41-Nh-ruC">
             <objects>
                 <viewController id="WeI-R2-hc7" customClass="StartViewController" sceneMemberID="viewController">
-                    <imageView key="view" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Default.png" id="bn9-Gw-Zeu">
+                    <imageView key="view" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Default.png" id="bn9-Gw-Zeu">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="556"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     </imageView>
@@ -133,6 +133,7 @@
                     <nil key="simulatedTopBarMetrics"/>
                     <simulatedOrientationMetrics key="simulatedOrientationMetrics"/>
                     <connections>
+                        <outlet property="imageView" destination="bn9-Gw-Zeu" id="mho-TI-N2r"/>
                         <segue destination="BYZ-38-t0r" kind="custom" identifier="colorWheel" customClass="FadeSegue" id="hol-aO-FJb"/>
                     </connections>
                 </viewController>
@@ -173,6 +174,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="Default.png" width="325" height="480"/>
+        <image name="Default.png" width="320" height="480"/>
     </resources>
 </document>

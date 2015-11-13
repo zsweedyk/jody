@@ -28,14 +28,36 @@
         NSLog(@"Problem.");
     }
     
-    //TODO: change font size depending on device
-    
     [[UIApplication sharedApplication] setStatusBarHidden:YES
                                             withAnimation:UIStatusBarAnimationFade];
     
     self.navigationController.navigationBarHidden=YES;
+    self.navigationController.toolbarHidden = YES;
     self.sourceManager = [SourceManager sharedManager];
     self.sourceManager.delegate = self;
+    
+    FontManager* fontManager = [FontManager sharedManager];
+    UIImage* startImage;
+    if (fontManager.device == IPHONE_4) {
+        startImage = [UIImage imageNamed:@"Default@2x~iphone.png"];
+    }
+    else if (fontManager.device == IPHONE_5) {
+        startImage = [UIImage imageNamed:@"Default-568@2x~iphone.png"];
+    }
+    else if (fontManager.device == IPHONE_6) {
+        startImage = [UIImage imageNamed:@"Default-667@2x~iphone.png"];
+    }
+    else if (fontManager.device == IPHONE_6_PLUS) {
+        startImage = [UIImage imageNamed:@"Default-736@3x~iphone.png"];
+    }
+    else if (fontManager.device == IPAD) {
+        startImage = [UIImage imageNamed:@"Default-Portrait@2x~ipad"];
+    }
+    else {
+        // add case for mini
+    }
+    //[self.imageView setImage:startImage];
+    
 }
 
 - (void)viewDidAppear:(BOOL)animated

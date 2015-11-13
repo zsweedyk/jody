@@ -76,7 +76,7 @@ enum {
         colorWheelFrameSize +=-1;
     }
     CGFloat leftX= (myFrame.size.width - colorWheelFrameSize)/2.0;
-    CGFloat topY = (myFrame.size.height-self.navigationController.toolbar.frame.size.height-colorWheelFrameSize)/2.0;
+    CGFloat topY = (myFrame.size.height-colorWheelFrameSize)/2.0;
     CGRect colorWheelFrame = CGRectMake(leftX, topY, colorWheelFrameSize, colorWheelFrameSize);
     
     // create background view

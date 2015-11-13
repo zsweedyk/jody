@@ -25,12 +25,12 @@ float const basicColors[9][3]={
     {.71,.69,.66},
 };
 NSString* const kFontName=@"TimesNewRomanPSMT";
-int const kHeadlineFontSize[6]={56,56,56,72,72,96};
-int const kChainFontSize[6] = {20,20,20,28,28,36};
-int const kStartScreenLargeFontSize[6]={56,56,56,72,72,96};
-int const kStartScreenSmallFontSize[6]={32,32,32,48,48,56};
-int const kInfoScreenFontSize[6]={10,10,12,14,18,18};
-int const kToolBarFontSize[6]={10,10,10,14,18,18};
+int const kHeadlineFontSize[7]={52,56,56,72,72,96,52};
+int const kChainFontSize[7] = {20,20,20,28,28,36,20};
+int const kStartScreenLargeFontSize[7]={52,56,56,72,72,96,52};
+int const kStartScreenSmallFontSize[7]={32,32,32,48,48,56,32};
+int const kInfoScreenFontSize[7]={10,10,12,14,18,18,10};
+int const kToolBarFontSize[7]={10,10,10,14,18,18,10};
 
 
     

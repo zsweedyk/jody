@@ -19,7 +19,7 @@
 
 @interface FontManager()
 
-@property int device;
+
 
 @end
 
@@ -50,6 +50,10 @@
             }
         }
         else {
+            if (SCREEN_MAX_LENGTH == 480)
+            {
+                self.device = IPHONE_4;
+            }
             if (SCREEN_MAX_LENGTH == 568.0) {
                 self.device = IPHONE_5;
             }
@@ -58,6 +62,9 @@
             }
             else if (SCREEN_MAX_LENGTH == 736.0) {
                 self.device = IPHONE_6_PLUS;
+            }
+            else {
+                NSLog(@"size %f", SCREEN_MAX_LENGTH);
             }
         }
         self.headlineFontSize = kHeadlineFontSize[self.device];
