@@ -18,7 +18,6 @@
 		119826B21BF584DB00494905 /* Default@2x~iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = 119826B11BF584DB00494905 /* Default@2x~iphone.png */; settings = {ASSET_TAGS = (); }; };
 		119826B41BF65A4E00494905 /* Default-568h@2x~iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = 119826B31BF65A4E00494905 /* Default-568h@2x~iphone.png */; settings = {ASSET_TAGS = (); }; };
 		119826BB1BF6604E00494905 /* Default-Portrait@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 119826B91BF6604E00494905 /* Default-Portrait@2x~ipad.png */; settings = {ASSET_TAGS = (); }; };
-		119826BC1BF6604E00494905 /* Default-Portrait~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 119826BA1BF6604E00494905 /* Default-Portrait~ipad.png */; settings = {ASSET_TAGS = (); }; };
 		11A33C0A1B4C75A000DA0108 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 11A33C091B4C75A000DA0108 /* main.m */; };
 		11A33C0D1B4C75A000DA0108 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 11A33C0C1B4C75A000DA0108 /* AppDelegate.m */; };
 		11A33C151B4C75A000DA0108 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 11A33C141B4C75A000DA0108 /* Images.xcassets */; };
@@ -87,7 +86,6 @@
 		119826B11BF584DB00494905 /* Default@2x~iphone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x~iphone.png"; sourceTree = "<group>"; };
 		119826B31BF65A4E00494905 /* Default-568h@2x~iphone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x~iphone.png"; sourceTree = "<group>"; };
 		119826B91BF6604E00494905 /* Default-Portrait@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Portrait@2x~ipad.png"; sourceTree = "<group>"; };
-		119826BA1BF6604E00494905 /* Default-Portrait~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Portrait~ipad.png"; sourceTree = "<group>"; };
 		11A33C041B4C75A000DA0108 /* jody.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = jody.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		11A33C081B4C75A000DA0108 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		11A33C091B4C75A000DA0108 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -427,7 +425,6 @@
 			isa = PBXGroup;
 			children = (
 				119826B91BF6604E00494905 /* Default-Portrait@2x~ipad.png */,
-				119826BA1BF6604E00494905 /* Default-Portrait~ipad.png */,
 				119826B31BF65A4E00494905 /* Default-568h@2x~iphone.png */,
 				119826B11BF584DB00494905 /* Default@2x~iphone.png */,
 				119826A81BF5827C00494905 /* Default-667h@2x~iphone.png */,
@@ -516,7 +513,6 @@
 				119826AD1BF5827C00494905 /* Default-667h@2x~iphone.png in Resources */,
 				11B49FFB1B72E1AB00823DB1 /* Main.storyboard in Resources */,
 				116EAACC1B62D37900C7511E /* newspaperCircle.png in Resources */,
-				119826BC1BF6604E00494905 /* Default-Portrait~ipad.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
