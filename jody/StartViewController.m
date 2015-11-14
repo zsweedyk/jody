@@ -36,22 +36,12 @@
     self.sourceManager = [SourceManager sharedManager];
     self.sourceManager.delegate = self;
     
+    NSString *path = [[NSBundle mainBundle] pathForResource:@"Default-Portrait@2x~ipad" ofType:@"png"];
     FontManager* fontManager = [FontManager sharedManager];
     UIImage* startImage;
-    if (fontManager.device == IPHONE_4) {
-        startImage = [UIImage imageNamed:@"Default@2x~iphone.png"];
-    }
-    else if (fontManager.device == IPHONE_5) {
-        startImage = [UIImage imageNamed:@"Default-568@2x~iphone.png"];
-    }
-    else if (fontManager.device == IPHONE_6) {
-        startImage = [UIImage imageNamed:@"Default-667@2x~iphone.png"];
-    }
-    else if (fontManager.device == IPHONE_6_PLUS) {
-        startImage = [UIImage imageNamed:@"Default-736@3x~iphone.png"];
-    }
-    else if (fontManager.device == IPAD) {
-        startImage = [UIImage imageNamed:@"Default-Portrait@2x~ipad"];
+if (fontManager.device == IPAD) {
+        startImage = [UIImage imageWithContentsOfFile:path];
+        [self.imageView setImage:startImage];
     }
     else {
         // add case for mini

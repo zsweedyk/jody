@@ -23,7 +23,7 @@
 
 + (id)sharedManager;
 - (void) getSources;
-- (bool) sourcesUpToDate;
+- (BOOL) sourcesUpToDate;
 - (NSString*) urlForSource: (int) i;
 - (NSString*) rssFeedForSource: (int) i;
 - (UIImage*) frontPageImageForSource: (int) i;
