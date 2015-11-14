@@ -36,18 +36,6 @@
     self.sourceManager = [SourceManager sharedManager];
     self.sourceManager.delegate = self;
     
-//    NSString *path = [[NSBundle mainBundle] pathForResource:@"Default-Portrait@2x~ipad" ofType:@"png"];
-//    FontManager* fontManager = [FontManager sharedManager];
-//    UIImage* startImage;
-//if (fontManager.device == IPAD) {
-//        startImage = [UIImage imageWithContentsOfFile:path];
-//        [self.imageView setImage:startImage];
-//    }
-//    else {
-//        // add case for mini
-//    }
-    //[self.imageView setImage:startImage];
-    
 }
 
 - (void)viewDidAppear:(BOOL)animated
