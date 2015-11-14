@@ -142,9 +142,17 @@ enum {
 - (void)setUpToolBar
 {
     self.navigationController.toolbarHidden=NO;
-    self.navigationController.toolbar.backgroundColor = [UIColor blackColor];
-    self.navigationController.toolbar.barTintColor = [UIColor blackColor];
+    self.navigationController.toolbar.backgroundColor = [UIColor clearColor];
+    self.navigationController.toolbar.barTintColor = [UIColor clearColor];
     self.navigationController.toolbar.translucent = NO;
+    
+    self.navigationController.toolbar.backgroundColor = [UIColor clearColor];
+    if ([self.navigationController.toolbar respondsToSelector:@selector(setBackgroundImage:forToolbarPosition:barMetrics:)]) {
+        [self.navigationController.toolbar setBackgroundImage:[UIImage new] forToolbarPosition:UIToolbarPositionAny barMetrics:UIBarMetricsDefault];
+    }
+    if ([self.navigationController.toolbar respondsToSelector:@selector(setShadowImage:forToolbarPosition:)]) {
+        [self.navigationController.toolbar setShadowImage:[UIImage new] forToolbarPosition:UIToolbarPositionAny];
+    }
 
     // set text on tool bar
     // need to set up sizes for different devices

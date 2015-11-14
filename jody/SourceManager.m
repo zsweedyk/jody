@@ -239,7 +239,6 @@
     return url;
 }
 
-
 - (void) savePdfForSource: (NWSource*) source fromUrl: (NSString*) url
 {
     __block NWSource* theSource=source;
@@ -324,8 +323,6 @@
     }
     return -1;
 }
-
-
 
 - (NSDate*) todaysUpdateDate {
     NSDate* today = [[NSDate alloc] init];
