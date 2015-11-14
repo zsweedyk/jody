@@ -43,12 +43,14 @@
 
     
     UIImage* background;
+    UIImage* mask;
     if (!self.sourceManager) {
         self.sourceManager = [SourceManager sharedManager];
     }
 
     // for each source
     for (int i=0; i<kSourceCount; i++) {
+
   
         // get front page image for source
         UIImage* frontPage = [self.sourceManager frontPageImageForSource:i];
@@ -70,7 +72,7 @@
         frontPage = [self blendImage:frontPage withColor: [self.sourceManager colorForSource:i]];
         
         // mask front page for segment and add to background
-        UIImage* mask =[self createMaskForSegment:i];
+        mask =[self createMaskForSegment:i];
         UIImage* maskedImage=[self maskImage:frontPage withMask:mask];
         if (background) {
             background = [self blendImage: background withImage: maskedImage];
@@ -124,17 +126,25 @@
     
     [[UIColor whiteColor] setFill];
     [[UIBezierPath bezierPathWithRect:CGRectMake(0, 0, self.diameter, self.diameter)] fill];
-    
-    // draw segment in black
+
     
     CGContextTranslateCTM( context, center.x, center.y ) ;
-    double radiansInSegment = 2.0*3.14159/kSourceCount;
+    double radiansInSegment = 2.0*3.14159/(double)kSourceCount;
+    
+    // we need one side and the arc to be black, the other white
+    // otherwise we blend two photos on the edge and it becomes too light
+    
+
+
+    CGContextSetFillColorWithColor(context, [UIColor blackColor].CGColor);
+    CGContextSetStrokeColorWithColor(context, [UIColor blackColor].CGColor);
     
     CGMutablePathRef segment = CGPathCreateMutable();
     CGPathMoveToPoint(segment, NULL,0,0);
     CGFloat startAngle = segmentNumber*radiansInSegment;
     CGFloat x= self.diameter/2.0*cos(startAngle);
     CGFloat y= self.diameter/2.0*sin(startAngle);
+    CGContextSetLineWidth(context, 1.0);
     CGPathAddLineToPoint(segment, NULL, x, y);
     CGPathAddArc(segment, NULL,
                  0,0,
@@ -143,15 +153,16 @@
                  startAngle-radiansInSegment,
                  YES);
     CGPathAddLineToPoint(segment, NULL,0,0);
-    
-    UIColor* segmentColor;
-    segmentColor = [UIColor blackColor];
     CGContextAddPath(context, segment);
-    
-    CGContextSetFillColorWithColor(context, segmentColor.CGColor);
-    CGContextSetStrokeColorWithColor(context, segmentColor.CGColor);
     CGContextDrawPath(context, kCGPathFillStroke);
     
+    
+    // now draw one side and arc for segment
+    CGContextBeginPath(context);
+    CGContextSetStrokeColorWithColor(context, [UIColor whiteColor].CGColor);
+    CGContextMoveToPoint(context, 0, 0);
+    CGContextAddLineToPoint(context, x, y);
+    CGContextStrokePath(context);
     
     UIImage* mask =UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
