@@ -102,10 +102,10 @@
                     </view>
                     <toolbarItems>
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="kqM-Ua-D3c"/>
-                        <barButtonItem title="X" id="tGq-h2-Fac">
+                        <barButtonItem title="X" id="TH3-sk-TEL">
                             <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <connections>
-                                <action selector="xButtonPressed:" destination="0g1-64-ahj" id="00Q-4h-NAm"/>
+                                <action selector="xButtonPressed:" destination="0g1-64-ahj" id="ccz-bI-xEv"/>
                             </connections>
                         </barButtonItem>
                     </toolbarItems>
@@ -115,6 +115,7 @@
                     <simulatedOrientationMetrics key="simulatedOrientationMetrics"/>
                     <connections>
                         <outlet property="webView" destination="bXZ-el-eUV" id="oKb-aZ-GE3"/>
+                        <outlet property="xButton" destination="TH3-sk-TEL" id="6sT-SZ-tPD"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yxt-3t-igI" userLabel="First Responder" sceneMemberID="firstResponder"/>

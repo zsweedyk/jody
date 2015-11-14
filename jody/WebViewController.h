@@ -11,7 +11,7 @@
 @interface WebViewController : UIViewController
 
 @property (strong,nonatomic) IBOutlet UIWebView* webView;
-@property (strong,nonatomic) IBOutlet UIButton* xButton;
+@property (strong,nonatomic) IBOutlet UIBarButtonItem* xButton;
 
 - (IBAction)xButtonPressed:(id)sender;
 

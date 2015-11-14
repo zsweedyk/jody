@@ -28,11 +28,14 @@
     
     FontManager* fontManager = [FontManager sharedManager];
     int fontSize = fontManager.infoScreenFontSize;
-    self.xButton.titleLabel.font=[UIFont fontWithName:@"Arial" size:fontSize];
+    UIFont* font = [UIFont fontWithName:@"Arial" size:fontSize];
+    NSDictionary * attributes = @{NSFontAttributeName: font};
+    [self.xButton setTitleTextAttributes:attributes forState:UIControlStateNormal];
     
     NSString *htmlFile = [[NSBundle mainBundle] pathForResource:@"info" ofType:@"html"];
     NSString *htmlString = [NSString stringWithContentsOfFile:htmlFile encoding:NSUTF8StringEncoding error:nil];
-    self.infoHtml = [htmlString stringByReplacingOccurrencesOfString: @"font-size:4px" withString:[NSString stringWithFormat:@"font-size:%dpx",fontSize]];
+    self.infoHtml = [htmlString stringByReplacingOccurrencesOfString: @"font-size:TITLE_FONT_SIZE" withString:[NSString stringWithFormat:@"font-size:%dpx",fontSize+2]];
+    self.infoHtml = [self.infoHtml stringByReplacingOccurrencesOfString: @"font-size:BODY_FONT_SIZE" withString:[NSString stringWithFormat:@"font-size:%dpx",fontSize]];
     [self.webView loadHTMLString:self.infoHtml baseURL:nil];
 }
 
