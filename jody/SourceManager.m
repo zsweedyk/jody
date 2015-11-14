@@ -108,6 +108,7 @@
                 int updateDay = [self lastUpdateDayAtPdfSource];
                 for (int i=0; i<kSourceCount; i++) {
 
+        
                     NWSource* source = [parseSources objectAtIndex:i];
                     if (source.sourceNum!=i) { // they arrived in the wrong order
                         NSLog(@"Parse sources retrieved out of order.");
@@ -143,9 +144,16 @@
                                 UIImage* newImage = [self imageFromPdf:data];
                                 if (newImage) {
                                     [self.frontPageImages replaceObjectAtIndex: sourceNum withObject: newImage];
+                                    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+                                    NSString *documentsDirectory = [paths objectAtIndex:0];
+                                    NSString *imageFileName = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.png",self.defaultFrontPages[sourceNum]]];
+                                    [UIImagePNGRepresentation(newImage) writeToFile:imageFileName atomically:YES];
                                 }
                                 else {
-                                    newImage = [self imageFromPdf:[NSData dataWithContentsOfFile:self.defaultFrontPages[sourceNum]]];
+                                    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+                                    NSString *documentsDirectory = [paths objectAtIndex:0];
+                                    NSString *imageFileName = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.png",self.defaultFrontPages[sourceNum]]];
+                                    newImage = [UIImage imageWithContentsOfFile:imageFileName];
                                     if (newImage) {
                                         [self.frontPageImages replaceObjectAtIndex: sourceNum withObject: newImage];
                                     }
