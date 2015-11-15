@@ -35,6 +35,13 @@
                             </connections>
                         </barButtonItem>
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="fm9-yz-3sc"/>
+                        <barButtonItem title="SHARE" id="vsj-rb-06x">
+                            <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <connections>
+                                <action selector="share:" destination="BYZ-38-t0r" id="FaB-Kg-guL"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="fuH-Yk-OAz"/>
                         <barButtonItem title="RESET" id="biE-5q-OUH">
                             <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <connections>
@@ -58,6 +65,7 @@
                         <outlet property="infoButton" destination="Cl2-eK-oNu" id="Kqn-8y-Soc"/>
                         <outlet property="resetButton" destination="biE-5q-OUH" id="bdp-Rx-OQr"/>
                         <outlet property="saveButton" destination="ng8-Sv-snj" id="J8r-tR-UbP"/>
+                        <outlet property="shareButton" destination="vsj-rb-06x" id="5H6-W1-xtG"/>
                         <outlet property="spinButton" destination="m2b-xt-Ja7" id="oxv-W4-kbb"/>
                     </connections>
                 </viewController>
