@@ -37,10 +37,6 @@
     if (!self.sourceManager) {
         self.sourceManager = [SourceManager sharedManager];
     }
-    if (sourceNum==4)
-    {
-        NSLog(@"check it out");
-    }
     
     self.headlines = [[NSMutableArray alloc] init];
     NSString* string = [self.sourceManager rssFeedForSource:sourceNum];

@@ -362,8 +362,8 @@ enum {
 - (void) setUpConfirmationLabels
 {
     
-    self.saveConfirmationLabel = [self createConfirmationLabelForText: @" Saved to camera roll. "];
-    self.shareConfirmationLabel = [self createConfirmationLabelForText: @" Shared at www.newswheel.info/gallery.  "];
+    self.saveConfirmationLabel = [self createConfirmationLabelForText: @" Saved to camera roll "];
+    self.shareConfirmationLabel = [self createConfirmationLabelForText: @" Shared at www.newswheel.info/gallery "];
 }
 
 - (UILabel*) createConfirmationLabelForText: (NSString*)text;
