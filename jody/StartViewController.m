@@ -40,13 +40,13 @@
 
 - (void)viewDidAppear:(BOOL)animated
 {
+    [super viewDidAppear:animated];
     if (!self.sourceManager.sourcesUpToDate) {
         [self.sourceManager getSources];
     }
     else {
         [NSTimer scheduledTimerWithTimeInterval:2 target:self selector:@selector(frontPagesCreated) userInfo:nil repeats:NO];
     }
-
 }
 
 - (void)didReceiveMemoryWarning {

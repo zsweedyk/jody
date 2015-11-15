@@ -107,9 +107,12 @@
                                         CGImageGetBitsPerPixel(maskRef),
                                         CGImageGetBytesPerRow(maskRef),
                                         CGImageGetDataProvider(maskRef), NULL, false);
-    
-    CGImageRef masked = CGImageCreateWithMask([image CGImage], mask);
-    return [UIImage imageWithCGImage:masked];
+
+    CGImageRef maskedtemp = CGImageCreateWithMask([image CGImage], mask);
+    UIImage* masked = [UIImage imageWithCGImage:maskedtemp] ;
+    CGImageRelease(maskedtemp);
+    CGImageRelease(mask);
+    return masked;
 }
 
 - (UIImage*) createMaskForSegment: (int) segmentNumber
@@ -156,7 +159,6 @@
     CGContextAddPath(context, segment);
     CGContextDrawPath(context, kCGPathFillStroke);
     
-    
     // now draw one side and arc for segment
     CGContextBeginPath(context);
     CGContextSetStrokeColorWithColor(context, [UIColor whiteColor].CGColor);
@@ -166,6 +168,7 @@
     
     UIImage* mask =UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
+    CGPathRelease(segment);
     
     return mask;
 }

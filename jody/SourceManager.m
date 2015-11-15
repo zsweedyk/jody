@@ -276,6 +276,11 @@
     CGContextDrawPDFPage (currentContext, page);  // draws the page in the graphics contex
     UIImage* image = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
+
+    // release resources
+    CGPDFPageRelease(page);
+    CGPDFDocumentRelease(document);
+    CGDataProviderRelease(provider);
     return image;
 }
 
