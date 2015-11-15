@@ -51,13 +51,13 @@
     // for each source
     for (int i=0; i<kSourceCount; i++) {
 
-  
         // get front page image for source
         UIImage* frontPage = [self.sourceManager frontPageImageForSource:i];
   
-        // scale front page to size of screen or 2x size of screen
+        // scale front page to size of 1.3x screen or 2x size of screen
+        // we do 1.3 so that we avoid capturing margins in our segments
         if (frontPage.size.width<self.diameter || frontPage.size.height<self.diameter) {
-            frontPage = [frontPage scaleImageToSize:CGSizeMake(self.diameter,self.diameter)];
+            frontPage = [frontPage scaleImageToSize:CGSizeMake(self.diameter*1.3,self.diameter*1.3)];
         }
         if (frontPage.size.width>2*self.diameter || frontPage.size.height>2*self.diameter) {
             frontPage = [frontPage scaleImageToSize:CGSizeMake(2*self.diameter,2*self.diameter)];
