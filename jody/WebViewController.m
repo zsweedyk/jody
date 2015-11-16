@@ -25,6 +25,7 @@
     self.view.backgroundColor=[UIColor blackColor];
     [self.webView setBackgroundColor:[UIColor clearColor]];
     [self.webView setOpaque:NO];
+    self.webView.scalesPageToFit=YES;
     
     FontManager* fontManager = [FontManager sharedManager];
     int fontSize = fontManager.infoScreenFontSize;
