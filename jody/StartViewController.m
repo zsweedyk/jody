@@ -30,12 +30,8 @@
     
     [[UIApplication sharedApplication] setStatusBarHidden:YES
                                             withAnimation:UIStatusBarAnimationFade];
-    
-    self.navigationController.navigationBarHidden=YES;
-    self.navigationController.toolbarHidden = YES;
     self.sourceManager = [SourceManager sharedManager];
     self.sourceManager.delegate = self;
-    
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -56,7 +52,23 @@
 
 
 - (void)frontPagesCreated {
-    [self performSegueWithIdentifier:@"colorWheel" sender:self];
+    [self performSegueWithIdentifier:@"segueToMainScreen" sender:self];
+}
+
+-(BOOL) shouldAutorotate
+{
+    return NO;
+}
+
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations
+{
+    
+    return UIInterfaceOrientationMaskPortrait;
+}
+
+- (BOOL)prefersStatusBarHidden
+{
+    return YES;
 }
 
 /*

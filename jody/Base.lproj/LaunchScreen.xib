@@ -23,6 +23,9 @@
                 <constraint firstAttribute="trailing" secondItem="0e4-v3-m2u" secondAttribute="trailing" id="ocB-HH-bTz"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
+            <nil key="simulatedTopBarMetrics"/>
+            <nil key="simulatedBottomBarMetrics"/>
+            <simulatedOrientationMetrics key="simulatedOrientationMetrics"/>
             <point key="canvasLocation" x="548" y="455"/>
         </view>
     </objects>
