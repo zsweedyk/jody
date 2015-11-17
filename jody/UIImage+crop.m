@@ -21,7 +21,7 @@
     
     CGImageRef imageRef = CGImageCreateWithImageInRect(self.CGImage, rect);
     UIImage *result = [UIImage imageWithCGImage:imageRef scale:self.scale orientation:self.imageOrientation];
-    CGImageRelease(imageRef);
+//    CGImageRelease(imageRef);
     return result;
     
 }

@@ -278,9 +278,9 @@
     UIGraphicsEndImageContext();
 
     // release resources
-    CGPDFPageRelease(page);
-    CGPDFDocumentRelease(document);
-    CGDataProviderRelease(provider);
+//    CGPDFPageRelease(page);
+//    CGPDFDocumentRelease(document);
+//    CGDataProviderRelease(provider);
     return image;
 }
 
