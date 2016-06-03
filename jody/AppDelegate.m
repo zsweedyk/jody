@@ -25,6 +25,9 @@
     [NWSource registerSubclass];
     [NWSharedImage registerSubclass];
     [Parse setApplicationId:@"yGmCLSLRXZqoKUWCdhNFFhDP8zl7id3pLoEhJsMq" clientKey:@"xcqd94lznxBYVj22fAMksq4rozoiopGHDQGVXyWS"];
+    [[UIApplication sharedApplication] setStatusBarHidden:YES
+                                            withAnimation:UIStatusBarAnimationFade];
+    
     return YES;
 }
 

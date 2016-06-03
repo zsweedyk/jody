@@ -28,10 +28,9 @@
         NSLog(@"Problem.");
     }
     
-    [[UIApplication sharedApplication] setStatusBarHidden:YES
-                                            withAnimation:UIStatusBarAnimationFade];
     self.sourceManager = [SourceManager sharedManager];
     self.sourceManager.delegate = self;
+
 }
 
 - (void)viewDidAppear:(BOOL)animated
