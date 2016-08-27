@@ -13,7 +13,6 @@ enum {
 };
 
 #import "FontManager.h"
-#import "NWSharedImage.h"
 #import "SourceManager.h"
 #import "MainViewController.h"
 #import "HeadlinesView.h"
@@ -162,7 +161,6 @@ enum {
     NSDictionary * attributes = @{NSFontAttributeName: font};
     [self.infoButton setTitleTextAttributes:attributes forState:UIControlStateNormal];
     [self.saveButton setTitleTextAttributes:attributes forState:UIControlStateNormal];
-    [self.shareButton setTitleTextAttributes:attributes forState:UIControlStateNormal];
     [self.resetButton setTitleTextAttributes:attributes forState:UIControlStateNormal];
     [self.spinButton setTitleTextAttributes:attributes forState:UIControlStateNormal];
     
@@ -315,25 +313,25 @@ enum {
     self.toolBarUsed=YES;
 }
 
-- (IBAction)share:(id)sender
-{
-    [self showConfirmationMessage:self.shareConfirmationLabel];
-    UIImage* screenShot = [self getScreenShot];
-    NSData * imgData = UIImagePNGRepresentation(screenShot);
-    if(imgData) {
-        NWSharedImage* sharedImage = [[NWSharedImage alloc] init];
-        sharedImage.screenShot = [PFFile fileWithData:imgData];
-    
-        [sharedImage.screenShot saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-            if (succeeded) {
-                [sharedImage saveInBackground];
-            }
-        }];
-    }
-    else {
-        NSLog(@"error while taking screenshot");
-    }
-}
+//- (IBAction)share:(id)sender
+//{
+//    [self showConfirmationMessage:self.shareConfirmationLabel];
+//    UIImage* screenShot = [self getScreenShot];
+//    NSData * imgData = UIImagePNGRepresentation(screenShot);
+//    if(imgData) {
+//        NWSharedImage* sharedImage = [[NWSharedImage alloc] init];
+//        sharedImage.screenShot = [PFFile fileWithData:imgData];
+//    
+//        [sharedImage.screenShot saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+//            if (succeeded) {
+//                [sharedImage saveInBackground];
+//            }
+//        }];
+//    }
+//    else {
+//        NSLog(@"error while taking screenshot");
+//    }
+//}
 
 - (IBAction)save:(id)sender
 {
@@ -421,7 +419,6 @@ enum {
 {
     self.infoButton.enabled=enable;
     self.saveButton.enabled=enable;
-    self.shareButton.enabled=enable;
     self.resetButton.enabled=enable;
     if (includeSpin) {
         self.spinButton.enabled=enable;

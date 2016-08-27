@@ -6,7 +6,6 @@
 //  Copyright (c) 2015 Z Sweedyk. All rights reserved.
 //
 
-#import "NWSource.h"
 #import "SourceManager.h"
 #import "BackgroundGenerator.h"
 #import "constants.h"
@@ -52,7 +51,8 @@
     for (int i=0; i<kSourceCount; i++) {
 
         // get front page image for source
-        UIImage* frontPage = [self.sourceManager frontPageImageForSource:i];
+        UIImage* tmp = [self.sourceManager frontPageImageForSource:i];
+        UIImage* frontPage = [UIImage imageWithCGImage: tmp.CGImage scale: 1.0f orientation: UIImageOrientationDownMirrored];
   
         // scale front page to size of 1.3x screen or 2x size of screen
         // we do 1.3 so that we avoid capturing margins in our segments
@@ -81,6 +81,8 @@
             background=maskedImage;
         }
     }
+    
+
     return background;
 }
 

@@ -7,12 +7,14 @@
 //
 #import "FontManager.h"
 #import "SourceManager.h"
+#import "BackgroundGenerator.h"
 #import "StartViewController.h"
 #import "constants.h"
 
 @interface StartViewController()
 
 @property (strong,nonatomic) SourceManager* sourceManager;
+@property (strong,nonatomic) BackgroundGenerator* backgroundGenerator;
 
 @end
 
@@ -23,13 +25,8 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    PFInstallation *currentInstallation = [PFInstallation currentInstallation];
-    if (!currentInstallation) {
-        NSLog(@"Problem.");
-    }
-    
     self.sourceManager = [SourceManager sharedManager];
-    self.sourceManager.delegate = self;
+
 
 }
 
@@ -39,9 +36,12 @@
     if (!self.sourceManager.sourcesUpToDate) {
         [self.sourceManager getSources];
     }
-    else {
-        [NSTimer scheduledTimerWithTimeInterval:2 target:self selector:@selector(frontPagesCreated) userInfo:nil repeats:NO];
-    }
+    [self.backgroundGenerator createBackground];
+    
+    [self performSegueWithIdentifier:@"segueToMainScreen" sender:self];
+//    else {
+//        [NSTimer scheduledTimerWithTimeInterval:2 target:self selector:@selector(frontPagesCreated) userInfo:nil repeats:NO];
+//    }
 }
 
 - (void)didReceiveMemoryWarning {
@@ -50,9 +50,9 @@
 }
 
 
-- (void)frontPagesCreated {
-    [self performSegueWithIdentifier:@"segueToMainScreen" sender:self];
-}
+//- (void)frontPagesCreated {
+//    [self performSegueWithIdentifier:@"segueToMainScreen" sender:self];
+//}
 
 -(BOOL) shouldAutorotate
 {

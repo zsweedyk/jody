@@ -9,11 +9,12 @@
 
 #import "SourceManager.h"
 #import "constants.h"
+#import "UIImage+PDF.h"
 
 
 @interface SourceManager ()
 
-@property (strong,nonatomic) NSMutableArray* sources;
+//@property (strong,nonatomic) NSMutableArray* sources;
 @property (strong,nonatomic) NSArray* defaultFrontPages;
 @property (strong,nonatomic) NSMutableArray* frontPageImages;
 @property (strong,nonatomic) NSMutableArray* frontPageImageUrl;
@@ -41,19 +42,19 @@
 - (id)init {
     self = [super init];
     if (self) {
-        self.sources = [[NSMutableArray alloc] initWithCapacity:kSourceCount];
+
         self.frontPageImages = [[NSMutableArray alloc] initWithCapacity:kSourceCount];
         
         
-        self.defaultFrontPages = @[@"newYorkTimesDefault",
-                                   @"washingtonPostDefault",
-                                   @"guardianDefault",
-                                   @"laTimesDefault",
-                                   @"wallStreetJournalDefault",
-                                   @"philadelphiaInquirerDefault",
-                                   @"dailyNewsDefault",
-                                   @"AsianAgeDefault",
-                                   @"nationalDefault"];
+        self.defaultFrontPages = @[@"NY_NYT.png",
+                                   @"DC_WP.png",
+                                   @"UK_TG.png",
+                                   @"CA_LAT.png",
+                                   @"WSJ.png",
+                                   @"PA_PI.png",
+                                   @"NY_DN.png",
+                                   @"IND_AGE.png",
+                                   @"UAE_TN.png"];
         
         self.sourceNames =@[@"New York Times",
                                 @"Washington Post",
@@ -85,10 +86,9 @@
                              @"https://feeds.feedburner.com/asianage/Knmy",
                              @"https://feeds.feedburner.com/thenational/uNww"];
         
-        // we use dummy images initially so we can insert images at the appropriate index
-        UIImage* dummy = [UIImage imageNamed:@"colorWheelSmall@2x.png"];
         for (int i=0;i<kSourceCount; i++) {
-            [self.frontPageImages insertObject:dummy atIndex:i];
+            [self.frontPageImages insertObject:[UIImage imageNamed: [self.defaultFrontPages objectAtIndex:i]] atIndex:i];
+            [self.frontPageImageUrl insertObject: @"" atIndex:i];
         }
         self.lastUpdate = [NSDate distantPast];
         
@@ -98,97 +98,20 @@
 
 - (void)getSources {
     
-    PFQuery *query = [PFQuery queryWithClassName:@"NWSource"];
-    [query orderByAscending:@"sourceNum"];
-    self.imagesProcessed=0;
-    self.pdfsSought=0;
-    [query findObjectsInBackgroundWithBlock:^(NSArray* parseSources, NSError *error) {
-        if (parseSources) {
-            if ([parseSources count]==kSourceCount) {
-                int updateDay = [self lastUpdateDayAtPdfSource];
-                for (int i=0; i<kSourceCount; i++) {
-
-        
-                    NWSource* source = [parseSources objectAtIndex:i];
-                    if (source.sourceNum!=i) { // they arrived in the wrong order
-                        NSLog(@"Parse sources retrieved out of order.");
-                        for (int j=0;j<kSourceCount;j++) {
-                            NWSource* tmpSource = [parseSources objectAtIndex:i];
-                            if (tmpSource.sourceNum==i) {
-                                source=tmpSource;
-                                break;
-                            }
-                        }
-                    }
-                    if (source.sourceNum!=i) {
-                        NSLog(@"Problem with source numbers in parse.");
-                    }
-                    
-                    [self.sources insertObject:source atIndex:i];
-                    
-                    NSString* latestURL = [self createNewUrlForSource:i andUpdateDay:updateDay];
-                    
-                    __block int sourceNum = i;
-                    if (![latestURL isEqualToString:source.frontPageUrl]){
-                        // we get the latest pdf -- we don't use it here but it will be available for other users
-                        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-                            [self savePdfForSource: source fromUrl:latestURL];
-                        });
-                        
-                    }
-                    
-                    self.pdfsSought++;
-                    [source.frontPagePdf getDataInBackgroundWithBlock:^(NSData *data, NSError *error){
-                        dispatch_async(dispatch_get_main_queue(), ^{
-                            if (!error) {
-                                UIImage* newImage = [self imageFromPdf:data];
-                                if (newImage) {
-                                    [self.frontPageImages replaceObjectAtIndex: sourceNum withObject: newImage];
-                                    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-                                    NSString *documentsDirectory = [paths objectAtIndex:0];
-                                    NSString *imageFileName = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.png",self.defaultFrontPages[sourceNum]]];
-                                    [UIImagePNGRepresentation(newImage) writeToFile:imageFileName atomically:YES];
-                                }
-                                else {
-                                    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-                                    NSString *documentsDirectory = [paths objectAtIndex:0];
-                                    NSString *imageFileName = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.png",self.defaultFrontPages[sourceNum]]];
-                                    newImage = [UIImage imageWithContentsOfFile:imageFileName];
-                                    if (newImage) {
-                                        [self.frontPageImages replaceObjectAtIndex: sourceNum withObject: newImage];
-                                    }
-                                    // else we don't have an image
-                                }
-                                self.imagesProcessed++;
-                                if (self.imagesProcessed==kSourceCount) {
-                                    self.lastUpdate = [NSDate date];
-                                    [self.delegate frontPagesCreated];
-                                }}
-                            
-                            else {
-                                NSString *filePath = [[NSBundle mainBundle] pathForResource:self.defaultFrontPages[sourceNum] ofType:@"pdf"];
-                                UIImage* newImage = [self imageFromPdf:[NSData dataWithContentsOfFile:filePath]];
-                                if (newImage) {
-                                    [self.frontPageImages replaceObjectAtIndex: sourceNum withObject: newImage];
-                                }
-                                    // else we don't have an image
-                                self.imagesProcessed++;
-                                if (self.imagesProcessed==kSourceCount) {
-                                    [self.delegate frontPagesCreated];
-                                }
-                            }
-                        });
-                    }];
-                }
+    for (int i=0; i<kSourceCount; i++) {
+        int updateDay = [self lastUpdateDayAtPdfSource];
+        NSString* latestURLString = [self createNewUrlForSource:i andUpdateDay:updateDay];
+        if (![latestURLString isEqualToString: self.frontPageImageUrl[i]]) {
+            NSLog(@"Getting image for source %d\n",i);
+            NSData* pdfData = [NSData dataWithContentsOfURL:[NSURL URLWithString:latestURLString]];
+            UIImage *image = (UIImage *) [UIImage originalSizeImageWithPDFData:pdfData];
+            if (image) {
+                [self.frontPageImages replaceObjectAtIndex:i withObject: image];
+                self.frontPageImageUrl[i] = latestURLString;
             }
         }
-        else {
-            NSLog(@"Unable to retrieve sources");
-        }
-        
-    }];
+    }
 }
-
 
 - (BOOL)sourcesUpToDate
 {
@@ -239,26 +162,6 @@
     return url;
 }
 
-- (void) savePdfForSource: (NWSource*) source fromUrl: (NSString*) url
-{
-    __block NWSource* theSource=source;
-    theSource.frontPageUrl = url;
-    NSData* pdfPageData = [self pdfDataFromUrl:theSource.frontPageUrl];
-    if (pdfPageData) {
-        theSource.frontPagePdf = [PFFile fileWithData:pdfPageData];
-        
-        // save pffiles then the object
-        [theSource.frontPagePdf saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-            if (succeeded) {
-                [theSource saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-                    if (!succeeded) {
-                        NSLog(@"error saving pdf for %@", theSource.sourceName);
-                    }
-                }];
-            }
-        }];
-    }
-}
 
 - (NSData*) pdfDataFromUrl: (NSString*)pathUrl
 {
@@ -266,42 +169,19 @@
     return data;
 }
 
-- (UIImage*) imageFromPdf: (NSData*) pdf
-{
-    CGDataProviderRef provider = CGDataProviderCreateWithCFData((__bridge CFDataRef)pdf);
-    CGPDFDocumentRef document = CGPDFDocumentCreateWithProvider(provider);
-    CGPDFPageRef page = CGPDFDocumentGetPage(document, 1);
-    UIGraphicsBeginImageContext(CGSizeMake(kPDFWidth,kPDFHeight)); // A4 size for pdf
-    CGContextRef currentContext = UIGraphicsGetCurrentContext();
-    CGContextDrawPDFPage (currentContext, page);  // draws the page in the graphics contex
-    UIImage* image = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-
-    // release resources
-//    CGPDFPageRelease(page);
-//    CGPDFDocumentRelease(document);
-//    CGDataProviderRelease(provider);
-    return image;
-}
 
 - (NSString*) rssFeedForSource:(int)i
 {
-    NSAssert(i>=0 && i<[self.sources count], @"RSS feed url requested for non-existent source.");
-    return ((NWSource*)[self.sources objectAtIndex:i]).rssFeed;
+    NSAssert(i>=0 && i<kSourceCount, @"RSS feed url requested for non-existent source.");
+    return (NSString*)([self.rssFeeds objectAtIndex:i]);
 }
 
 - (NSString*) urlForSource:(int)i {
-    NSAssert(i>=0 && i<[self.sources count], @"Front page requested for non-existent source.");
-    NWSource* source = (NWSource*)[self.sources objectAtIndex:i];
-    return source.frontPageUrl;
+    NSAssert(i>=0 && i<kSourceCount, @"Front page requested for non-existent source.");
+    return (NSString*)[self.frontPageImageUrl objectAtIndex:i];
+ 
 }
 
-- (NSDate*) updateDateForSource:(int)i
-{
-    NSAssert(i>=0 && i<[self.sources count], @"Update date requested for non-existent source.");
-    NWSource* source = (NWSource*)[self.sources objectAtIndex:i];
-    return source.updatedAt;
-}
 
 - (UIImage*) frontPageImageForSource: (int) i
 {
@@ -311,23 +191,12 @@
 
 - (UIColor*) colorForSource:(int)i
 {
-    NSAssert(i>=0 && i<kSourceCount, @"Image requested for non-existent source.");
-    NWSource* source = (NWSource*)[self.sources objectAtIndex:i];
-    int sourceNum = source.sourceNum;
-    float red = basicColors[sourceNum][0];
-    float green = basicColors[sourceNum][1];
-    float blue = basicColors[sourceNum][2];
+    float red = basicColors[i][0];
+    float green = basicColors[i][1];
+    float blue = basicColors[i][2];
     return [UIColor colorWithRed:red green:green blue:blue alpha:.5];
 }
 
-- (int) numberForSource:(NSString *)sourceName
-{
-    for (int i=0; i<kSourceCount; i++) {
-        if ([self.sourceNames[i] isEqualToString:sourceName])
-            return i;
-    }
-    return -1;
-}
 
 - (NSDate*) todaysUpdateDate {
     NSDate* today = [[NSDate alloc] init];

@@ -9,7 +9,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface StartViewController : UIViewController <SourceDelegate>
+@interface StartViewController : UIViewController
 
 @property (weak,nonatomic) IBOutlet UIImageView* imageView;
 

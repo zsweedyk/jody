@@ -8,8 +8,7 @@
 
 #import "AppDelegate.h"
 #import <Parse/Parse.h>
-#import "NWSource.h"
-#import "NWSharedImage.h"
+
 
 
 @interface AppDelegate ()
@@ -22,9 +21,7 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
 
-    [NWSource registerSubclass];
-    [NWSharedImage registerSubclass];
-    [Parse setApplicationId:@"yGmCLSLRXZqoKUWCdhNFFhDP8zl7id3pLoEhJsMq" clientKey:@"xcqd94lznxBYVj22fAMksq4rozoiopGHDQGVXyWS"];
+
     [[UIApplication sharedApplication] setStatusBarHidden:YES
                                             withAnimation:UIStatusBarAnimationFade];
     

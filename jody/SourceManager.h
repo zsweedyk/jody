@@ -8,28 +8,22 @@
 
 
 
-#import "NWSource.h"
+
 #import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
-@protocol SourceDelegate <NSObject>
 
-- (void)frontPagesCreated;
-
-@end
 
 @interface SourceManager : NSObject
 
-@property (nonatomic, weak) id<SourceDelegate> delegate;
 
 + (id)sharedManager;
 - (void) getSources;
 - (BOOL) sourcesUpToDate;
-- (NSString*) urlForSource: (int) i;
 - (NSString*) rssFeedForSource: (int) i;
 - (UIImage*) frontPageImageForSource: (int) i;
 - (UIColor*) colorForSource: (int) i;
-- (NSDate*) updateDateForSource: (int) i;
-- (int) numberForSource: (NSString*) sourceName;
+
 
 
 
