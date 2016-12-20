@@ -26,7 +26,6 @@
 		115597D51B59832A00D1A42C /* colorWheelSmall@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 115597D41B59832A00D1A42C /* colorWheelSmall@2x.png */; };
 		115597D91B59918B00D1A42C /* RSSManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 115597D81B59918B00D1A42C /* RSSManager.m */; };
 		116EAACC1B62D37900C7511E /* newspaperCircle.png in Resources */ = {isa = PBXBuildFile; fileRef = 116EAACB1B62D37900C7511E /* newspaperCircle.png */; };
-		116EAAD11B630DE700C7511E /* BackgroundGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 116EAAD01B630DE700C7511E /* BackgroundGenerator.m */; };
 		118CF4B31BEFAFB50064813B /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 118CF4B21BEFAFB50064813B /* WebViewController.m */; };
 		119826AD1BF5827C00494905 /* Default-667h@2x~iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = 119826A81BF5827C00494905 /* Default-667h@2x~iphone.png */; };
 		119826AE1BF5827C00494905 /* Default-736h@3x~iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = 119826A91BF5827C00494905 /* Default-736h@3x~iphone.png */; };
@@ -115,8 +114,6 @@
 		115597D71B59918B00D1A42C /* RSSManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RSSManager.h; sourceTree = "<group>"; };
 		115597D81B59918B00D1A42C /* RSSManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RSSManager.m; sourceTree = "<group>"; };
 		116EAACB1B62D37900C7511E /* newspaperCircle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = newspaperCircle.png; sourceTree = "<group>"; };
-		116EAACF1B630DE700C7511E /* BackgroundGenerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BackgroundGenerator.h; sourceTree = "<group>"; };
-		116EAAD01B630DE700C7511E /* BackgroundGenerator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BackgroundGenerator.m; sourceTree = "<group>"; };
 		118CF4B11BEFAFB50064813B /* WebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewController.h; sourceTree = "<group>"; };
 		118CF4B21BEFAFB50064813B /* WebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebViewController.m; sourceTree = "<group>"; };
 		119826A81BF5827C00494905 /* Default-667h@2x~iphone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-667h@2x~iphone.png"; sourceTree = "<group>"; };
@@ -238,6 +235,13 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		11122EDB1D72378800315A0F /* backgrounds */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = backgrounds;
+			sourceTree = "<group>";
+		};
 		11381C771D2989FF00987F02 /* UIImage+PDF */ = {
 			isa = PBXGroup;
 			children = (
@@ -281,18 +285,10 @@
 			name = DeviceManager;
 			sourceTree = "<group>";
 		};
-		116EAACE1B630DC200C7511E /* Background */ = {
-			isa = PBXGroup;
-			children = (
-				116EAACF1B630DE700C7511E /* BackgroundGenerator.h */,
-				116EAAD01B630DE700C7511E /* BackgroundGenerator.m */,
-			);
-			name = Background;
-			sourceTree = "<group>";
-		};
 		11A33BFB1B4C75A000DA0108 = {
 			isa = PBXGroup;
 			children = (
+				11122EDB1D72378800315A0F /* backgrounds */,
 				11381C771D2989FF00987F02 /* UIImage+PDF */,
 				11B4A04C1B78D09200823DB1 /* frameworks */,
 				116EAACB1B62D37900C7511E /* newspaperCircle.png */,
@@ -317,7 +313,6 @@
 			isa = PBXGroup;
 			children = (
 				11A33CC41B4C85EE00DA0108 /* AFNetworking */,
-				116EAACE1B630DC200C7511E /* Background */,
 				11A33C2D1B4C75B200DA0108 /* ColorWheel */,
 				11B4A05F1B791CB400823DB1 /* constants */,
 				11E655CE1B8CE7D2008C8050 /* artAssets */,
@@ -631,7 +626,6 @@
 				11A33C321B4C75DE00DA0108 /* ColorWheelView.m in Sources */,
 				11A33C0A1B4C75A000DA0108 /* main.m in Sources */,
 				11DF367D1B7E1D630096EE35 /* ChainView.m in Sources */,
-				116EAAD11B630DE700C7511E /* BackgroundGenerator.m in Sources */,
 				11A33CA61B4C856F00DA0108 /* AFSecurityPolicy.m in Sources */,
 				11A33CA81B4C856F00DA0108 /* AFURLRequestSerialization.m in Sources */,
 				11381C881D2989FF00987F02 /* UIView+Image.m in Sources */,

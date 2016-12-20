@@ -16,12 +16,14 @@
 
 @interface SourceManager : NSObject
 
+@property (strong,nonatomic) UIImage* background;
+
+
+
 
 + (id)sharedManager;
-- (void) getSources;
-- (BOOL) sourcesUpToDate;
+- (void) updateBackground;
 - (NSString*) rssFeedForSource: (int) i;
-- (UIImage*) frontPageImageForSource: (int) i;
 - (UIColor*) colorForSource: (int) i;
 
 

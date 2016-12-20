@@ -70,7 +70,7 @@ enum {
     CGRect myFrame = self.view.frame;
     CGFloat diameter = MIN(myFrame.size.width, myFrame.size.height);
     CGFloat colorWheelFrameSize = floor(diameter*.90);
-    // we get artifacts if the frame isn't an even integers
+//    // we get artifacts if the frame isn't an even integers
     if ((colorWheelFrameSize/2)*2 != colorWheelFrameSize) {
         colorWheelFrameSize +=-1;
     }
@@ -78,14 +78,15 @@ enum {
     CGFloat topY = (myFrame.size.height-colorWheelFrameSize)/2.0;
     CGRect colorWheelFrame = CGRectMake(leftX, topY, colorWheelFrameSize, colorWheelFrameSize);
     
+    
     // create background view
-    self.bgManager = [BackgroundGenerator sharedManager];
-    self.bgManager.diameter = colorWheelFrameSize;
-    self.backgroundImage = [self.bgManager createBackground];
-    self.fadedBackgroundImage = [self.bgManager createFadedBackgroundFromBackground:self.backgroundImage];
+//    self.bgManager = [BackgroundGenerator sharedManager];
+//    self.bgManager.diameter = colorWheelFrameSize;
+    self.backgroundImage = self.sourceManager.background;
+    //self.fadedBackgroundImage = self.sourceManager.fadedBackground;
 
     // create color wheel view
-    self.colorWheelView = [[ColorWheelView alloc] initWithFrame: colorWheelFrame withBackgroundImage: self.backgroundImage andFadedBackgroundImage:self.fadedBackgroundImage];
+    self.colorWheelView = [[ColorWheelView alloc] initWithFrame: colorWheelFrame withBackgroundImage: self.backgroundImage];
     [self.view addSubview:self.colorWheelView];
     
     // add gesture recognizer for color wheel
@@ -122,6 +123,8 @@ enum {
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
+    
+    //[self spinButtonPressed:self];
     
     //[self hideToolBarWithDelay:1.0];
 }

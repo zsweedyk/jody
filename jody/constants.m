@@ -14,7 +14,7 @@ int const kPDFWidth = 612;
 int const kPDFHeight = 792;
 
 float const basicColors[9][3]={
-    {.75,.9,.9},
+
     {.65,.50,.39},
     {.66,.65,.64},
     {.65,.75,.60},
@@ -23,6 +23,7 @@ float const basicColors[9][3]={
     {.83,.83,.83},
     {.57,.57,.57},
     {.71,.69,.66},
+    {.75,.9,.9},
 };
 NSString* const kFontName=@"TimesNewRomanPSMT";
 int const kHeadlineFontSize[7]={52,56,56,72,72,96,52};

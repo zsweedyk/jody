@@ -17,7 +17,7 @@
 @property (strong,nonatomic) UIImage* myFadedBackgroundImage;
 @property NSMutableArray* colors;
 
-- (id)initWithFrame: (CGRect) frame withBackgroundImage: (UIImage*) withBackgroundImage andFadedBackgroundImage: (UIImage*) fadedBackgroundImage;
+- (id)initWithFrame: (CGRect) frame withBackgroundImage: (UIImage*) backgroundImage;
 - (void)fade: (bool) fade;
 
 @end

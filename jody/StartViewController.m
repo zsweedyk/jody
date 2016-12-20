@@ -7,14 +7,13 @@
 //
 #import "FontManager.h"
 #import "SourceManager.h"
-#import "BackgroundGenerator.h"
 #import "StartViewController.h"
 #import "constants.h"
 
 @interface StartViewController()
 
 @property (strong,nonatomic) SourceManager* sourceManager;
-@property (strong,nonatomic) BackgroundGenerator* backgroundGenerator;
+
 
 @end
 
@@ -33,10 +32,7 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    if (!self.sourceManager.sourcesUpToDate) {
-        [self.sourceManager getSources];
-    }
-    [self.backgroundGenerator createBackground];
+    [self.sourceManager updateBackground];
     
     [self performSegueWithIdentifier:@"segueToMainScreen" sender:self];
 //    else {

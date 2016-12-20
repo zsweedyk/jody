@@ -6,25 +6,27 @@
 //  Copyright (c) 2015 Z Sweedyk. All rights reserved.
 //
 
-
+#import <sys/utsname.h>
 #import "SourceManager.h"
 #import "constants.h"
 #import "UIImage+PDF.h"
+@import CoreGraphics;
+#import "math.h"
+
+#define SCREEN_WIDTH ([[UIScreen mainScreen] bounds].size.width)
+#define SCREEN_HEIGHT ([[UIScreen mainScreen] bounds].size.height)
+#define SCREEN_MAX_LENGTH (MAX(SCREEN_WIDTH, SCREEN_HEIGHT))
+#define SCREEN_MIN_LENGTH (MIN(SCREEN_WIDTH, SCREEN_HEIGHT))
 
 
 @interface SourceManager ()
 
 //@property (strong,nonatomic) NSMutableArray* sources;
-@property (strong,nonatomic) NSArray* defaultFrontPages;
-@property (strong,nonatomic) NSMutableArray* frontPageImages;
-@property (strong,nonatomic) NSMutableArray* frontPageImageUrl;
-@property (strong,nonatomic) NSArray* sourceNames;
-@property (strong,nonatomic) NSArray* urlEnds;
 @property (strong,nonatomic) NSArray* rssFeeds;
 @property (strong, nonatomic) NSDate* lastUpdate;
+@property (strong,nonatomic) NSString* frontPageUrl;
 
-@property int imagesProcessed;
-@property int pdfsSought;
+
 
 @end
 
@@ -42,39 +44,7 @@
 - (id)init {
     self = [super init];
     if (self) {
-
-        self.frontPageImages = [[NSMutableArray alloc] initWithCapacity:kSourceCount];
-        
-        
-        self.defaultFrontPages = @[@"NY_NYT.png",
-                                   @"DC_WP.png",
-                                   @"UK_TG.png",
-                                   @"CA_LAT.png",
-                                   @"WSJ.png",
-                                   @"PA_PI.png",
-                                   @"NY_DN.png",
-                                   @"IND_AGE.png",
-                                   @"UAE_TN.png"];
-        
-        self.sourceNames =@[@"New York Times",
-                                @"Washington Post",
-                                @"Guardian",
-                                @"Los Angeles Times",
-                                @"Wall Street Journal",
-                                @"Philadelphia Inquirer",
-                                @"New York Daily News",
-                                @"Asian Age",
-                                @"National"];
-        
-        self.urlEnds =@[@"/NY_NYT.pdf",
-                        @"/DC_WP.pdf",
-                        @"/UK_TG.pdf",
-                        @"/CA_LAT.pdf",
-                        @"/WSJ.pdf",
-                        @"/PA_PI.pdf",
-                        @"/NY_DN.pdf",
-                        @"/IND_AGE.pdf",
-                        @"/UAE_TN.pdf"];
+    
         
         self.rssFeeds =@[@"https://feeds.feedburner.com/nytimes/gTKh",
                              @"https://feeds.feedburner.com/washingtonpost/HBJr",
@@ -86,39 +56,87 @@
                              @"https://feeds.feedburner.com/asianage/Knmy",
                              @"https://feeds.feedburner.com/thenational/uNww"];
         
-        for (int i=0;i<kSourceCount; i++) {
-            [self.frontPageImages insertObject:[UIImage imageNamed: [self.defaultFrontPages objectAtIndex:i]] atIndex:i];
-            [self.frontPageImageUrl insertObject: @"" atIndex:i];
-        }
-        self.lastUpdate = [NSDate distantPast];
+        
+        
+        NSString* deviceSize = [self getDeviceSize];
+        _frontPageUrl = [NSString stringWithFormat:@"https://www.cs.hmc.edu/~z/newsWheel/nwImage_%@.jpg",deviceSize];
+        _lastUpdate = [NSDate distantPast];
+        [self updateBackground];
         
     }
     return self;
 }
 
-- (void)getSources {
-    
-    for (int i=0; i<kSourceCount; i++) {
-        int updateDay = [self lastUpdateDayAtPdfSource];
-        NSString* latestURLString = [self createNewUrlForSource:i andUpdateDay:updateDay];
-        if (![latestURLString isEqualToString: self.frontPageImageUrl[i]]) {
-            NSLog(@"Getting image for source %d\n",i);
-            NSData* pdfData = [NSData dataWithContentsOfURL:[NSURL URLWithString:latestURLString]];
-            UIImage *image = (UIImage *) [UIImage originalSizeImageWithPDFData:pdfData];
-            if (image) {
-                [self.frontPageImages replaceObjectAtIndex:i withObject: image];
-                self.frontPageImageUrl[i] = latestURLString;
-            }
+- (NSString*) getDeviceSize {
+    NSString* deviceSizeString;
+    NSLog(@"%f\n",SCREEN_MAX_LENGTH);
+    if (UI_USER_INTERFACE_IDIOM() != UIUserInterfaceIdiomPhone) {
+        deviceSizeString = @"2048_2732";
+        struct utsname systemInfo;
+        uname(&systemInfo);
+        NSString* deviceCode =[NSString stringWithCString:systemInfo.machine encoding:NSUTF8StringEncoding];
+        if ([deviceCode isEqualToString:@"iPad2,5"] ||
+            [deviceCode isEqualToString:@"iPad4,4"] ||
+            [deviceCode isEqualToString:@"iPad4,5"]) {
+            //self.device = IPAD_MINI;
+            deviceSizeString = @"1536_2048";
         }
     }
+    else {
+
+        if (SCREEN_MAX_LENGTH == 480)
+        {
+            //self.device = IPHONE_4;
+            deviceSizeString = @"640_960";
+        }
+        if (SCREEN_MAX_LENGTH == 568.0) {
+            //self.device = IPHONE_5;
+            deviceSizeString = @"640_1136";
+        }
+        else if (SCREEN_MAX_LENGTH == 667.0) {
+            //self.device = IPHONE_6;
+            deviceSizeString = @"750_1334";
+        }
+        else if (SCREEN_MAX_LENGTH == 736.0) {
+            //self.device = IPHONE_6_PLUS;
+            deviceSizeString = @"1242_2208";
+            
+        }
+        else {
+            NSLog(@"size %f", SCREEN_MAX_LENGTH);
+        }
+    }
+    return deviceSizeString;
+
 }
+
+
+- (void)updateBackground
+{
+    if (![self sourcesUpToDate]) {
+
+        NSString* deviceSizeString = [self getDeviceSize];
+        NSString* path = [NSString stringWithFormat:@"https://www.cs.hmc.edu/~z/newsWheel/nwImage_%@.jpg",deviceSizeString];
+        NSURL *url = [NSURL URLWithString:path];
+        NSData *data = [NSData dataWithContentsOfURL:url];
+        UIImage *image = [[UIImage alloc] initWithData:data];
+        UIImage* frontPage = [UIImage imageWithCGImage: image.CGImage scale: 1.0f orientation: UIImageOrientationDownMirrored];
+        self.background = nil;
+        self.background = frontPage;
+        self.lastUpdate = [self lastUpdateDateAtPdfSource];
+
+    }
+}
+
 
 - (BOOL)sourcesUpToDate
 {
     // sources are up to date if they have been updated since the source was last update
     NSDate* lastSourceUpdate = [self lastUpdateDateAtPdfSource];
     NSTimeInterval timeInterval = [self.lastUpdate timeIntervalSinceDate: lastSourceUpdate];
-    return timeInterval>=0;
+    
+    bool retVal = ((int) timeInterval)>=0;
+    return retVal;
 }
 
 - (NSDate*) lastUpdateDateAtPdfSource
@@ -154,21 +172,6 @@
 }
 
 
-- (NSString*) createNewUrlForSource: (int) i andUpdateDay: (int) day
-{
-    NSAssert(i>=0 && i<kSourceCount, @"URL requested for non-existent source.");
-    NSString* urlStart =@"http://webmedia.newseum.org/newseum-multimedia/dfp/pdf";
-    NSString* url = [NSString stringWithFormat:@"%@%d%@",urlStart,day,self.urlEnds[i]];
-    return url;
-}
-
-
-- (NSData*) pdfDataFromUrl: (NSString*)pathUrl
-{
-    NSData *data = [[NSData alloc] initWithContentsOfURL:[NSURL URLWithString:pathUrl]];
-    return data;
-}
-
 
 - (NSString*) rssFeedForSource:(int)i
 {
@@ -176,18 +179,7 @@
     return (NSString*)([self.rssFeeds objectAtIndex:i]);
 }
 
-- (NSString*) urlForSource:(int)i {
-    NSAssert(i>=0 && i<kSourceCount, @"Front page requested for non-existent source.");
-    return (NSString*)[self.frontPageImageUrl objectAtIndex:i];
- 
-}
 
-
-- (UIImage*) frontPageImageForSource: (int) i
-{
-    NSAssert(i>=0 && i<kSourceCount, @"Image requested for non-existent source.");
-    return [self.frontPageImages objectAtIndex: i];
-}
 
 - (UIColor*) colorForSource:(int)i
 {

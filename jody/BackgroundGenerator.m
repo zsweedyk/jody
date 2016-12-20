@@ -38,14 +38,15 @@
 
 - (UIImage*) createBackground
 {
-    self.diameter = floor(self.diameter);  // to avoid rounding artifacts
+ 
 
-    
     UIImage* background;
-    UIImage* mask;
+
     if (!self.sourceManager) {
         self.sourceManager = [SourceManager sharedManager];
     }
+    
+    
 
     // for each source
     for (int i=0; i<kSourceCount; i++) {
@@ -72,7 +73,7 @@
         frontPage = [self blendImage:frontPage withColor: [self.sourceManager colorForSource:i]];
         
         // mask front page for segment and add to background
-        mask =[self createMaskForSegment:i];
+        UIImage* mask =[self createMaskForSegment:i];
         UIImage* maskedImage=[self maskImage:frontPage withMask:mask];
         if (background) {
             background = [self blendImage: background withImage: maskedImage];
